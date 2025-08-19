@@ -3,16 +3,19 @@
 
 /* 1. Design System (CSS Variables) */
 :root {
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-sans: 'Inter', sans-serif;
+  --font-serif: 'Lora', serif; /* Our new heading font */
   
-  --color-background: #ffffff;
-  --color-text: #111111;
-  --color-text-subtle: #666666;
-  --color-accent: #0070f3;
-  --color-border: #eeeeee;
+  --color-background: #f4f4f0; /* A warm, paper-like background */
+  --color-foreground: #ffffff; /* A clean white for the content card */
+  --color-text: #202020; /* A softer black */
+  --color-text-subtle: #757575;
+  --color-accent: #b54a2a; /* A sophisticated, warm accent color */
+  --color-border: #e0e0e0;
 
-  --content-width: 65ch; /* Optimal for readability */
-  --spacing-unit: 1.25rem;
+  --content-width: 68ch;
+  --spacing-unit: 1.5rem;
+  --border-radius: 8px;
 }
 
 /* 2. Global Resets & Body Styles */
@@ -22,73 +25,80 @@
 
 body {
   margin: 0;
-  padding: var(--spacing-unit);
+  padding: calc(var(--spacing-unit) * 2) var(--spacing-unit);
   font-family: var(--font-sans);
   font-weight: 400;
-  line-height: 1.7;
+  line-height: 1.75;
   background-color: var(--color-background);
   color: var(--color-text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* 3. Layout Container */
+/* 3. Layout Container as a "Card" */
 .container {
   max-width: var(--content-width);
   margin-left: auto;
   margin-right: auto;
-  padding: calc(var(--spacing-unit) * 2) var(--spacing-unit);
+  padding: calc(var(--spacing-unit) * 2.5);
+  background-color: var(--color-foreground);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-/* 4. Typography & Links */
+/* 4. Typography & Links with Character */
 h1, h2, h3, h4 {
-  font-weight: 700;
-  line-height: 1.2;
+  font-family: var(--font-serif); /* Using the serif font */
+  font-weight: 600;
+  font-style: italic;
+  line-height: 1.3;
   margin-top: calc(var(--spacing-unit) * 2);
   margin-bottom: var(--spacing-unit);
 }
 
-h1 { font-size: 2.5rem; }
-h2 { font-size: 2rem; }
-h3 { font-size: 1.5rem; }
-
-p {
-  margin-top: 0;
-  margin-bottom: var(--spacing-unit);
-}
+h1 { font-size: 3rem; }
+h2 { font-size: 2.25rem; }
+h3 { font-size: 1.75rem; }
 
 a {
-  color: var(--color-accent);
+  color: var(--color-text);
   text-decoration: none;
-  transition: opacity 0.2s ease;
+  background-image: linear-gradient(var(--color-accent), var(--color-accent));
+  background-position: 0% 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 2px; /* Underline is initially hidden */
+  transition: background-size 0.3s ease;
 }
 
 a:hover {
-  opacity: 0.7;
-  text-decoration: underline;
+  background-size: 100% 2px; /* Underline reveals on hover */
 }
 
 /* 5. Site Header & Footer */
 .site-header {
-  margin-bottom: calc(var(--spacing-unit) * 3);
+  padding-bottom: var(--spacing-unit);
+  margin-bottom: calc(var(--spacing-unit) * 2);
+  border-bottom: 1px solid var(--color-border);
   text-align: left;
 }
 
 .site-title a {
-  color: var(--color-text);
-  text-decoration: none;
-  font-weight: 800;
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 700;
+  background-image: none; /* No underline for the main title */
 }
 
 .site-footer {
   margin-top: calc(var(--spacing-unit) * 3);
   padding-top: var(--spacing-unit);
-  border-top: 1px solid var(--color-border);
   font-size: 0.8rem;
   color: var(--color-text-subtle);
+  text-align: center;
 }
 
-/* 6. Post List Styling (from your index.md) */
+/* 6. Post List Styling */
 .post-list {
   list-style: none;
   padding: 0;
@@ -99,11 +109,11 @@ a:hover {
   margin-bottom: calc(var(--spacing-unit) * 2);
 }
 
-.post-list a {
-  color: var(--color-text);
-  text-decoration: none;
-  font-size: 1.25rem;
-  font-weight: 600;
+.post-list .post-link {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-style: italic;
 }
 
 .post-list .post-date {
