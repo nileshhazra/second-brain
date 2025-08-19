@@ -1,20 +1,19 @@
 ---
 ---
 
-/* 1. Design System (Inspired by juliacodes.com) */
+/* 1. Design System (Apple/Google Inspired) */
 :root {
-  --font-heading: 'DM Serif Display', serif;
-  --font-body: 'Inter', sans-serif;
+  --font-main: 'Be Vietnam Pro', sans-serif;
   
-  --color-background: #fdfdfd;
-  --color-text: #1a1a1a;
-  --color-text-subtle: #888888;
-  --color-accent: #e6007a; /* A vibrant pink/magenta */
-  --color-border: #f0f0f0;
+  --color-background: #F8F7F9; /* A very light, slightly cool gray */
+  --color-text: #1E1B26; /* A dark, soft black */
+  --color-text-subtle: #8A8195; /* A muted, complementary gray */
+  --color-accent: #7C3AED; /* A beautiful, soft lavender/violet */
+  --color-border: #E8E4ED;
 
-  --content-width: 720px;
+  --content-width: 700px;
   --spacing-unit: 1.5rem;
-  --border-radius: 5px;
+  --border-radius: 8px;
 }
 
 /* 2. Global Resets & Body Styles */
@@ -25,9 +24,9 @@
 body {
   margin: 0;
   padding: var(--spacing-unit);
-  font-family: var(--font-body);
+  font-family: var(--font-main);
   font-weight: 400;
-  line-height: 1.65;
+  line-height: 1.7;
   background-color: var(--color-background);
   color: var(--color-text);
   -webkit-font-smoothing: antialiased;
@@ -36,8 +35,7 @@ body {
 /* 3. Layout & Container */
 .container {
   max-width: var(--content-width);
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
   padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 2);
 }
 
@@ -47,24 +45,23 @@ body {
   justify-content: space-between;
   align-items: center;
   margin-bottom: calc(var(--spacing-unit) * 3);
-  padding-bottom: var(--spacing-unit);
-  border-bottom: 2px solid var(--color-border);
 }
 
 .site-title a {
-  font-family: var(--font-heading);
-  font-size: 1.75rem;
+  font-size: 1.25rem;
+  font-weight: 700;
   color: var(--color-text);
   text-decoration: none;
+  letter-spacing: -0.5px;
 }
 
 .site-nav a {
   color: var(--color-text);
   text-decoration: none;
-  font-weight: 600;
-  padding: 0.5rem 0.75rem;
+  font-weight: 400;
+  padding: 0.4rem 0.75rem;
   border-radius: var(--border-radius);
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition: all 0.2s ease-in-out;
 }
 
 .site-nav a:hover {
@@ -74,23 +71,16 @@ body {
 
 /* 5. Typography */
 h1, h2, h3 {
-  font-family: var(--font-heading);
-  line-height: 1.2;
+  font-family: var(--font-main);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.8px;
 }
 
 h2 {
-  font-size: 2rem;
+  font-size: 2.25rem;
   margin-top: calc(var(--spacing-unit) * 2.5);
   margin-bottom: var(--spacing-unit);
-}
-
-a {
-  color: var(--color-accent);
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
 }
 
 /* 6. Post List Styling */
@@ -101,35 +91,60 @@ a:hover {
 }
 
 .post-list li {
-  margin-bottom: calc(var(--spacing-unit) * 2);
+  padding-bottom: var(--spacing-unit);
+  margin-bottom: var(--spacing-unit);
+  border-bottom: 1px solid var(--color-border);
+}
+.post-list li:last-child {
+  border-bottom: none;
 }
 
 .post-list .post-link {
-  font-family: var(--font-heading);
-  font-size: 1.75rem;
+  font-size: 1.5rem;
+  font-weight: 700;
   color: var(--color-text);
   text-decoration: none;
-  display: inline-block; /* Allows for transforms and better spacing */
-  transition: color 0.2s ease;
+  letter-spacing: -0.5px;
+  transition: color 0.2s ease-in-out;
 }
 
 .post-list .post-link:hover {
   color: var(--color-accent);
-  text-decoration: none;
 }
 
 .post-list .post-date {
   display: block;
   font-size: 0.9rem;
   color: var(--color-text-subtle);
-  margin-top: 0.2rem;
+  margin-top: 0.25rem;
 }
 
-/* 7. Footer */
+/* 7. Footer & Social Icons */
 .site-footer {
   margin-top: calc(var(--spacing-unit) * 4);
   padding-top: var(--spacing-unit);
-  border-top: 2px solid var(--color-border);
+  text-align: center;
   font-size: 0.9rem;
   color: var(--color-text-subtle);
+}
+
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.social-links a {
+  color: var(--color-text-subtle);
+  transition: color 0.2s ease-in-out;
+}
+
+.social-links a:hover {
+  color: var(--color-accent);
+}
+
+.social-links svg {
+  width: 20px;
+  height: 20px;
 }
