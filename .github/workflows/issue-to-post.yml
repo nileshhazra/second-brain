@@ -34,7 +34,7 @@ jobs:
           SLUG=$(echo "$ISSUE_TITLE" | iconv -t ascii//TRANSLIT | sed -r s/[~\^]+//g | sed -r s/[^a-zA-Z0-9]+/-/g | sed -r s/^-+\|-+$//g | tr A-Z a-z)
 
           # Create filename with date and issue number for uniqueness
-          FILENAME="_posts/$(date +'%%Y-%%m-%%d')-issue-${ISSUE_NUMBER}.md"
+          FILENAME="_posts/$(date +'%Y-%m-%d')-issue-${ISSUE_NUMBER}.md"
 
           # Create Markdown file with Jekyll Front Matter
           echo "---" > $FILENAME
