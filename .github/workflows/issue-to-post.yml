@@ -15,23 +15,25 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Process Issue
+        # We add the "env" block here to safely handle special characters
+        env:
+          ISSUE_TITLE: '${{ github.event.issue.title }}'
+          ISSUE_BODY: '${{ github.event.issue.body }}'
+          ISSUE_NUMBER: '${{ github.event.issue.number }}'
+          ISSUE_LABELS_JSON: '${{ toJSON(github.event.issue.labels.*.name) }}'
+          ISSUE_URL: '${{ github.event.issue.html_url }}'
+
         run: |
-          # Extract data from the JSON context
-          ISSUE_TITLE="${{ github.event.issue.title }}"
-          ISSUE_BODY="${{ github.event.issue.body }}"
-          ISSUE_NUMBER="${{ github.event.issue.number }}"
-          ISSUE_LABELS="${{ join(github.event.issue.labels.*.name, ', ') }}"
+          # The variables are now safely available from the environment
+          # We convert the JSON array of labels to a comma-separated string
+          ISSUE_LABELS=$(echo $ISSUE_LABELS_JSON | jq -r 'join(", ")')
 
           # If the issue is closed, we delete the post
           if [[ "${{ github.event.action }}" == "closed" ]]; then
-            # Find and delete the file associated with this issue number
             find _posts -type f -name "*-issue-${ISSUE_NUMBER}.md" -delete
             echo "Post for issue #${ISSUE_NUMBER} deleted."
             exit 0
           fi
-
-          # Create a URL-friendly slug from the title
-          SLUG=$(echo "$ISSUE_TITLE" | iconv -t ascii//TRANSLIT | sed -r s/[~\^]+//g | sed -r s/[^a-zA-Z0-9]+/-/g | sed -r s/^-+\|-+$//g | tr A-Z a-z)
 
           # Create filename with date and issue number for uniqueness
           FILENAME="_posts/$(date +'%Y-%m-%d')-issue-${ISSUE_NUMBER}.md"
@@ -45,11 +47,11 @@ jobs:
           echo "issue_number: $ISSUE_NUMBER" >> $FILENAME
           echo "---" >> $FILENAME
           echo "" >> $FILENAME
+          # This now safely prints the body, regardless of its content
           echo "$ISSUE_BODY" >> $FILENAME
           echo "" >> $FILENAME
           echo "<hr>" >> $FILENAME
-          echo "**Have comments or questions?** Join the discussion on the original [GitHub Issue](${{ github.event.issue.html_url }})." >> $FILENAME
-
+          echo "**Have comments or questions?** Join the discussion on the original [GitHub Issue]($ISSUE_URL)." >> $FILENAME
       - name: Commit and Push
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
