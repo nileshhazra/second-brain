@@ -1,14 +1,15 @@
 ---
 ---
 
-/* 1. Design System (Apple/Google Inspired) */
+/* 1. Design System (Light & Dark Themes) */
 :root {
+  /* Light Theme (Default) */
   --font-main: 'Be Vietnam Pro', sans-serif;
-  
-  --color-background: #F8F7F9; /* A very light, slightly cool gray */
-  --color-text: #1E1B26; /* A dark, soft black */
-  --color-text-subtle: #8A8195; /* A muted, complementary gray */
-  --color-accent: #7C3AED; /* A beautiful, soft lavender/violet */
+  --color-background: #F8F7F9;
+  --color-foreground: #ffffff;
+  --color-text: #1E1B26;
+  --color-text-subtle: #8A8195;
+  --color-accent: #7C3AED;
   --color-border: #E8E4ED;
 
   --content-width: 700px;
@@ -16,7 +17,17 @@
   --border-radius: 8px;
 }
 
-/* 2. Global Resets & Body Styles */
+[data-theme="dark"] {
+  /* Dark Theme */
+  --color-background: #121212;
+  --color-foreground: #1E1E1E;
+  --color-text: #E1E1E1;
+  --color-text-subtle: #9E9E9E;
+  --color-accent: #A78BFA;
+  --color-border: #333333;
+}
+
+/* 2. Global Resets & Animated Body Styles */
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -25,114 +36,49 @@ body {
   margin: 0;
   padding: var(--spacing-unit);
   font-family: var(--font-main);
-  font-weight: 400;
   line-height: 1.7;
   background-color: var(--color-background);
   color: var(--color-text);
   -webkit-font-smoothing: antialiased;
+  /* This is the key for the smooth theme transition! */
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* 3. Layout & Container */
 .container {
   max-width: var(--content-width);
   margin: 0 auto;
-  padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 2);
+  padding: calc(var(--spacing-unit) * 1.5) 0;
 }
 
-/* 4. Header & Navigation */
+/* 4. NEW Header & Controls */
 .site-header {
+  margin-bottom: calc(var(--spacing-unit) * 4);
+}
+
+.header-main {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: calc(var(--spacing-unit) * 3);
 }
 
 .site-title a {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--color-text);
-  text-decoration: none;
-  letter-spacing: -0.5px;
-}
-
-.site-nav a {
-  color: var(--color-text);
-  text-decoration: none;
-  font-weight: 400;
-  padding: 0.4rem 0.75rem;
-  border-radius: var(--border-radius);
-  transition: all 0.2s ease-in-out;
-}
-
-.site-nav a:hover {
-  background-color: var(--color-accent);
-  color: #ffffff;
-}
-
-/* 5. Typography */
-h1, h2, h3 {
-  font-family: var(--font-main);
-  font-weight: 700;
-  line-height: 1.25;
-  letter-spacing: -0.8px;
-}
-
-h2 {
-  font-size: 2.25rem;
-  margin-top: calc(var(--spacing-unit) * 2.5);
-  margin-bottom: var(--spacing-unit);
-}
-
-/* 6. Post List Styling */
-.post-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.post-list li {
-  padding-bottom: var(--spacing-unit);
-  margin-bottom: var(--spacing-unit);
-  border-bottom: 1px solid var(--color-border);
-}
-.post-list li:last-child {
-  border-bottom: none;
-}
-
-.post-list .post-link {
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--color-text);
   text-decoration: none;
   letter-spacing: -0.5px;
-  transition: color 0.2s ease-in-out;
 }
 
-.post-list .post-link:hover {
-  color: var(--color-accent);
-}
-
-.post-list .post-date {
-  display: block;
-  font-size: 0.9rem;
-  color: var(--color-text-subtle);
-  margin-top: 0.25rem;
-}
-
-/* 7. Footer & Social Icons */
-.site-footer {
-  margin-top: calc(var(--spacing-unit) * 4);
-  padding-top: var(--spacing-unit);
-  text-align: center;
-  font-size: 0.9rem;
-  color: var(--color-text-subtle);
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
 }
 
 .social-links {
   display: flex;
-  justify-content: center;
-  gap: 1.25rem;
-  margin-bottom: 1rem;
+  gap: 1rem;
 }
 
 .social-links a {
@@ -147,4 +93,87 @@ h2 {
 .social-links svg {
   width: 20px;
   height: 20px;
+  display: block;
+}
+
+/* 5. Theme Toggle Button */
+.theme-toggle {
+  background: none;
+  border: none;
+  padding: 0.25rem;
+  cursor: pointer;
+  color: var(--color-text-subtle);
+  border-radius: 99px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease-in-out;
+}
+.theme-toggle:hover {
+  color: var(--color-accent);
+}
+
+.theme-toggle .sun { display: none; }
+.theme-toggle .moon { display: block; }
+
+[data-theme="dark"] .theme-toggle .sun { display: block; }
+[data-theme="dark"] .theme-toggle .moon { display: none; }
+
+
+/* 6. Typography & Post List (with transitions) */
+h1, h2, h3 { /* ... existing styles */ }
+
+.post-list .post-link {
+  color: var(--color-text); /* ... existing styles */
+  transition: color 0.2s ease-in-out;
+}
+.post-list .post-link:hover {
+  color: var(--color-accent);
+}
+
+/* (Copying the rest of the styles from previous step for completeness) */
+h1, h2, h3 {
+  font-family: var(--font-main);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.8px;
+}
+h2 {
+  font-size: 2.25rem;
+  margin-top: calc(var(--spacing-unit) * 2.5);
+  margin-bottom: var(--spacing-unit);
+}
+.post-list {
+  list-style: none; padding: 0; margin: 0;
+}
+.post-list li {
+  padding-bottom: var(--spacing-unit);
+  margin-bottom: var(--spacing-unit);
+  border-bottom: 1px solid var(--color-border);
+  transition: border-color 0.3s ease;
+}
+.post-list li:last-child { border-bottom: none; }
+.post-list .post-link {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  text-decoration: none;
+}
+.post-list .post-date {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--color-text-subtle);
+  margin-top: 0.25rem;
+  transition: color 0.3s ease;
+}
+
+/* 7. Footer */
+.site-footer {
+  margin-top: calc(var(--spacing-unit) * 4);
+  padding-top: var(--spacing-unit);
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--color-text-subtle);
+  border-top: 1px solid var(--color-border);
+  transition: border-color 0.3s ease, color 0.3s ease;
 }
