@@ -1,0 +1,55 @@
+name: Issue to Blog Post
+
+on:
+  issues:
+    types: [opened, edited, closed]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Process Issue
+        run: |
+          # Extract data from the JSON context
+          ISSUE_TITLE="${{ github.event.issue.title }}"
+          ISSUE_BODY="${{ github.event.issue.body }}"
+          ISSUE_NUMBER="${{ github.event.issue.number }}"
+          ISSUE_LABELS="${{ join(github.event.issue.labels.*.name, ', ') }}"
+
+          # If the issue is closed, we delete the post
+          if [[ "${{ github.event.action }}" == "closed" ]]; then
+            # Find and delete the file associated with this issue number
+            find _posts -type f -name "*-issue-${ISSUE_NUMBER}.md" -delete
+            echo "Post for issue #${ISSUE_NUMBER} deleted."
+            exit 0
+          fi
+
+          # Create a URL-friendly slug from the title
+          SLUG=$(echo "$ISSUE_TITLE" | iconv -t ascii//TRANSLIT | sed -r s/[~\^]+//g | sed -r s/[^a-zA-Z0-9]+/-/g | sed -r s/^-+\|-+$//g | tr A-Z a-z)
+
+          # Create filename with date and issue number for uniqueness
+          FILENAME="_posts/$(date +'%%Y-%%m-%%d')-issue-${ISSUE_NUMBER}.md"
+
+          # Create Markdown file with Jekyll Front Matter
+          echo "---" > $FILENAME
+          echo "layout: post" >> $FILENAME
+          echo "title: \"$ISSUE_TITLE\"" >> $FILENAME
+          echo "date: $(date -u +'%Y-%m-%d %H:%M:%S %Z')" >> $FILENAME
+          echo "tags: [$ISSUE_LABELS]" >> $FILENAME
+          echo "issue_number: $ISSUE_NUMBER" >> $FILENAME
+          echo "---" >> $FILENAME
+          echo "" >> $FILENAME
+          echo "$ISSUE_BODY" >> $FILENAME
+          echo "" >> $FILENAME
+          echo "<hr>" >> $FILENAME
+          echo "**Have comments or questions?** Join the discussion on the original [GitHub Issue](${{ github.event.issue.html_url }})." >> $FILENAME
+
+      - name: Commit and Push
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: 'Blog: Add/Update post from issue #${{ github.event.issue.number }}'
+          file_pattern: '_posts/*.md'
+          branch: main
