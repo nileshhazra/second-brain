@@ -3,10 +3,6 @@ layout: default
 title: Home
 ---
 
-{{ site.description }}
-
-## Latest Entries
-
 <ul class="post-list">
   {% for post in site.posts %}
     <li>

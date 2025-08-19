@@ -7,7 +7,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="{{ "/assets/css/style.css" | relative_url }}">
   </head>
@@ -15,7 +15,12 @@
 
     <div class="container">
       <header class="site-header">
-        <h1 class="site-title"><a href="{{ "/" | relative_url }}">{{ site.title | default: "Title" }}</a></h1>
+        <div class="site-title">
+          <a href="{{ "/" | relative_url }}">{{ site.title | default: "My Second Brain" }}</a>
+        </div>
+        <nav class="site-nav">
+          <a href="{{ "/" | relative_url }}">Home</a>
+          </nav>
       </header>
 
       <main class="site-content">
@@ -23,7 +28,7 @@
       </main>
 
       <footer class="site-footer">
-        <p>&copy; {{ "now" | date: "%Y" }} {{ site.author | default: "Your Name" }}. All rights reserved.</p>
+        <p>&copy; {{ "now" | date: "%Y" }} {{ site.author | default: "Your Name" }}.</p>
       </footer>
     </div>
 

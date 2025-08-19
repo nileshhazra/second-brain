@@ -1,21 +1,20 @@
 ---
 ---
 
-/* 1. Design System (CSS Variables) */
+/* 1. Design System (Inspired by juliacodes.com) */
 :root {
-  --font-sans: 'Inter', sans-serif;
-  --font-serif: 'Lora', serif; /* Our new heading font */
+  --font-heading: 'DM Serif Display', serif;
+  --font-body: 'Inter', sans-serif;
   
-  --color-background: #f4f4f0; /* A warm, paper-like background */
-  --color-foreground: #ffffff; /* A clean white for the content card */
-  --color-text: #202020; /* A softer black */
-  --color-text-subtle: #757575;
-  --color-accent: #b54a2a; /* A sophisticated, warm accent color */
-  --color-border: #e0e0e0;
+  --color-background: #fdfdfd;
+  --color-text: #1a1a1a;
+  --color-text-subtle: #888888;
+  --color-accent: #e6007a; /* A vibrant pink/magenta */
+  --color-border: #f0f0f0;
 
-  --content-width: 68ch;
+  --content-width: 720px;
   --spacing-unit: 1.5rem;
-  --border-radius: 8px;
+  --border-radius: 5px;
 }
 
 /* 2. Global Resets & Body Styles */
@@ -25,77 +24,73 @@
 
 body {
   margin: 0;
-  padding: calc(var(--spacing-unit) * 2) var(--spacing-unit);
-  font-family: var(--font-sans);
+  padding: var(--spacing-unit);
+  font-family: var(--font-body);
   font-weight: 400;
-  line-height: 1.75;
+  line-height: 1.65;
   background-color: var(--color-background);
   color: var(--color-text);
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
-/* 3. Layout Container as a "Card" */
+/* 3. Layout & Container */
 .container {
   max-width: var(--content-width);
   margin-left: auto;
   margin-right: auto;
-  padding: calc(var(--spacing-unit) * 2.5);
-  background-color: var(--color-foreground);
-  border-radius: var(--border-radius);
-  border: 1px solid var(--color-border);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 2);
 }
 
-/* 4. Typography & Links with Character */
-h1, h2, h3, h4 {
-  font-family: var(--font-serif); /* Using the serif font */
-  font-weight: 600;
-  font-style: italic;
-  line-height: 1.3;
-  margin-top: calc(var(--spacing-unit) * 2);
-  margin-bottom: var(--spacing-unit);
-}
-
-h1 { font-size: 3rem; }
-h2 { font-size: 2.25rem; }
-h3 { font-size: 1.75rem; }
-
-a {
-  color: var(--color-text);
-  text-decoration: none;
-  background-image: linear-gradient(var(--color-accent), var(--color-accent));
-  background-position: 0% 100%;
-  background-repeat: no-repeat;
-  background-size: 0% 2px; /* Underline is initially hidden */
-  transition: background-size 0.3s ease;
-}
-
-a:hover {
-  background-size: 100% 2px; /* Underline reveals on hover */
-}
-
-/* 5. Site Header & Footer */
+/* 4. Header & Navigation */
 .site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: calc(var(--spacing-unit) * 3);
   padding-bottom: var(--spacing-unit);
-  margin-bottom: calc(var(--spacing-unit) * 2);
-  border-bottom: 1px solid var(--color-border);
-  text-align: left;
+  border-bottom: 2px solid var(--color-border);
 }
 
 .site-title a {
-  font-family: var(--font-serif);
-  font-size: 1.25rem;
-  font-weight: 700;
-  background-image: none; /* No underline for the main title */
+  font-family: var(--font-heading);
+  font-size: 1.75rem;
+  color: var(--color-text);
+  text-decoration: none;
 }
 
-.site-footer {
-  margin-top: calc(var(--spacing-unit) * 3);
-  padding-top: var(--spacing-unit);
-  font-size: 0.8rem;
-  color: var(--color-text-subtle);
-  text-align: center;
+.site-nav a {
+  color: var(--color-text);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--border-radius);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.site-nav a:hover {
+  background-color: var(--color-accent);
+  color: #ffffff;
+}
+
+/* 5. Typography */
+h1, h2, h3 {
+  font-family: var(--font-heading);
+  line-height: 1.2;
+}
+
+h2 {
+  font-size: 2rem;
+  margin-top: calc(var(--spacing-unit) * 2.5);
+  margin-bottom: var(--spacing-unit);
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 /* 6. Post List Styling */
@@ -110,15 +105,31 @@ a:hover {
 }
 
 .post-list .post-link {
-  font-family: var(--font-serif);
-  font-size: 1.5rem;
-  font-weight: 700;
-  font-style: italic;
+  font-family: var(--font-heading);
+  font-size: 1.75rem;
+  color: var(--color-text);
+  text-decoration: none;
+  display: inline-block; /* Allows for transforms and better spacing */
+  transition: color 0.2s ease;
+}
+
+.post-list .post-link:hover {
+  color: var(--color-accent);
+  text-decoration: none;
 }
 
 .post-list .post-date {
   display: block;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   color: var(--color-text-subtle);
-  margin-top: 0.25rem;
+  margin-top: 0.2rem;
+}
+
+/* 7. Footer */
+.site-footer {
+  margin-top: calc(var(--spacing-unit) * 4);
+  padding-top: var(--spacing-unit);
+  border-top: 2px solid var(--color-border);
+  font-size: 0.9rem;
+  color: var(--color-text-subtle);
 }
