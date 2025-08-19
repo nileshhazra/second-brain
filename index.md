@@ -3,19 +3,15 @@ layout: default
 title: Home
 ---
 
-# My Second Brain 🌱
+{{ site.description }}
 
-A collection of my learnings, ideas, and fleeting thoughts.
+## Latest
 
----
-
-## Latest Posts
-
-<ul>
+<ul class="post-list">
   {% for post in site.posts %}
     <li>
       <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
-      - <span>{{ post.date | date: "%B %d, %Y" }}</span>
+      <span class="post-date">{{ post.date | date: "%B %d, %Y" }}</span>
     </li>
   {% endfor %}
 </ul>

@@ -1,25 +1,31 @@
 <!DOCTYPE html>
 <html lang="{{ site.lang | default: "en-US" }}">
   <head>
-    <meta charset="UTF-t">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page.title | default: site.title }}</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="{{ "/assets/css/style.css" | relative_url }}">
-    <title>{{ site.title | default: "Your Site" }}</title>
   </head>
   <body>
+
     <div class="container">
-      <header>
-        <h1><a href="{{ "/" | relative_url }}">{{ site.title | default: "Your Site" }}</a></h1>
-        <p>{{ site.description | default: "A brief description" }}</p>
+      <header class="site-header">
+        <h1 class="site-title"><a href="{{ "/" | relative_url }}">{{ site.title | default: "Title" }}</a></h1>
       </header>
-      <main>
+
+      <main class="site-content">
         {{ content }}
       </main>
+
+      <footer class="site-footer">
+        <p>&copy; {{ "now" | date: "%Y" }} {{ site.author | default: "Your Name" }}. All rights reserved.</p>
+      </footer>
     </div>
+
   </body>
 </html>
