@@ -177,3 +177,30 @@ h2 {
   border-top: 1px solid var(--color-border);
   transition: border-color 0.3s ease, color 0.3s ease;
 }
+
+/* Add these new styles to your existing CSS file */
+
+.site-branding {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.site-logo {
+  color: var(--color-text);
+  transition: color 0.2s ease-in-out;
+}
+
+.logo-link:hover .site-logo {
+  color: var(--color-accent);
+}
+
+.site-tagline {
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--color-text-subtle);
+  letter-spacing: -0.2px;
+  border-left: 1px solid var(--color-border);
+  padding-left: 0.75rem;
+  transition: color 0.3s ease, border-color 0.3s ease;
+}a
