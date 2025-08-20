@@ -23,7 +23,9 @@
         </svg> -->
      <img class="site-logo" src="{{ '/assets/logo2.png' | relative_url }}" alt="Site Logo" width="60"> 
       </a>
-      <div class="site-tagline">my digital garden</div>
+      <div class="site-tagline">
+        <span id="time-based-greeting" class="greeting"></span>
+      </div>
     </div>
     <div class="header-controls">
       <div class="social-links">
@@ -78,6 +80,24 @@
         } else {
           applyTheme('light');
         }
+      })();
+
+      (function() {
+        const greetingElement = document.getElementById('time-based-greeting');
+        if (!greetingElement) return;
+
+        const currentHour = new Date().getHours();
+        let greeting;
+
+        if (currentHour >= 5 && currentHour < 12) {
+          greeting = 'Good morning';
+        } else if (currentHour >= 12 && currentHour < 18) {
+          greeting = 'Good afternoon';
+        } else {
+          greeting = 'Good evening';
+        }
+
+        greetingElement.textContent = greeting;
       })();
     </script>
 
