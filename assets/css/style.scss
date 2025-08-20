@@ -253,3 +253,20 @@ h2 {
 .logo-link:hover .site-logo {
   animation: wiggle 0.5s ease-in-out;
 }
+
+/* Styles for the new footer logo */
+
+.footer-branding {
+  margin-bottom: 1rem;
+}
+
+.site-footer .site-logo {
+  /* Make the footer logo a bit more subtle */
+  opacity: 0.7;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.site-footer .logo-link:hover .site-logo {
+  /* On hover, bring it to full opacity */
+  opacity: 1;
+}
