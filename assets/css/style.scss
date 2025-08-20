@@ -240,3 +240,16 @@ h2 {
   margin-top: 0.75rem;
   transition: color 0.3s ease, opacity 0.3s ease;
 }
+/* A subtle wiggle animation for the logo on hover */
+
+@keyframes wiggle {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(-4deg); }
+  50% { transform: rotate(4deg); }
+  75% { transform: rotate(-2deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.logo-link:hover .site-logo {
+  animation: wiggle 0.5s ease-in-out;
+}
