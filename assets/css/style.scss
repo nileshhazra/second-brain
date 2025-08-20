@@ -231,9 +231,12 @@ h2 {
 }
 
 .post-excerpt {
-  font-size: 1rem;
+  /* Making the font slightly smaller than the main text */
+  font-size: 0.95rem;
+  /* Using opacity is a great way to reduce visual weight */
+  opacity: 0.8; 
   line-height: 1.7;
   color: var(--color-text-subtle);
   margin-top: 0.75rem;
-  transition: color 0.3s ease;
+  transition: color 0.3s ease, opacity 0.3s ease;
 }
