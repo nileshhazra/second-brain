@@ -3,7 +3,9 @@ layout: default
 title: Home
 ---
 
-## Latest Entries
+## Hi, I am Nilesh
+
+I am a data professional, passionate about building solutions with data.
 
 <ul class="post-list">
   {% for post in site.posts %}
