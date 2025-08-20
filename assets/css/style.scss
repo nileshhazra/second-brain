@@ -214,3 +214,26 @@ h2 {
 [data-theme="light"] .site-logo {
   filter: invert(1);
 }
+
+/* Styles for post meta (date & reading time) and excerpt */
+
+.post-meta {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  color: var(--color-text-subtle);
+  margin-top: 0.25rem;
+  transition: color 0.3s ease;
+}
+
+.post-reading-time {
+  margin-left: 0.5rem;
+}
+
+.post-excerpt {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--color-text-subtle);
+  margin-top: 0.75rem;
+  transition: color 0.3s ease;
+}
