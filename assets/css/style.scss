@@ -204,3 +204,8 @@ h2 {
   padding-left: 0.75rem;
   transition: color 0.3s ease, border-color 0.3s ease;
 }
+
+/* Inverts the white logo to black in light mode */
+[data-theme="light"] .site-logo {
+  filter: invert(1);
+}
