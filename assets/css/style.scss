@@ -50,6 +50,11 @@ body {
   margin: 0 auto;
   padding: calc(var(--spacing-unit) * 1.5) 0;
 }
+header {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: calc(var(--spacing-unit) * 1.5) 0;
+}
 
 /* 4. NEW Header & Controls */
 .site-header {
