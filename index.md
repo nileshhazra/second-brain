@@ -7,6 +7,10 @@ title: Home
 
 I am a data professional, passionate about building solutions with data.
 
+<br>
+<br>
+<br>
+
 <ul class="post-list">
   {% for post in site.posts %}
     <li>
