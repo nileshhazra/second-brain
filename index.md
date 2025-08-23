@@ -5,7 +5,7 @@ title: Home
 
 ## Hi, I am Nilesh
 
-I am a data professional, passionate about building solutions with data.
+I am a data professional, passionate about solving problems with data & experience.
 
 <br>
 <br>
