@@ -1,0 +1,39 @@
+<!-- Modular 3D Model Viewer Component for Posts -->
+<div class="post-3d-model-card">
+  <div class="post-3d-model-header">
+    <div class="model-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+        <line x1="12" y1="22.08" x2="12" y2="12"></line>
+      </svg>
+      <span>{{ include.title | default: "Interactive 3D Model" }}</span>
+    </div>
+    <span class="model-hint">Drag to inspect 360°</span>
+  </div>
+
+  <div class="post-3d-model-body">
+    <model-viewer
+      src="{{ include.src | default: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb' }}"
+      alt="{{ include.title | default: '3D Model' }}"
+      auto-rotate
+      camera-controls
+      touch-action="pan-y"
+      shadow-intensity="1.2"
+      shadow-softness="0.5"
+      exposure="1"
+      poster="{{ include.poster | default: '' }}"
+      ar
+      ar-modes="webxr scene-viewer quick-look">
+      <div slot="progress-bar" class="model-progress-bar">
+        <div class="update-bar"></div>
+      </div>
+    </model-viewer>
+  </div>
+
+  {% if include.caption %}
+  <div class="post-3d-model-caption">
+    {{ include.caption }}
+  </div>
+  {% endif %}
+</div>

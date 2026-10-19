@@ -33,12 +33,20 @@ This system uses a GitHub Action to automatically convert new issues into format
 
 ## ✨ Features
 
+* **Interactive 3D Second Brain (WebGL / Three.js):** Real-time procedural dual-hemisphere 3D neural brain graph with synaptic axons, dynamic action potential pulses, drag-to-rotate orbital controls, and click-to-fire synaptic surge waves.
+* **Embedded 3D Model Viewer (`<model-viewer>`):** Native support for viewing 3D GLB/glTF models with 360° rotation, zoom, camera controls, and Augmented Reality (AR) in any post or header via `{% include model-viewer.html %}`.
+* **Instant Post Search & Tag Filtering:** Client-side real-time fuzzy search bar with keyboard shortcut (`/` or `Cmd+K`) and interactive tag pills (`#system-design`, `#data-engineering`, `#python`, `#ai`).
+* **Interactive 3D Card Tilt & Sheen:** Tactile 3D perspective tilt and dynamic cursor sheen reflections on post preview cards.
+* **Interactive Micro-Interactions & Audio Synthesizer:**
+  * **Sparks / Reactions:** Post "Brain Spark" counter backed by `localStorage` with floating particle bursts.
+  * **Audio Synthesis (Web Audio API):** Procedural futuristic sound effects for theme toggling, synaptic pulses, and clicks (with instant mute control).
+  * **Reading Progress Bar:** Top glowing gradient progress bar tracking scroll depth on post pages.
+  * **One-Click Code Copy:** Automatic language badge and animated copy-to-clipboard button on all code snippets.
+  * **Circular Back-To-Top Button:** Floating progress ring tracking document scroll percentage.
 * **Frictionless Publishing:** Create a new blog post just by opening a GitHub Issue. No local setup needed.
 * **Fully Automated:** A GitHub Action handles the conversion from issue to post, including front matter and tags.
-* **Beautiful & Modern:** A clean, minimalist design with a focus on typography, light/dark modes, and a unique brand identity.
-* **Open by Default:** Anyone can suggest a post by opening an issue, making it a collaborative knowledge base (with you as the curator).
+* **Adaptive Theme System:** Dark (cyberpunk violet & bioluminescent cyan) and Light modes with seamless CSS variable transitions.
 * **Fast & Free Hosting:** Built on Jekyll and hosted for free on GitHub Pages.
-* **Infinitely Forkable:** The entire system is open-source. Fork it and create your own digital garden in minutes.
 
 ---
 

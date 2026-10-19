@@ -3,50 +3,97 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ page.title | default: site.title }}</title>
+    <title>{% if page.title and page.title != "Home" %}{{ page.title }} · {{ site.title }}{% else %}{{ site.title }} · {{ site.description }}{% endif %}</title>
+    
     <link rel="apple-touch-icon" sizes="180x180" href="{{ '/apple-touch-icon.png' | relative_url }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ '/favicon-32x32.png' | relative_url }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ '/favicon-16x16.png' | relative_url }}">
     <link rel="manifest" href="{{ '/site.webmanifest' | relative_url }}">
     <link rel="shortcut icon" href="{{ '/favicon.ico' | relative_url }}">
 
+    <!-- Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="{{ "/assets/css/style.css" | relative_url }}">
+
+    <!-- 3D Graphics Engines (Three.js & Google Model-Viewer) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+
+    <!-- Theme Initialization Script (Prevents flash of unstyled theme) -->
+    <script>
+      (function() {
+        var savedTheme = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = savedTheme || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
   </head>
   <body>
 
     <header class="site-header">
-  <div class="header-main">
-    <div class="site-branding">
-      <a href="{{ "/" | relative_url }}" class="logo-link" aria-label="Homepage">
-        <!-- <svg class="site-logo" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M5,19V5 L19,19V5"></path>
-        </svg> -->
-     <img class="site-logo" src="{{ '/assets/logo2.png' | relative_url }}" alt="Site Logo" width="60"> 
-      </a>
-      <div class="site-tagline">
-        <span id="time-based-greeting" class="greeting"></span>
+      <div class="header-main">
+        <div class="site-branding">
+          <a href="{{ "/" | relative_url }}" class="logo-link" aria-label="Homepage">
+            <img class="site-logo" src="{{ '/assets/logo2.png' | relative_url }}" alt="Site Logo" width="60"> 
+          </a>
+          <div class="site-tagline">
+            <span id="time-based-greeting" class="greeting"></span>
+          </div>
+        </div>
+
+        <div class="header-controls">
+          <div class="social-links">
+            <a href="https://github.com/nileshhazra" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+              </svg>
+            </a>
+            <a href="https://x.com/nileshhazra" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+              </svg>
+            </a>
+          </div>
+
+          <!-- Sound FX Toggle -->
+          <button class="sound-toggle-btn" id="sound-toggle-btn" aria-label="Toggle interactive sounds" title="Toggle interactive sound effects">
+            <svg class="sound-on" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            </svg>
+            <svg class="sound-off" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <line x1="23" y1="9" x2="17" y2="15"></line>
+              <line x1="17" y1="9" x2="23" y2="15"></line>
+            </svg>
+          </button>
+
+          <!-- Theme Toggle -->
+          <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme" title="Toggle color theme (Press 'T')">
+            <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </button>
+        </div>
       </div>
-    </div>
-    <div class="header-controls">
-      <div class="social-links">
-        <a href="https://github.com/nileshhazra" aria-label="GitHub">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-        </a>
-        <a href="https://x.com/nileshhazra" aria-label="Twitter">
-           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
-        </a>
-      </div>
-      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
-        <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-        <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-      </button>
-    </div>
-  </div>
-</header>
+    </header>
+
     <div class="container">
       <main class="site-content">
         {{ content }}
@@ -54,15 +101,32 @@
       
       <footer class="site-footer">
         <div class="footer-branding">
-    <a href="{{ "/" | relative_url }}" class="logo-link" aria-label="Homepage">
-          <img class="site-logo" src="{{ '/assets/logo2.png' | relative_url }}" alt="Site Logo" width="60">  
-    </a>
-  </div>
-        <p>&copy; {{ "now" | date: "%Y" }}. Made with Curiosity.</p>
+          <a href="{{ "/" | relative_url }}" class="logo-link" aria-label="Homepage">
+            <img class="site-logo" src="{{ '/assets/logo2.png' | relative_url }}" alt="Site Logo" width="60">  
+          </a>
+        </div>
+        <p class="footer-copy">&copy; {{ "now" | date: "%Y" }} {{ site.author }}. Built with Curiosity &amp; Neural Synapses.</p>
+        <p class="footer-hint">Press <kbd>/</kbd> to search thoughts · <kbd>P</kbd> to pulse 3D brain · <kbd>T</kbd> to toggle theme</p>
       </footer>
     </div>
 
+    <!-- Circular Scroll-To-Top Button -->
+    <button id="back-to-top-btn" class="back-to-top-btn" aria-label="Scroll back to top" title="Scroll to top">
+      <svg class="progress-ring" width="40" height="40">
+        <circle class="progress-ring-bg" stroke="currentColor" stroke-width="3" fill="transparent" r="18" cx="20" cy="20"/>
+        <circle id="back-to-top-circle" class="progress-ring-circle" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="transparent" r="18" cx="20" cy="20"/>
+      </svg>
+      <svg class="arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="18 15 12 9 6 15"></polyline>
+      </svg>
+    </button>
+
+    <!-- Interactive Scripts -->
+    <script src="{{ '/assets/js/brain-3d.js' | relative_url }}" defer></script>
+    <script src="{{ '/assets/js/interactive.js' | relative_url }}" defer></script>
+
     <script>
+      // Header Theme Toggle Script
       (function() {
         var toggle = document.getElementById('theme-toggle');
         var html = document.documentElement;
@@ -72,41 +136,31 @@
           localStorage.setItem('theme', theme);
         }
 
-        toggle.addEventListener('click', function() {
-          var currentTheme = html.getAttribute('data-theme');
-          var newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-          applyTheme(newTheme);
-        });
-
-        // Set initial theme
-        var savedTheme = localStorage.getItem('theme');
-        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        
-        if (savedTheme) {
-          applyTheme(savedTheme);
-        } else if (prefersDark) {
-          applyTheme('dark');
-        } else {
-          applyTheme('light');
-        }
-      })();
-
-      (function() {
-        const greetingElement = document.getElementById('time-based-greeting');
-        if (!greetingElement) return;
-
-        const currentHour = new Date().getHours();
-        let greeting;
-
-        if (currentHour >= 5 && currentHour < 12) {
-          greeting = 'Good morning';
-        } else if (currentHour >= 12 && currentHour < 18) {
-          greeting = 'Good afternoon';
-        } else {
-          greeting = 'Good evening';
+        if (toggle) {
+          toggle.addEventListener('click', function() {
+            var currentTheme = html.getAttribute('data-theme');
+            var newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            applyTheme(newTheme);
+            if (window.SecondBrainAudio) {
+              window.SecondBrainAudio.playClick();
+            }
+          });
         }
 
-        greetingElement.textContent = greeting;
+        // Time-based greeting
+        var greetingElement = document.getElementById('time-based-greeting');
+        if (greetingElement) {
+          var currentHour = new Date().getHours();
+          var greeting;
+          if (currentHour >= 5 && currentHour < 12) {
+            greeting = 'Good morning';
+          } else if (currentHour >= 12 && currentHour < 18) {
+            greeting = 'Good afternoon';
+          } else {
+            greeting = 'Good evening';
+          }
+          greetingElement.textContent = greeting;
+        }
       })();
     </script>
 

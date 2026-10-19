@@ -1,0 +1,137 @@
+---
+layout: default
+---
+
+<!-- Reading Progress Bar -->
+<div id="reading-progress-bar" class="reading-progress-bar" role="progressbar" aria-label="Reading progress"></div>
+
+<article class="post-article" itemscope itemtype="http://schema.org/BlogPosting">
+  <!-- Post Header -->
+  <header class="post-header-card">
+    <div class="post-back-nav">
+      <a href="{{ '/' | relative_url }}" class="back-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <span>Back to Garden</span>
+      </a>
+      
+      {% if page.issue_number %}
+      <a href="https://github.com/nileshhazra/second-brain/issues/{{ page.issue_number }}" target="_blank" rel="noopener noreferrer" class="issue-badge-link" title="View discussion thread on GitHub">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        <span>Issue #{{ page.issue_number }}</span>
+      </a>
+      {% endif %}
+    </div>
+
+    <h1 class="post-main-title" itemprop="headline">{{ page.title }}</h1>
+
+    <div class="post-meta-strip">
+      <div class="meta-item">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
+          {{ page.date | date: "%B %d, %Y" }}
+        </time>
+      </div>
+
+      {% assign words = page.content | number_of_words %}
+      {% assign reading_time = words | divided_by: 180 %}
+      {% if reading_time == 0 %}
+        {% assign reading_time = 1 %}
+      {% endif %}
+
+      <div class="meta-item">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        <span>{{ reading_time }} min read</span>
+      </div>
+
+      <div class="meta-item hide-mobile">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="4" y1="9" x2="20" y2="9"></line>
+          <line x1="4" y1="15" x2="20" y2="15"></line>
+          <line x1="10" y1="3" x2="8" y2="21"></line>
+          <line x1="16" y1="3" x2="14" y2="21"></line>
+        </svg>
+        <span>{{ words }} words</span>
+      </div>
+
+      <div class="post-tags-list">
+        {% for tag in page.tags %}
+          {% if tag != "" and tag != nil %}
+            <span class="post-tag-chip">#{{ tag | strip }}</span>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </header>
+
+  <!-- Post Body Content -->
+  <div class="post-body-content" itemprop="articleBody">
+    {{ content }}
+  </div>
+
+  <!-- Interactive Post Footer & Actions -->
+  <footer class="post-interaction-dock">
+    <div class="interaction-buttons">
+      <!-- Sparks Reaction Button -->
+      <button class="action-dock-btn spark-btn" id="spark-reaction-btn" title="Give a spark to this idea!">
+        <span class="spark-icon">🧠</span>
+        <span class="spark-label">Sparks</span>
+        <span class="spark-count" id="spark-reaction-count">0</span>
+      </button>
+
+      <!-- Share Button -->
+      <button class="action-dock-btn share-btn" id="btn-share-post" title="Share or Copy Link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="18" cy="5" r="3"></circle>
+          <circle cx="6" cy="12" r="3"></circle>
+          <circle cx="18" cy="19" r="3"></circle>
+          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+        </svg>
+        <span>Share Thought</span>
+      </button>
+
+      {% if page.issue_number %}
+      <a href="https://github.com/nileshhazra/second-brain/issues/{{ page.issue_number }}" target="_blank" rel="noopener noreferrer" class="action-dock-btn github-discuss-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+        <span>Join Discussion</span>
+      </a>
+      {% endif %}
+    </div>
+
+    <!-- Post Pagination Nav -->
+    <nav class="post-pagination">
+      {% if page.previous.url %}
+        <a class="pagination-link prev" href="{{ page.previous.url | relative_url }}">
+          <span class="nav-dir">← Previous Thought</span>
+          <span class="nav-title">{{ page.previous.title | truncate: 45 }}</span>
+        </a>
+      {% else %}
+        <div></div>
+      {% endif %}
+
+      {% if page.next.url %}
+        <a class="pagination-link next" href="{{ page.next.url | relative_url }}">
+          <span class="nav-dir">Next Thought →</span>
+          <span class="nav-title">{{ page.next.title | truncate: 45 }}</span>
+        </a>
+      {% endif %}
+    </nav>
+  </footer>
+</article>
