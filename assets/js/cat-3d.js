@@ -1,59 +1,68 @@
 /**
- * Second Brain - Mochi the Interactive 3D Companion Cat
+ * Second Brain - Mochi the 3D Cyber Familiar & Chief Cat Officer
  * Powered by Three.js & Web Audio API
  * 
  * Features:
- * - Procedural 3D cute stylized Chibi Cat with head tracking, ear twitching, and blinking.
- * - Peeks from the bottom-right corner of the viewport.
- * - Interactive speech bubble with conversational dialogue, tips, and responses.
- * - Interactive action chips (Pet, Spark, Tell me a thought, Chat input).
- * - Synthesized purring & meowing audio via Web Audio API.
- * - Minimize/nap mode toggle.
+ * - Expressive Eyes with emotional states (Happy, Skeptical, Dilated Laser Focus, Winking, Blinking)
+ * - Head tracking with inquisitive tilt and cursor parallax
+ * - Independent ear twitching and tail swish
+ * - Hilarious, witty, sarcastic developer & data engineering personality
+ * - Interactive actions: Scratch chin, Give coffee, Laser pointer chase, Roast code, Drop wisdom
+ * - Synthesized procedural meow, purr, and laser sounds
  */
 
 (function () {
   'use strict';
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initCat3D);
+    document.addEventListener('DOMContentLoaded', initMochiCat);
   } else {
-    initCat3D();
+    initMochiCat();
   }
 
-  function initCat3D() {
+  function initMochiCat() {
     if (typeof THREE === 'undefined') return;
 
-    // Create Cat DOM Container
-    const catWidget = document.createElement('div');
-    catWidget.id = 'mochi-cat-widget';
-    catWidget.className = 'mochi-cat-widget';
-    catWidget.innerHTML = `
+    // Create DOM Elements
+    const widget = document.createElement('div');
+    widget.id = 'mochi-cat-widget';
+    widget.className = 'mochi-cat-widget';
+    widget.innerHTML = `
       <div id="mochi-dialogue-bubble" class="mochi-dialogue-bubble">
         <div class="mochi-dialogue-header">
-          <span class="mochi-name">🐱 Mochi</span>
-          <span class="mochi-status-tag">Garden Companion</span>
-          <button id="mochi-close-dialogue" class="mochi-bubble-close" aria-label="Dismiss message">✕</button>
+          <div class="mochi-profile">
+            <span class="mochi-avatar">🐱</span>
+            <div>
+              <div class="mochi-name">Mochi</div>
+              <div class="mochi-title">Chief Architecture Officer (CAO)</div>
+            </div>
+          </div>
+          <button id="mochi-close-dialogue" class="mochi-bubble-close" aria-label="Close dialog">✕</button>
         </div>
+
         <div id="mochi-dialogue-text" class="mochi-dialogue-text">
-          *purr...* Welcome to Nilesh's Second Brain! Need a thought or want to fire the 3D neural brain?
+          *purr...* Oh look, a human in Nilesh's digital garden! Are you here to read about distributed systems, or did you just come to admire my whiskers?
         </div>
+
         <div class="mochi-interactive-chips" id="mochi-chips">
-          <button class="mochi-chip" data-action="pet">🐾 Pet Mochi</button>
-          <button class="mochi-chip" data-action="thought">💡 Share a Thought</button>
-          <button class="mochi-chip" data-action="pulse">⚡ Fire Pulse</button>
-          <button class="mochi-chip" data-action="joke">😸 Tech Joke</button>
+          <button class="mochi-chip" data-action="scratch">🐾 Scratch Chin</button>
+          <button class="mochi-chip" data-action="coffee">☕ Give Coffee</button>
+          <button class="mochi-chip" data-action="roast">🔥 Roast My Stack</button>
+          <button class="mochi-chip" data-action="wisdom">💡 Cat Wisdom</button>
+          <button class="mochi-chip" data-action="laser">🔴 Laser Chase</button>
         </div>
+
         <form id="mochi-chat-form" class="mochi-chat-form">
-          <input type="text" id="mochi-user-input" class="mochi-chat-input" placeholder="Say something to Mochi..." autocomplete="off">
-          <button type="submit" class="mochi-chat-send" aria-label="Send message">💬</button>
+          <input type="text" id="mochi-user-input" class="mochi-chat-input" placeholder="Ask Mochi about tech, life, or naps..." autocomplete="off">
+          <button type="submit" class="mochi-chat-send" aria-label="Send">💬</button>
         </form>
       </div>
 
-      <div id="mochi-canvas-container" class="mochi-canvas-container" title="Click Mochi to talk or pet!">
-        <div class="mochi-peek-prompt" id="mochi-peek-prompt">Psst! 👋</div>
+      <div id="mochi-canvas-container" class="mochi-canvas-container" title="Click Mochi to chat or pet!">
+        <div class="mochi-peek-prompt" id="mochi-peek-prompt">Psst! 🐾</div>
       </div>
     `;
-    document.body.appendChild(catWidget);
+    document.body.appendChild(widget);
 
     const canvasContainer = document.getElementById('mochi-canvas-container');
     const bubble = document.getElementById('mochi-dialogue-bubble');
@@ -63,12 +72,12 @@
     const chatForm = document.getElementById('mochi-chat-form');
     const chatInput = document.getElementById('mochi-user-input');
 
-    // 1. Three.js Scene Setup for Cat
+    // 1. Three.js Scene & Camera Setup
     const width = 160;
-    const height = 170;
+    const height = 175;
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
-    camera.position.set(0, 0.6, 5.2);
+    const camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 100);
+    camera.position.set(0, 0.55, 5.4);
 
     let renderer;
     try {
@@ -82,170 +91,257 @@
     renderer.setClearColor(0x000000, 0);
     canvasContainer.appendChild(renderer.domElement);
 
-    // Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
+    // Dynamic Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.95);
     scene.add(ambientLight);
 
-    const dirLight = new THREE.DirectionalLight(0xfff0fa, 1.2);
-    dirLight.position.set(2, 4, 3);
+    const dirLight = new THREE.DirectionalLight(0xfff5ea, 1.25);
+    dirLight.position.set(2.5, 4.5, 3.5);
     scene.add(dirLight);
 
-    const backLight = new THREE.PointLight(0xa78bfa, 1.5, 10);
-    backLight.position.set(-2, 1, -1);
-    scene.add(backLight);
+    const rimLight = new THREE.PointLight(0xa78bfa, 1.8, 12);
+    rimLight.position.set(-2.5, 1.5, -0.8);
+    scene.add(rimLight);
 
-    // 2. Build Procedural 3D Chibi Cat Model
+    // 2. Procedural 3D Chibi Cat Model
     const catGroup = new THREE.Group();
     scene.add(catGroup);
-    catGroup.position.set(0, -0.6, 0);
+    catGroup.position.set(0, -0.65, 0);
 
     const headGroup = new THREE.Group();
     catGroup.add(headGroup);
 
-    // Materials
-    function getCatMaterials() {
+    function getMaterials() {
       const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
       return {
         body: new THREE.MeshStandardMaterial({
-          color: isDark ? 0x221f3b : 0xfef9f3,
-          roughness: 0.5,
-          metalness: 0.1
+          color: isDark ? 0x1f1c34 : 0xfffcf7,
+          roughness: 0.45,
+          metalness: 0.08
         }),
         snout: new THREE.MeshStandardMaterial({
-          color: isDark ? 0x312d50 : 0xffffff,
-          roughness: 0.6
-        }),
-        innerEar: new THREE.MeshStandardMaterial({
-          color: 0xf472b6, // Soft pink
+          color: isDark ? 0x2e2a4a : 0xffffff,
           roughness: 0.5
         }),
-        eyes: new THREE.MeshBasicMaterial({
-          color: isDark ? 0x38bdf8 : 0x0f172a // Sky blue in dark, deep slate in light
+        innerEar: new THREE.MeshStandardMaterial({
+          color: 0xf472b6,
+          roughness: 0.5
         }),
-        pupilHighlight: new THREE.MeshBasicMaterial({
+        sclera: new THREE.MeshBasicMaterial({
           color: 0xffffff
+        }),
+        iris: new THREE.MeshBasicMaterial({
+          color: isDark ? 0x38bdf8 : 0x0284c7 // Glowing cyan in dark, bright sky in light
+        }),
+        pupil: new THREE.MeshBasicMaterial({
+          color: 0x09090b
+        }),
+        catchlight: new THREE.MeshBasicMaterial({
+          color: 0xffffff
+        }),
+        eyelid: new THREE.MeshStandardMaterial({
+          color: isDark ? 0x1f1c34 : 0xfffcf7,
+          roughness: 0.45
         }),
         nose: new THREE.MeshStandardMaterial({
           color: 0xf43f5e,
-          roughness: 0.4
+          roughness: 0.3
         }),
         collar: new THREE.MeshStandardMaterial({
           color: 0x8b5cf6,
-          metalness: 0.3
+          metalness: 0.4,
+          roughness: 0.3
         }),
         bell: new THREE.MeshStandardMaterial({
-          color: 0xfbbf24, // Gold bell
-          metalness: 0.8,
-          roughness: 0.2
+          color: 0xfbbf24,
+          metalness: 0.85,
+          roughness: 0.15
         }),
         paws: new THREE.MeshStandardMaterial({
-          color: isDark ? 0x2e2a4a : 0xffffff,
-          roughness: 0.6
+          color: isDark ? 0x2b2746 : 0xffffff,
+          roughness: 0.5
+        }),
+        toeBeans: new THREE.MeshStandardMaterial({
+          color: 0xf472b6,
+          roughness: 0.4
         })
       };
     }
 
-    let mats = getCatMaterials();
+    let mats = getMaterials();
 
     // Head
     const headGeo = new THREE.SphereGeometry(1.0, 32, 32);
-    headGeo.scale(1.15, 1.0, 1.05);
+    headGeo.scale(1.18, 1.0, 1.08);
     const headMesh = new THREE.Mesh(headGeo, mats.body);
     headGroup.add(headMesh);
 
-    // Ears (Cones)
-    const earGeo = new THREE.ConeGeometry(0.38, 0.7, 16);
-    earGeo.rotateZ(0.1);
+    // Snout / Cheeks
+    const snoutGeo = new THREE.SphereGeometry(0.38, 24, 24);
+    snoutGeo.scale(1.25, 0.75, 0.82);
+    const snoutMesh = new THREE.Mesh(snoutGeo, mats.snout);
+    snoutMesh.position.set(0, -0.22, 0.9);
+    headGroup.add(snoutMesh);
 
+    // Cute Nose
+    const noseGeo = new THREE.SphereGeometry(0.08, 14, 14);
+    noseGeo.scale(1.2, 0.85, 0.85);
+    const noseMesh = new THREE.Mesh(noseGeo, mats.nose);
+    noseMesh.position.set(0, -0.11, 1.15);
+    headGroup.add(noseMesh);
+
+    // Whiskers (Left & Right thin cylinders)
+    const whiskerMat = new THREE.LineBasicMaterial({ color: 0x94a3b8, transparent: true, opacity: 0.6 });
+    function createWhiskers(side) {
+      const g = new THREE.Group();
+      for (let w = -1; w <= 1; w++) {
+        const pts = [
+          new THREE.Vector3(0, 0, 0),
+          new THREE.Vector3(side * 0.7, w * 0.12 - 0.05, 0.1)
+        ];
+        const geo = new THREE.BufferGeometry().setFromPoints(pts);
+        g.add(new THREE.Line(geo, whiskerMat));
+      }
+      g.position.set(side * 0.35, -0.2, 1.0);
+      return g;
+    }
+    headGroup.add(createWhiskers(-1));
+    headGroup.add(createWhiskers(1));
+
+    // Ears
+    const earGeo = new THREE.ConeGeometry(0.4, 0.75, 16);
     const leftEar = new THREE.Mesh(earGeo, mats.body);
-    leftEar.position.set(-0.65, 0.85, 0.05);
-    leftEar.rotation.z = 0.35;
-    leftEar.rotation.x = -0.15;
+    leftEar.position.set(-0.68, 0.88, 0.06);
+    leftEar.rotation.set(-0.15, 0, 0.38);
     headGroup.add(leftEar);
 
     const rightEar = new THREE.Mesh(earGeo, mats.body);
-    rightEar.position.set(0.65, 0.85, 0.05);
-    rightEar.rotation.z = -0.35;
-    rightEar.rotation.x = -0.15;
+    rightEar.position.set(0.68, 0.88, 0.06);
+    rightEar.rotation.set(-0.15, 0, -0.38);
     headGroup.add(rightEar);
 
     // Pink Inner Ears
-    const innerEarGeo = new THREE.ConeGeometry(0.24, 0.5, 16);
+    const innerEarGeo = new THREE.ConeGeometry(0.26, 0.55, 16);
     const leftInnerEar = new THREE.Mesh(innerEarGeo, mats.innerEar);
-    leftInnerEar.position.set(-0.63, 0.82, 0.1);
-    leftInnerEar.rotation.z = 0.35;
-    leftInnerEar.rotation.x = -0.15;
+    leftInnerEar.position.set(-0.66, 0.85, 0.12);
+    leftInnerEar.rotation.set(-0.15, 0, 0.38);
     headGroup.add(leftInnerEar);
 
     const rightInnerEar = new THREE.Mesh(innerEarGeo, mats.innerEar);
-    rightInnerEar.position.set(0.63, 0.82, 0.1);
-    rightInnerEar.rotation.z = -0.35;
-    rightInnerEar.rotation.x = -0.15;
+    rightInnerEar.position.set(0.66, 0.85, 0.12);
+    rightInnerEar.rotation.set(-0.15, 0, -0.38);
     headGroup.add(rightInnerEar);
 
-    // Cute Muzzle / Cheeks
-    const snoutGeo = new THREE.SphereGeometry(0.35, 20, 20);
-    snoutGeo.scale(1.2, 0.75, 0.8);
-    const snoutMesh = new THREE.Mesh(snoutGeo, mats.snout);
-    snoutMesh.position.set(0, -0.22, 0.88);
-    headGroup.add(snoutMesh);
+    // 3. EXPRESSIVE EYE RIG (Pupils, Catchlights, Eyelids, Expressions)
+    const eyeRig = {
+      leftEyeGroup: new THREE.Group(),
+      rightEyeGroup: new THREE.Group(),
+      leftPupil: null,
+      rightPupil: null,
+      leftEyelid: null,
+      rightEyelid: null,
+      expression: 'normal' // 'normal' | 'happy' | 'skeptical' | 'laser' | 'wink'
+    };
 
-    // Nose (Pink inverted triangle / small sphere)
-    const noseGeo = new THREE.SphereGeometry(0.08, 12, 12);
-    noseGeo.scale(1.2, 0.8, 0.8);
-    const noseMesh = new THREE.Mesh(noseGeo, mats.nose);
-    noseMesh.position.set(0, -0.12, 1.12);
-    headGroup.add(noseMesh);
+    function buildExpressiveEye(side) {
+      const g = new THREE.Group();
+      const x = side * 0.44;
+      g.position.set(x, 0.06, 0.94);
+      g.rotation.y = side * -0.18;
 
-    // Big Cute Anime / Chibi Eyes
-    const eyeGeo = new THREE.SphereGeometry(0.18, 20, 20);
-    eyeGeo.scale(1.0, 1.25, 0.5);
+      // Sclera (White base)
+      const scleraGeo = new THREE.SphereGeometry(0.24, 20, 20);
+      scleraGeo.scale(1.0, 1.25, 0.45);
+      const scleraMesh = new THREE.Mesh(scleraGeo, mats.sclera);
+      g.add(scleraMesh);
 
-    const leftEye = new THREE.Mesh(eyeGeo, mats.eyes);
-    leftEye.position.set(-0.42, 0.05, 0.95);
-    leftEye.rotation.y = -0.2;
-    headGroup.add(leftEye);
+      // Iris (Glowing colored disc)
+      const irisGeo = new THREE.SphereGeometry(0.18, 18, 18);
+      irisGeo.scale(0.95, 1.15, 0.35);
+      const irisMesh = new THREE.Mesh(irisGeo, mats.iris);
+      irisMesh.position.set(0, 0, 0.05);
+      g.add(irisMesh);
 
-    const rightEye = new THREE.Mesh(eyeGeo, mats.eyes);
-    rightEye.position.set(0.42, 0.05, 0.95);
-    rightEye.rotation.y = 0.2;
-    headGroup.add(rightEye);
+      // Pupil (Dark center that dilates)
+      const pupilGeo = new THREE.SphereGeometry(0.12, 16, 16);
+      pupilGeo.scale(0.9, 1.1, 0.3);
+      const pupilMesh = new THREE.Mesh(pupilGeo, mats.pupil);
+      pupilMesh.position.set(0, 0, 0.07);
+      g.add(pupilMesh);
 
-    // Specular eye catchlights (White sparkle)
-    const catchGeo = new THREE.SphereGeometry(0.06, 12, 12);
-    const leftCatch = new THREE.Mesh(catchGeo, mats.pupilHighlight);
-    leftCatch.position.set(-0.45, 0.12, 1.05);
-    headGroup.add(leftCatch);
+      // Sparkle Catchlights (Big & Small for anime expression)
+      const star1Geo = new THREE.SphereGeometry(0.05, 12, 12);
+      const star1 = new THREE.Mesh(star1Geo, mats.catchlight);
+      star1.position.set(-0.04, 0.06, 0.11);
+      g.add(star1);
 
-    const rightCatch = new THREE.Mesh(catchGeo, mats.pupilHighlight);
-    rightCatch.position.set(0.39, 0.12, 1.05);
-    headGroup.add(rightCatch);
+      const star2Geo = new THREE.SphereGeometry(0.025, 10, 10);
+      const star2 = new THREE.Mesh(star2Geo, mats.catchlight);
+      star2.position.set(0.04, -0.04, 0.11);
+      g.add(star2);
 
-    // Collar & Tiny Bell
-    const collarGeo = new THREE.TorusGeometry(0.85, 0.07, 12, 32);
+      // Eyelid for Blinking & Squinting
+      const lidGeo = new THREE.SphereGeometry(0.26, 18, 18, 0, Math.PI * 2, 0, Math.PI / 2);
+      lidGeo.scale(1.02, 1.28, 0.48);
+      const lidMesh = new THREE.Mesh(lidGeo, mats.eyelid);
+      lidMesh.position.set(0, 0, 0.02);
+      lidMesh.rotation.x = -Math.PI / 2; // Open
+      g.add(lidMesh);
+
+      return { group: g, pupil: pupilMesh, eyelid: lidMesh };
+    }
+
+    const leftEyeBuilt = buildExpressiveEye(-1);
+    const rightEyeBuilt = buildExpressiveEye(1);
+
+    headGroup.add(leftEyeBuilt.group);
+    headGroup.add(rightEyeBuilt.group);
+
+    eyeRig.leftEyeGroup = leftEyeBuilt.group;
+    eyeRig.rightEyeGroup = rightEyeBuilt.group;
+    eyeRig.leftPupil = leftEyeBuilt.pupil;
+    eyeRig.rightPupil = rightEyeBuilt.pupil;
+    eyeRig.leftEyelid = leftEyeBuilt.eyelid;
+    eyeRig.rightEyelid = rightEyeBuilt.eyelid;
+
+    // Collar & Golden Bell
+    const collarGeo = new THREE.TorusGeometry(0.88, 0.08, 12, 32);
     collarGeo.rotateX(Math.PI / 2);
     const collarMesh = new THREE.Mesh(collarGeo, mats.collar);
-    collarMesh.position.set(0, -0.85, 0);
+    collarMesh.position.set(0, -0.86, 0);
     catGroup.add(collarMesh);
 
-    const bellGeo = new THREE.SphereGeometry(0.11, 16, 16);
+    const bellGeo = new THREE.SphereGeometry(0.12, 16, 16);
     const bellMesh = new THREE.Mesh(bellGeo, mats.bell);
-    bellMesh.position.set(0, -0.92, 0.88);
+    bellMesh.position.set(0, -0.94, 0.92);
     catGroup.add(bellMesh);
 
-    // Cute Paws Peeking Over Edge
-    const pawGeo = new THREE.SphereGeometry(0.24, 16, 16);
-    pawGeo.scale(1.1, 0.7, 1.4);
+    // Paws Peeking Over Edge with Toe Beans
+    function buildPaw(side) {
+      const g = new THREE.Group();
+      const pawGeo = new THREE.SphereGeometry(0.24, 16, 16);
+      pawGeo.scale(1.15, 0.7, 1.4);
+      const pawMesh = new THREE.Mesh(pawGeo, mats.paws);
+      g.add(pawMesh);
 
-    const leftPaw = new THREE.Mesh(pawGeo, mats.paws);
-    leftPaw.position.set(-0.55, -0.98, 0.75);
+      // Little pink toe beans
+      const padGeo = new THREE.SphereGeometry(0.045, 10, 10);
+      padGeo.scale(1, 0.5, 1);
+      for (let b = -1; b <= 1; b++) {
+        const bean = new THREE.Mesh(padGeo, mats.toeBeans);
+        bean.position.set(b * 0.08, 0.12, 0.2);
+        g.add(bean);
+      }
+      g.position.set(side * 0.56, -0.98, 0.78);
+      return g;
+    }
+
+    const leftPaw = buildPaw(-1);
+    const rightPaw = buildPaw(1);
     catGroup.add(leftPaw);
-
-    const rightPaw = new THREE.Mesh(pawGeo, mats.paws);
-    rightPaw.position.set(0.55, -0.98, 0.75);
     catGroup.add(rightPaw);
 
-    // 3. Audio Synthesizer for Cat (Purr & Meow via Web Audio API)
+    // 4. Procedural Audio Synthesizer (Purr, Meow, Laser Chirp)
     function playCatSound(type) {
       if (!window.AudioContext && !window.webkitAudioContext) return;
       if (window.SecondBrainAudio && window.SecondBrainAudio.isMuted()) return;
@@ -257,123 +353,201 @@
         if (type === 'meow') {
           const osc = ctx.createOscillator();
           const gain = ctx.createGain();
-
           osc.type = 'triangle';
-          // Cute pitch bend down: 880Hz -> 540Hz
-          osc.frequency.setValueAtTime(650, ctx.currentTime);
-          osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.15);
-          osc.frequency.exponentialRampToValueAtTime(520, ctx.currentTime + 0.45);
+          osc.frequency.setValueAtTime(620, ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(920, ctx.currentTime + 0.14);
+          osc.frequency.exponentialRampToValueAtTime(480, ctx.currentTime + 0.42);
 
           gain.gain.setValueAtTime(0.01, ctx.currentTime);
-          gain.gain.linearRampToValueAtTime(0.08, ctx.currentTime + 0.1);
-          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.48);
+          gain.gain.linearRampToValueAtTime(0.07, ctx.currentTime + 0.08);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.44);
 
           osc.connect(gain);
           gain.connect(ctx.destination);
           osc.start();
-          osc.stop(ctx.currentTime + 0.5);
+          osc.stop(ctx.currentTime + 0.46);
         } else if (type === 'purr') {
-          // Soft rhythmic motor hum
-          for (let i = 0; i < 4; i++) {
+          for (let i = 0; i < 5; i++) {
             const osc = ctx.createOscillator();
             const gain = ctx.createGain();
             osc.type = 'sawtooth';
-            osc.frequency.setValueAtTime(45, ctx.currentTime + i * 0.12);
-
-            gain.gain.setValueAtTime(0.02, ctx.currentTime + i * 0.12);
-            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.12 + 0.1);
-
+            osc.frequency.setValueAtTime(42, ctx.currentTime + i * 0.11);
+            gain.gain.setValueAtTime(0.025, ctx.currentTime + i * 0.11);
+            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.11 + 0.09);
             osc.connect(gain);
             gain.connect(ctx.destination);
-            osc.start(ctx.currentTime + i * 0.12);
-            osc.stop(ctx.currentTime + i * 0.12 + 0.11);
+            osc.start(ctx.currentTime + i * 0.11);
+            osc.stop(ctx.currentTime + i * 0.11 + 0.1);
           }
+        } else if (type === 'laser') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(1400, ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(250, ctx.currentTime + 0.12);
+          gain.gain.setValueAtTime(0.04, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.13);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.14);
         }
       } catch (e) {}
     }
 
-    // 4. Cat Dialogue & Knowledge Engine
-    const catThoughts = [
-      "🐾 *Paw note:* Scalability is like running a tea stall. More kettles > one giant kettle!",
-      "⚡ In system design, simplicity is what survives. Complexity is just Jenga waiting to fall.",
-      "📦 Spark drivers plan the menu, executors cook the data! I just eat the results.",
-      "🧠 Context engineering shapes how AI thinks. Just like how shaking a treat bag shapes where I run!",
-      "🌐 Have you tried the 3D Knowledge Graph above? Press 'P' to fire an energy pulse through the brain!",
-      "🔍 Looking for something specific? Press '/' on your keyboard to instantly filter insights.",
-      "💡 Direct Lake mode in Power BI bypasses scheduled refreshes. Faster queries, more nap time!"
+    // 5. Witty Personality & Dialogue Repository
+    const roasts = [
+      "🔥 *Looking at your stack:* You've got 14 microservices and 3 daily users. A single SQLite file and a prayer would run faster.",
+      "🔥 *System review:* Your architecture is 90% Jenga blocks and 10% hopeful git commits. One bad typo and it's cat food.",
+      "🔥 You call it 'eventual consistency'. I call it 'the data went out for milk and never came back'.",
+      "🔥 Monoliths are like a warm cardboard box. Microservices are 40 tiny boxes scattered on fire across AWS.",
+      "🔥 Your pull request says 'minor refactor' but touches 84 files. That's not a refactor, that's arson."
     ];
 
-    const catJokes = [
-      "Why do data engineers love cats? Because we both love purr-sistent storage!",
-      "There are 10 types of cats: those who understand binary, and those who sit on your keyboard.",
-      "My human writes Apache Spark pipelines. I prefer Apache Nap.",
-      "Why did the database break up with the table? There were too many relational issues!"
+    const wisdom = [
+      "💡 *Architecture Rule #1:* If you can't explain your data pipeline to a sleepy cat on a whiteboard in 5 minutes, it's too complex.",
+      "💡 Horizontal scaling > Vertical scaling. Same reason I don't get one giant kettle; I just hire more cat friends.",
+      "💡 In high-scale data engineering: decoupled message queues are like scratching posts. Essential for peace of mind.",
+      "💡 Direct Lake mode in Power BI bypasses scheduled refreshes completely. Zero-copy sub-second queries = more nap time for everyone.",
+      "💡 Context engineering is like giving an LLM the exact right cardboard box. Otherwise it just knocks over your vase."
     ];
 
-    function showDialogue(text, sound = 'meow') {
+    function setExpression(expr) {
+      eyeRig.expression = expr;
+
+      if (expr === 'happy') {
+        // Closed anime smile eyes ^_^
+        eyeRig.leftEyeGroup.scale.set(1.0, 0.15, 1.0);
+        eyeRig.rightEyeGroup.scale.set(1.0, 0.15, 1.0);
+      } else if (expr === 'skeptical') {
+        // Squinty judging eyes
+        eyeRig.leftEyeGroup.scale.set(1.0, 0.55, 1.0);
+        eyeRig.rightEyeGroup.scale.set(1.0, 0.55, 1.0);
+      } else if (expr === 'laser') {
+        // Hyper-dilated pupils
+        eyeRig.leftEyeGroup.scale.set(1.15, 1.15, 1.0);
+        eyeRig.rightEyeGroup.scale.set(1.15, 1.15, 1.0);
+        eyeRig.leftPupil.scale.set(1.6, 1.6, 1.0);
+        eyeRig.rightPupil.scale.set(1.6, 1.6, 1.0);
+      } else if (expr === 'wink') {
+        eyeRig.leftEyeGroup.scale.set(1.0, 0.15, 1.0);
+        eyeRig.rightEyeGroup.scale.set(1.0, 1.1, 1.0);
+      } else {
+        // Normal
+        eyeRig.leftEyeGroup.scale.set(1.0, 1.0, 1.0);
+        eyeRig.rightEyeGroup.scale.set(1.0, 1.0, 1.0);
+        eyeRig.leftPupil.scale.set(0.9, 1.1, 0.3);
+        eyeRig.rightPupil.scale.set(0.9, 1.1, 0.3);
+      }
+    }
+
+    function showDialogue(text, sound = 'meow', expr = 'happy') {
       if (peekPrompt) peekPrompt.style.display = 'none';
       dialogueText.innerHTML = text;
       bubble.classList.add('visible');
+      setExpression(expr);
       playCatSound(sound);
+      bounceCat();
+
+      setTimeout(() => {
+        if (eyeRig.expression === expr) setExpression('normal');
+      }, 3500);
     }
 
-    // Interactive Action Chips
-    const chipsContainer = document.getElementById('mochi-chips');
-    if (chipsContainer) {
-      chipsContainer.addEventListener('click', (e) => {
+    function bounceCat() {
+      catGroup.position.y = -0.25;
+      setTimeout(() => { catGroup.position.y = -0.65; }, 260);
+    }
+
+    function spawnParticles(symbol = '💖') {
+      const rect = canvasContainer.getBoundingClientRect();
+      for (let i = 0; i < 6; i++) {
+        const p = document.createElement('div');
+        p.className = 'mochi-float-particle';
+        p.textContent = symbol;
+        p.style.left = `${rect.left + 50 + (Math.random() - 0.5) * 45}px`;
+        p.style.top = `${rect.top + 20}px`;
+        p.style.setProperty('--dx', `${(Math.random() - 0.5) * 70}px`);
+        p.style.setProperty('--dy', `${-55 - Math.random() * 45}px`);
+        document.body.appendChild(p);
+        setTimeout(() => p.remove(), 1100);
+      }
+    }
+
+    // 6. Action Chips Listeners
+    const chips = document.getElementById('mochi-chips');
+    if (chips) {
+      chips.addEventListener('click', (e) => {
         const btn = e.target.closest('.mochi-chip');
         if (!btn) return;
         const action = btn.dataset.action;
 
-        if (action === 'pet') {
-          showDialogue("*Purrrrrr...* 😻 That feels amazing! Nilesh's brain synapses are firing smoothly today!", 'purr');
-          spawnHearts();
-          bounceCat();
-        } else if (action === 'thought') {
-          const randomThought = catThoughts[Math.floor(Math.random() * catThoughts.length)];
-          showDialogue(randomThought, 'meow');
-          bounceCat();
-        } else if (action === 'pulse') {
-          showDialogue("⚡ *POW!* Firing synaptic shockwave across the 3D brain!", 'meow');
-          if (window.triggerBrainPulse) window.triggerBrainPulse();
-          bounceCat();
-        } else if (action === 'joke') {
-          const joke = catJokes[Math.floor(Math.random() * catJokes.length)];
-          showDialogue(joke, 'meow');
-          bounceCat();
+        if (action === 'scratch') {
+          showDialogue("*Purrrrrrrrr...* ( ^ ﻌ ^ ) Under the chin! That's the sweet spot! All bugs in Nilesh's code are now forgiven.", 'purr', 'happy');
+          spawnParticles('💖');
+        } else if (action === 'coffee') {
+          showDialogue("☕ *GULP!* EYES WIDE OPEN O_O! I can now rewrite the entire Spark execution engine in assembly in 4 minutes flat!", 'laser', 'laser');
+          spawnParticles('⚡');
+        } else if (action === 'roast') {
+          const roast = roasts[Math.floor(Math.random() * roasts.length)];
+          showDialogue(roast, 'meow', 'skeptical');
+          spawnParticles('🔥');
+        } else if (action === 'wisdom') {
+          const w = wisdom[Math.floor(Math.random() * wisdom.length)];
+          showDialogue(w, 'meow', 'wink');
+          spawnParticles('💡');
+        } else if (action === 'laser') {
+          showDialogue("🔴 WHERE IS IT?! *pupils dilating* THE RED DOT! I MUST CATCH THE EVENT STREAM!", 'laser', 'laser');
+          spawnParticles('🔴');
+          playLaserChase();
         }
       });
     }
 
-    // Chat Form Submission
+    function playLaserChase() {
+      let count = 0;
+      const interval = setInterval(() => {
+        targetHead.x = (Math.random() - 0.5) * 0.9;
+        targetHead.y = (Math.random() - 0.5) * 0.9;
+        playCatSound('laser');
+        count++;
+        if (count > 5) clearInterval(interval);
+      }, 250);
+    }
+
+    // 7. Chat Form Handler
     if (chatForm) {
       chatForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        const query = (chatInput.value || '').trim();
-        if (!query) return;
+        const msg = (chatInput.value || '').trim();
+        if (!msg) return;
 
         chatInput.value = '';
-        const q = query.toLowerCase();
+        const lower = msg.toLowerCase();
+        let reply = "Meow? That sounds like a 500 error waiting to happen. Press '/' to search the garden notes for clarity!";
+        let sound = 'meow';
+        let expr = 'happy';
 
-        let reply = "Meow? That sounds intriguing! Have you searched for that in Nilesh's garden using the '/' shortcut?";
-
-        if (q.includes('hello') || q.includes('hi') || q.includes('hey')) {
-          reply = "Meowdy! 👋 I'm Mochi, your Second Brain familiar. What shall we explore?";
-        } else if (q.includes('spark') || q.includes('apache')) {
-          reply = "Spark? The master chef of big data! Check out Issue #4 above for the full architectural breakdown.";
-        } else if (q.includes('system design') || q.includes('architecture')) {
-          reply = "Scalability, reliability, observability, and simplicity! Check out Issue #1 and Issue #7 in the garden.";
-        } else if (q.includes('ai') || q.includes('llm') || q.includes('context')) {
-          reply = "Context is everything! Context engineering shapes the reasoning environment for AI models.";
-        } else if (q.includes('name') || q.includes('who are you')) {
-          reply = "I'm Mochi! A 3D companion guardian of Nilesh's thoughts, ideas, and data architecture insights.";
-        } else if (q.includes('cute') || q.includes('good cat') || q.includes('love')) {
-          reply = "*Purrr!* ( ^ ﻌ ^ ) Thank you! You get +10 Brain Sparks today!";
-          spawnHearts();
+        if (lower.includes('hello') || lower.includes('hi') || lower.includes('hey')) {
+          reply = "Meowdy partner! 🤠 Welcome to Nilesh's knowledge garden. What architecture disaster can we prevent today?";
+          expr = 'wink';
+        } else if (lower.includes('spark') || lower.includes('data')) {
+          reply = "Apache Spark! The Driver acts as the head chef, and Executors do the cooking. Read Issue #4 above for the full recipe!";
+          expr = 'laser';
+        } else if (lower.includes('cat') || lower.includes('cute') || lower.includes('good')) {
+          reply = "*Purrrr!* Of course I'm cute, I run on 60 FPS WebGL and pure biological perfection.";
+          expr = 'happy';
+          sound = 'purr';
+          spawnParticles('✨');
+        } else if (lower.includes('system') || lower.includes('design')) {
+          reply = "Scalability, reliability, observability, and simplicity! Keep it simple, or I will bat your microservices off the shelf.";
+          expr = 'skeptical';
+        } else if (lower.includes('bye') || lower.includes('sleep') || lower.includes('nap')) {
+          reply = "Going to nap? Wise choice. 14 hours of daily sleep is the secret to zero production bugs.";
+          expr = 'wink';
         }
 
-        showDialogue(reply, 'meow');
-        bounceCat();
+        showDialogue(reply, sound, expr);
       });
     }
 
@@ -383,60 +557,51 @@
       });
     }
 
-    // Click on Cat triggers dialogue / greeting
+    // Click canvas container
     canvasContainer.addEventListener('click', () => {
       if (!bubble.classList.contains('visible')) {
-        showDialogue("Meow! 👋 Need a guided tour or a thought from the garden?", 'meow');
-        bounceCat();
+        showDialogue("Meow! Need a witty roast, tech wisdom, or just a chin scratch?", 'meow', 'wink');
       } else {
         bounceCat();
         playCatSound('purr');
+        setExpression('happy');
+        spawnParticles('🐾');
       }
     });
 
-    function bounceCat() {
-      catGroup.position.y = -0.2;
-      setTimeout(() => { catGroup.position.y = -0.6; }, 250);
-    }
-
-    function spawnHearts() {
-      const rect = canvasContainer.getBoundingClientRect();
-      for (let i = 0; i < 5; i++) {
-        const heart = document.createElement('div');
-        heart.className = 'mochi-heart-particle';
-        heart.textContent = ['💖', '✨', '🐾', '🌸'][Math.floor(Math.random() * 4)];
-        heart.style.left = `${rect.left + 50 + (Math.random() - 0.5) * 40}px`;
-        heart.style.top = `${rect.top + 30}px`;
-        heart.style.setProperty('--dx', `${(Math.random() - 0.5) * 60}px`);
-        heart.style.setProperty('--dy', `${-50 - Math.random() * 40}px`);
-        document.body.appendChild(heart);
-        setTimeout(() => heart.remove(), 1000);
-      }
-    }
-
-    // 5. Kinematics & Animation (Head Tracking, Ear Twitch, Blinking)
+    // 8. Kinematics & Tracking (Head Turn, Inquisitive Tilt, Blinking)
     let mouseNorm = { x: 0, y: 0 };
-    let targetHeadRot = { x: 0, y: 0 };
+    let targetHead = { x: 0, y: 0, z: 0 };
     let blinkTimer = 0;
     let isBlinking = false;
 
     window.addEventListener('mousemove', (e) => {
       const rect = canvasContainer.getBoundingClientRect();
-      const catCenterX = rect.left + rect.width / 2;
-      const catCenterY = rect.top + rect.height / 2;
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
 
-      mouseNorm.x = (e.clientX - catCenterX) / window.innerWidth;
-      mouseNorm.y = -(e.clientY - catCenterY) / window.innerHeight;
+      mouseNorm.x = (e.clientX - cx) / window.innerWidth;
+      mouseNorm.y = -(e.clientY - cy) / window.innerHeight;
 
-      // Bound head rotation
-      targetHeadRot.y = Math.max(-0.55, Math.min(0.55, mouseNorm.x * 1.5));
-      targetHeadRot.x = Math.max(-0.35, Math.min(0.35, -mouseNorm.y * 1.2));
+      // Inquisitive head tilt
+      targetHead.y = Math.max(-0.6, Math.min(0.6, mouseNorm.x * 1.6));
+      targetHead.x = Math.max(-0.35, Math.min(0.35, -mouseNorm.y * 1.2));
+      targetHead.z = (mouseNorm.x * 0.2); // Cute inquisitive head cock!
+
+      // Pupil parallax inside eye socket
+      if (eyeRig.expression === 'normal') {
+        const pupilX = THREE.MathUtils.clamp(mouseNorm.x * 0.08, -0.05, 0.05);
+        const pupilY = THREE.MathUtils.clamp(-mouseNorm.y * 0.08, -0.05, 0.05);
+        eyeRig.leftPupil.position.x = pupilX;
+        eyeRig.leftPupil.position.y = pupilY;
+        eyeRig.rightPupil.position.x = pupilX;
+        eyeRig.rightPupil.position.y = pupilY;
+      }
     }, { passive: true });
 
-    // Initial greeting after 3 seconds
     setTimeout(() => {
       if (peekPrompt) peekPrompt.classList.add('visible');
-    }, 2500);
+    }, 2400);
 
     let clock = new THREE.Clock();
 
@@ -445,49 +610,54 @@
 
       const t = clock.getElapsedTime();
 
-      // Smooth Head Tracking towards cursor
-      headGroup.rotation.y = THREE.MathUtils.lerp(headGroup.rotation.y, targetHeadRot.y, 0.08);
-      headGroup.rotation.x = THREE.MathUtils.lerp(headGroup.rotation.x, targetHeadRot.x, 0.08);
+      // Smooth head tracking with inquisitive tilt
+      headGroup.rotation.y = THREE.MathUtils.lerp(headGroup.rotation.y, targetHead.y, 0.09);
+      headGroup.rotation.x = THREE.MathUtils.lerp(headGroup.rotation.x, targetHead.x, 0.09);
+      headGroup.rotation.z = THREE.MathUtils.lerp(headGroup.rotation.z, targetHead.z, 0.09);
 
-      // Cute ear twitch
-      leftEar.rotation.z = 0.35 + Math.sin(t * 3.5) * 0.05 + (Math.sin(t * 12) > 0.8 ? 0.12 : 0);
-      rightEar.rotation.z = -0.35 - Math.cos(t * 3.2) * 0.05 - (Math.sin(t * 10) > 0.85 ? 0.12 : 0);
+      // Independent twitching cat ears
+      leftEar.rotation.z = 0.38 + Math.sin(t * 3.8) * 0.05 + (Math.sin(t * 14) > 0.82 ? 0.14 : 0);
+      rightEar.rotation.z = -0.38 - Math.cos(t * 3.4) * 0.05 - (Math.sin(t * 11) > 0.85 ? 0.14 : 0);
 
-      // Gentle breathing body bob
-      catGroup.position.y = -0.6 + Math.sin(t * 2.2) * 0.04;
+      // Cute breathing body bob
+      catGroup.position.y = -0.65 + Math.sin(t * 2.4) * 0.04;
 
       // Bell subtle jingle
-      bellMesh.position.y = -0.92 + Math.sin(t * 4.4) * 0.02;
+      bellMesh.position.y = -0.94 + Math.sin(t * 4.8) * 0.02;
 
-      // Blinking animation
-      blinkTimer += 0.016;
-      if (blinkTimer > 3.8 && !isBlinking) {
-        isBlinking = true;
-        leftEye.scale.y = 0.1;
-        rightEye.scale.y = 0.1;
-        setTimeout(() => {
-          leftEye.scale.y = 1.25;
-          rightEye.scale.y = 1.25;
-          isBlinking = false;
-          blinkTimer = Math.random() * 1.5;
-        }, 150);
+      // Natural blinking
+      if (eyeRig.expression === 'normal') {
+        blinkTimer += 0.016;
+        if (blinkTimer > 3.6 && !isBlinking) {
+          isBlinking = true;
+          eyeRig.leftEyeGroup.scale.y = 0.08;
+          eyeRig.rightEyeGroup.scale.y = 0.08;
+          setTimeout(() => {
+            eyeRig.leftEyeGroup.scale.y = 1.0;
+            eyeRig.rightEyeGroup.scale.y = 1.0;
+            isBlinking = false;
+            blinkTimer = Math.random() * 1.5;
+          }, 140);
+        }
       }
 
       renderer.render(scene, camera);
     }
     animate();
 
-    // Theme listener for Cat colors
+    // Theme changes
     const themeObserver = new MutationObserver(() => {
-      mats = getCatMaterials();
+      mats = getMaterials();
       headMesh.material = mats.body;
       leftEar.material = mats.body;
       rightEar.material = mats.body;
       snoutMesh.material = mats.snout;
-      leftEye.material = mats.eyes;
-      rightEye.material = mats.eyes;
-      leftPaw.material = mats.paws;
-      rightPaw.material = mats.paws;
+      eyeRig.leftEyelid.material = mats.eyelid;
+      eyeRig.rightEyelid.material = mats.eyelid;
+      eyeRig.leftEyeGroup.children[1].material = mats.iris;
+      eyeRig.rightEyeGroup.children[1].material = mats.iris;
+      leftPaw.children[0].material = mats.paws;
+      rightPaw.children[0].material = mats.paws;
     });
     themeObserver.observe(document.documentElement, { attributes: true });
   }
