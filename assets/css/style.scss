@@ -1501,17 +1501,17 @@ pre {
 }
 
 .mochi-canvas-container {
-  width: 175px;
-  height: 210px;
+  width: 145px;
+  height: 155px;
   position: relative;
   pointer-events: auto;
   cursor: pointer;
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.22));
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.18));
 }
 
 .mochi-canvas-container:hover {
-  transform: translateY(-8px) scale(1.05);
+  transform: translateY(-8px) scale(1.04);
 }
 
 .mochi-canvas-container canvas {
@@ -1552,7 +1552,7 @@ pre {
 /* Mochi Speech Bubble */
 .mochi-dialogue-bubble {
   position: absolute;
-  bottom: 205px;
+  bottom: 150px;
   right: 0;
   width: 330px;
   max-width: calc(100vw - 2rem);
@@ -1716,37 +1716,3 @@ pre {
   }
 }
 
-/* Running Mode Across Screen */
-.mochi-canvas-container.running {
-  position: fixed !important;
-  bottom: 0 !important;
-  right: auto !important;
-  pointer-events: none;
-  z-index: 10000;
-  transition: none !important;
-  filter: drop-shadow(0 12px 28px rgba(244, 114, 182, 0.45));
-}
-
-.mochi-run-heart {
-  position: fixed;
-  pointer-events: none;
-  font-size: 1.55rem;
-  z-index: 9999;
-  animation: run-heart-float 1.25s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-  filter: drop-shadow(0 2px 8px rgba(244, 63, 94, 0.45));
-}
-
-@keyframes run-heart-float {
-  0% {
-    opacity: 1;
-    transform: translate(0, 0) scale(0.6) rotate(0deg);
-  }
-  50% {
-    opacity: 0.95;
-    transform: translate(var(--dx), var(--dy)) scale(1.25) rotate(var(--rot));
-  }
-  100% {
-    opacity: 0;
-    transform: translate(calc(var(--dx) * 1.35), calc(var(--dy) - 35px)) scale(1.5) rotate(calc(var(--rot) * 1.5));
-  }
-}

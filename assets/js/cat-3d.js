@@ -1,17 +1,21 @@
 /**
  * Second Brain - Mimi the 3D Cyber Familiar & Chief Architecture Officer
- * High-Performance, Flicker-Free Pixar/Anime Mascot Model
+ * Cute Peeking & Hiding Desk Companion
  * Powered by Three.js & Web Audio API
  * 
- * Key Features:
- * - 100% Flicker-Free & Rock-Solid WebGL Rendering (zero Z-fighting, clean standard materials, no transmission bugs).
- * - Big, Soulful, Living Eyes with multi-sparkle catchlights, deep colorful iris, pupil dilation, and responsive gaze tracking.
- * - Adorable, highly-appealing 3D cat character (chubby body, soft chest bib, paws with pink toe beans, 8-segment articulated tail, collar & bell).
- * - Natural feline biomechanics: organic chest breathing, fluid sinuous tail swaying, independent ear twitches, slow blinks.
- * - Interactive Animations:
- *   - "i am babu": 360-degree joyful pirouette jump with happy heart bursts.
- *   - "i love you babu": Happy cute gallop across the screen from left to right with a continuous floating heart trail.
- * - Witty tech personality, chin scratches, roasts, and client-side synthesized meow/purr/chirp audio.
+ * Design:
+ * - Peeking & Hiding: Mimi peeks cutely from the bottom edge of the screen with her paws
+ *   resting on the ledge. When idle or reading, she gently ducks down so she never blocks
+ *   content, and perks right up when the cursor approaches or when hovered/clicked!
+ * - Super Cute Kawaii Face: Big, soulful, living eyes with triple sparkle catchlights,
+ *   chubby cheeks, soft whisker pads, button nose, rosy blush, and pink inner ears.
+ * - Simple Curvy Continuous Long Tail: An elegant, smooth S-curved long tail that arches
+ *   up beside her head and swishes with organic fluid motion.
+ * - 100% Flicker-Free & Rock-Solid WebGL rendering.
+ * - Interactive:
+ *   - Typing "i am babu": 360-degree joyful pirouette jump with heart particles!
+ *   - Typing "i love you babu": Loving affectionate bounce, purrs, and floating hearts (no screen-blocking runs).
+ *   - Chin scratch, coffee, roasts, wisdom, laser mode.
  */
 
 (function () {
@@ -76,11 +80,11 @@
     const chatInput = document.getElementById('mochi-user-input');
 
     // 2. Three.js Scene & Clean Camera Setup
-    const width = 175;
-    const height = 210;
+    const width = 145;
+    const height = 155;
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(36, width / height, 0.1, 100);
-    camera.position.set(0, 0.22, 6.2);
+    const camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 100);
+    camera.position.set(0, 0.40, 5.2);
 
     let renderer;
     try {
@@ -98,35 +102,35 @@
     renderer.setClearColor(0x000000, 0);
     canvasContainer.appendChild(renderer.domElement);
 
-    // 3. Crisp Pixar Studio 3-Point Lighting (No Tone-Mapping Artifacts)
+    // 3. Studio Lighting (Warm, Crisp, Non-Flickering)
     const keyLight = new THREE.DirectionalLight(0xfff7ed, 1.4);
-    keyLight.position.set(3.0, 4.5, 3.5);
+    keyLight.position.set(2.8, 4.2, 3.5);
     scene.add(keyLight);
 
     const fillLight = new THREE.DirectionalLight(0xdbeafe, 0.85);
-    fillLight.position.set(-3.0, 2.0, 2.5);
+    fillLight.position.set(-2.8, 2.0, 2.2);
     scene.add(fillLight);
 
-    const rimLight = new THREE.PointLight(0xa78bfa, 1.8, 14);
-    rimLight.position.set(0, 3.0, -3.5);
+    const rimLight = new THREE.PointLight(0xa78bfa, 1.8, 12);
+    rimLight.position.set(0, 2.5, -3.0);
     scene.add(rimLight);
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.75);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
     scene.add(ambientLight);
 
-    // 4. Clean, Solid, Non-Flickering Materials Palette
+    // 4. Materials Palette
     function getMaterials() {
       const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
 
       return {
         coatMain: new THREE.MeshStandardMaterial({
           color: isDark ? 0x221f3d : 0xfcf8f2,
-          roughness: 0.55,
+          roughness: 0.52,
           metalness: 0.04
         }),
         coatCream: new THREE.MeshStandardMaterial({
           color: isDark ? 0x312b55 : 0xffffff,
-          roughness: 0.6,
+          roughness: 0.58,
           metalness: 0.0
         }),
         innerEar: new THREE.MeshStandardMaterial({
@@ -157,7 +161,7 @@
         }),
         eyelid: new THREE.MeshStandardMaterial({
           color: isDark ? 0x221f3d : 0xfcf8f2,
-          roughness: 0.55
+          roughness: 0.52
         }),
         blush: new THREE.MeshBasicMaterial({
           color: 0xff4d8d,
@@ -177,177 +181,40 @@
         pawPad: new THREE.MeshStandardMaterial({
           color: 0xf472b6,
           roughness: 0.4
-        }),
-        shadow: new THREE.MeshBasicMaterial({
-          color: 0x000000,
-          transparent: true,
-          opacity: 0.22
         })
       };
     }
 
     let mats = getMaterials();
 
-    // 5. Model Root & Ground Shadow
+    // 5. Cute Peeking Cat Hierarchy
     const catGroup = new THREE.Group();
     scene.add(catGroup);
-    catGroup.position.set(0, -0.15, 0);
-
-    // Soft Ambient Contact Shadow Under Paws
-    const shadowGeo = new THREE.CircleGeometry(0.85, 24);
-    shadowGeo.rotateX(-Math.PI / 2);
-    const shadowMesh = new THREE.Mesh(shadowGeo, mats.shadow);
-    shadowMesh.position.set(0, -1.44, 0);
-    catGroup.add(shadowMesh);
-
-    // --- Body / Torso Group ---
-    const bodyGroup = new THREE.Group();
-    bodyGroup.position.set(0, -0.72, 0);
-    catGroup.add(bodyGroup);
-
-    // Chubby Pear-Shaped Torso
-    const torsoGeo = new THREE.SphereGeometry(0.78, 32, 32);
-    torsoGeo.scale(0.88, 1.14, 0.86);
-    const torsoMesh = new THREE.Mesh(torsoGeo, mats.coatMain);
-    bodyGroup.add(torsoMesh);
-
-    // Soft Cream Chest Bib & Belly
-    const bibGeo = new THREE.SphereGeometry(0.58, 24, 24);
-    bibGeo.scale(0.72, 0.95, 0.4);
-    const bibMesh = new THREE.Mesh(bibGeo, mats.coatCream);
-    bibMesh.position.set(0, -0.02, 0.42);
-    bodyGroup.add(bibMesh);
-
-    // --- Limbs & Digitigrade Paws ---
-    // Sitting Rear Haunches
-    const haunchGeo = new THREE.SphereGeometry(0.38, 20, 20);
-    haunchGeo.scale(0.72, 1.05, 0.95);
-
-    const leftHaunch = new THREE.Mesh(haunchGeo, mats.coatMain);
-    leftHaunch.position.set(-0.52, -0.28, -0.12);
-    leftHaunch.rotation.set(0.12, 0.24, -0.16);
-    bodyGroup.add(leftHaunch);
-
-    const rightHaunch = new THREE.Mesh(haunchGeo, mats.coatMain);
-    rightHaunch.position.set(0.52, -0.28, -0.12);
-    rightHaunch.rotation.set(0.12, -0.24, 0.16);
-    bodyGroup.add(rightHaunch);
-
-    // Helper to build cute paws with pink toe beans
-    function buildPaw(isFront) {
-      const g = new THREE.Group();
-      const pawGeo = new THREE.SphereGeometry(isFront ? 0.18 : 0.20, 18, 18);
-      pawGeo.scale(1.15, 0.65, 1.35);
-      const pawMesh = new THREE.Mesh(pawGeo, mats.coatCream);
-      g.add(pawMesh);
-
-      // Pink Toe Beans
-      const beanGeo = new THREE.SphereGeometry(0.042, 10, 10);
-      beanGeo.scale(1, 0.5, 1);
-      for (let b = -1; b <= 1; b++) {
-        const bean = new THREE.Mesh(beanGeo, mats.pawPad);
-        bean.position.set(b * 0.065, 0.06, 0.16);
-        g.add(bean);
-      }
-      return g;
-    }
-
-    // Hind Paws (Peeking forward on sides)
-    const leftHindPaw = buildPaw(false);
-    leftHindPaw.position.set(-0.52, -0.66, 0.22);
-    leftHindPaw.rotation.y = 0.18;
-    bodyGroup.add(leftHindPaw);
-
-    const rightHindPaw = buildPaw(false);
-    rightHindPaw.position.set(0.52, -0.66, 0.22);
-    rightHindPaw.rotation.y = -0.18;
-    bodyGroup.add(rightHindPaw);
-
-    // Forelegs & Front Paws
-    const forelegGeo = new THREE.CylinderGeometry(0.11, 0.13, 0.48, 16);
-
-    const leftForeleg = new THREE.Mesh(forelegGeo, mats.coatMain);
-    leftForeleg.position.set(-0.24, -0.42, 0.32);
-    leftForeleg.rotation.x = 0.08;
-    bodyGroup.add(leftForeleg);
-
-    const rightForeleg = new THREE.Mesh(forelegGeo, mats.coatMain);
-    rightForeleg.position.set(0.24, -0.42, 0.32);
-    rightForeleg.rotation.x = 0.08;
-    bodyGroup.add(rightForeleg);
-
-    const leftForePaw = buildPaw(true);
-    leftForePaw.position.set(-0.24, -0.66, 0.46);
-    bodyGroup.add(leftForePaw);
-
-    const rightForePaw = buildPaw(true);
-    rightForePaw.position.set(0.24, -0.66, 0.46);
-    bodyGroup.add(rightForePaw);
-
-    // --- 8-Segment Articulated Caudal Tail (Organic Fluid Waves) ---
-    const tailBase = new THREE.Group();
-    tailBase.position.set(0, -0.32, -0.52);
-    bodyGroup.add(tailBase);
-
-    const tailSegments = [];
-    let prevTailNode = tailBase;
-    for (let i = 0; i < 8; i++) {
-      const node = new THREE.Group();
-      node.position.set(0, i === 0 ? 0 : 0.17, i === 0 ? 0 : -0.12);
-      prevTailNode.add(node);
-
-      const rad = 0.10 * (1 - (i / 8) * 0.42);
-      const segGeo = new THREE.CylinderGeometry(rad * 0.88, rad, 0.19, 14);
-      segGeo.rotateX(Math.PI / 4.2);
-      const segMesh = new THREE.Mesh(segGeo, mats.coatMain);
-      node.add(segMesh);
-
-      tailSegments.push(node);
-      prevTailNode = node;
-    }
-
-    // Fluffy Tail Tip
-    const tipGeo = new THREE.SphereGeometry(0.088, 14, 14);
-    const tipMesh = new THREE.Mesh(tipGeo, mats.coatMain);
-    tipMesh.position.set(0, 0.13, -0.09);
-    prevTailNode.add(tipMesh);
-
-    // --- Collar & Golden Bell ---
-    const collarGeo = new THREE.TorusGeometry(0.66, 0.068, 14, 32);
-    collarGeo.rotateX(Math.PI / 2);
-    const collarMesh = new THREE.Mesh(collarGeo, mats.collar);
-    collarMesh.position.set(0, 0.50, 0.04);
-    bodyGroup.add(collarMesh);
-
-    const bellGeo = new THREE.SphereGeometry(0.11, 16, 16);
-    const bellMesh = new THREE.Mesh(bellGeo, mats.bell);
-    bellMesh.position.set(0, 0.38, 0.74);
-    bodyGroup.add(bellMesh);
+    catGroup.position.set(0, -0.65, 0); // Normal peeking baseline
 
     // --- Head Group ---
     const headGroup = new THREE.Group();
-    headGroup.position.set(0, 0.46, 0);
     catGroup.add(headGroup);
 
-    // Rounded Plush Chibi Head
-    const headGeo = new THREE.SphereGeometry(0.98, 32, 32);
+    // Chubby Cute Round Head
+    const headGeo = new THREE.SphereGeometry(1.0, 32, 32);
     headGeo.scale(1.18, 1.0, 1.08);
     const headMesh = new THREE.Mesh(headGeo, mats.coatMain);
     headGroup.add(headMesh);
 
-    // Dual Whisker Pads (Muzzle)
-    const whiskerPadGeo = new THREE.SphereGeometry(0.30, 22, 22);
-    whiskerPadGeo.scale(1.2, 0.82, 0.88);
+    // Puffy Whisker Pads (Cheeks)
+    const whiskerPadGeo = new THREE.SphereGeometry(0.32, 22, 22);
+    whiskerPadGeo.scale(1.22, 0.82, 0.88);
 
     const leftWhiskerPad = new THREE.Mesh(whiskerPadGeo, mats.coatCream);
-    leftWhiskerPad.position.set(-0.22, -0.20, 0.86);
+    leftWhiskerPad.position.set(-0.24, -0.20, 0.86);
     headGroup.add(leftWhiskerPad);
 
     const rightWhiskerPad = new THREE.Mesh(whiskerPadGeo, mats.coatCream);
-    rightWhiskerPad.position.set(0.22, -0.20, 0.86);
+    rightWhiskerPad.position.set(0.24, -0.20, 0.86);
     headGroup.add(rightWhiskerPad);
 
-    // Chin
+    // Little Chin
     const chinGeo = new THREE.SphereGeometry(0.18, 16, 16);
     chinGeo.scale(1.1, 0.8, 0.88);
     const chinMesh = new THREE.Mesh(chinGeo, mats.coatCream);
@@ -355,14 +222,14 @@
     headGroup.add(chinMesh);
 
     // Cute Button Nose
-    const noseGeo = new THREE.SphereGeometry(0.085, 16, 16);
+    const noseGeo = new THREE.SphereGeometry(0.088, 16, 16);
     noseGeo.scale(1.22, 0.82, 0.85);
     const noseMesh = new THREE.Mesh(noseGeo, mats.nose);
-    noseMesh.position.set(0, -0.11, 1.14);
+    noseMesh.position.set(0, -0.11, 1.15);
     headGroup.add(noseMesh);
 
-    // Soft White Whiskers
-    const whiskerMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.75 });
+    // Fine White Whiskers
+    const whiskerMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.8 });
     function createWhiskers(side) {
       const g = new THREE.Group();
       const angles = [-0.18, 0, 0.16];
@@ -370,7 +237,7 @@
         const pts = [
           new THREE.Vector3(0, 0, 0),
           new THREE.Vector3(side * 0.42, ang * 0.4, 0.12),
-          new THREE.Vector3(side * 0.90, ang * 0.8 - 0.08, 0.16)
+          new THREE.Vector3(side * 0.92, ang * 0.8 - 0.08, 0.16)
         ];
         const curve = new THREE.CatmullRomCurve3(pts);
         const geo = new THREE.BufferGeometry().setFromPoints(curve.getPoints(10));
@@ -382,21 +249,21 @@
     headGroup.add(createWhiskers(-1));
     headGroup.add(createWhiskers(1));
 
-    // Pointy Feline Ears
+    // Pointy Kawaii Ears
     function buildEar(side) {
       const g = new THREE.Group();
-      const earGeo = new THREE.ConeGeometry(0.38, 0.74, 18);
+      const earGeo = new THREE.ConeGeometry(0.40, 0.76, 18);
       const earMesh = new THREE.Mesh(earGeo, mats.coatMain);
       earMesh.rotation.set(-0.14, 0, side * 0.36);
       g.add(earMesh);
 
-      const innerGeo = new THREE.ConeGeometry(0.25, 0.56, 18);
+      const innerGeo = new THREE.ConeGeometry(0.26, 0.58, 18);
       const innerMesh = new THREE.Mesh(innerGeo, mats.innerEar);
       innerMesh.position.set(side * 0.02, -0.02, 0.07);
       innerMesh.rotation.set(-0.14, 0, side * 0.36);
       g.add(innerMesh);
 
-      g.position.set(side * 0.66, 0.88, 0.08);
+      g.position.set(side * 0.68, 0.88, 0.08);
       return g;
     }
 
@@ -406,21 +273,21 @@
     const rightEar = buildEar(1);
     headGroup.add(rightEar);
 
-    // Rosy Blush Cheeks
+    // Rosy Pink Blush Cheeks
     const blushGeo = new THREE.SphereGeometry(0.22, 16, 16);
     blushGeo.scale(1.2, 0.6, 0.2);
 
     const leftBlush = new THREE.Mesh(blushGeo, mats.blush);
-    leftBlush.position.set(-0.62, -0.14, 0.82);
+    leftBlush.position.set(-0.64, -0.14, 0.82);
     leftBlush.rotation.set(0.1, -0.3, -0.1);
     headGroup.add(leftBlush);
 
     const rightBlush = new THREE.Mesh(blushGeo, mats.blush);
-    rightBlush.position.set(0.62, -0.14, 0.82);
+    rightBlush.position.set(0.64, -0.14, 0.82);
     rightBlush.rotation.set(0.1, 0.3, 0.1);
     headGroup.add(rightBlush);
 
-    // 6. Big, Expressive, Living Pixar Character Eyes (100% Flicker-Free)
+    // 6. Big, Soulful, Living Character Eyes (Flicker-Free Layering)
     const eyeRig = {
       leftEyeGroup: new THREE.Group(),
       rightEyeGroup: new THREE.Group(),
@@ -438,34 +305,34 @@
       g.position.set(side * 0.44, 0.08, 0.94);
       g.rotation.y = side * -0.18;
 
-      // 1. Sclera (Clean Eyeball Dome)
+      // Sclera
       const scleraGeo = new THREE.SphereGeometry(0.27, 24, 24);
       scleraGeo.scale(1.05, 1.25, 0.52);
       const scleraMesh = new THREE.Mesh(scleraGeo, mats.sclera);
       g.add(scleraMesh);
 
-      // 2. Limbal Ring (Dark Outer Border)
+      // Limbal Ring
       const limbalGeo = new THREE.SphereGeometry(0.22, 22, 22);
       limbalGeo.scale(1.02, 1.18, 0.35);
       const limbalMesh = new THREE.Mesh(limbalGeo, mats.limbalRing);
       limbalMesh.position.set(0, 0, 0.09);
       g.add(limbalMesh);
 
-      // 3. Vibrant Colored Iris Dome
+      // Vibrant Iris
       const irisGeo = new THREE.SphereGeometry(0.20, 22, 22);
       irisGeo.scale(1.0, 1.15, 0.35);
       const irisMesh = new THREE.Mesh(irisGeo, mats.iris);
       irisMesh.position.set(0, 0, 0.11);
       g.add(irisMesh);
 
-      // 4. Deep Glossy Pupil
+      // Pupil
       const pupilGeo = new THREE.SphereGeometry(0.135, 18, 18);
       pupilGeo.scale(0.95, 1.15, 0.28);
       const pupilMesh = new THREE.Mesh(pupilGeo, mats.pupil);
       pupilMesh.position.set(0, 0, 0.15);
       g.add(pupilMesh);
 
-      // 5. Triple Catchlight Glints (Living Anime / Pixar Soul)
+      // Triple Sparkle Catchlights
       const star1Geo = new THREE.SphereGeometry(0.055, 12, 12);
       const star1 = new THREE.Mesh(star1Geo, mats.catchlight);
       star1.position.set(-0.052, 0.072, 0.21);
@@ -481,7 +348,7 @@
       star3.position.set(-0.026, -0.065, 0.21);
       g.add(star3);
 
-      // 6. Clean Overlapping Eyelid (Radius 0.31 prevents any Z-fighting with sclera 0.27)
+      // Eyelid for gentle blinks (Zero Z-fighting)
       const lidGeo = new THREE.SphereGeometry(0.31, 24, 24, 0, Math.PI * 2, 0, Math.PI / 2);
       lidGeo.scale(1.06, 1.25, 0.54);
       const lidMesh = new THREE.Mesh(lidGeo, mats.eyelid);
@@ -506,6 +373,68 @@
     eyeRig.rightPupil = rightEyeBuilt.pupil;
     eyeRig.leftEyelid = leftEyeBuilt.eyelid;
     eyeRig.rightEyelid = rightEyeBuilt.eyelid;
+
+    // --- Paws Resting on the Bottom Screen Ledge ---
+    function buildPeekingPaw(side) {
+      const g = new THREE.Group();
+      const pawGeo = new THREE.SphereGeometry(0.24, 18, 18);
+      pawGeo.scale(1.15, 0.70, 1.40);
+      const pawMesh = new THREE.Mesh(pawGeo, mats.coatCream);
+      g.add(pawMesh);
+
+      // Pink Toe Beans
+      const beanGeo = new THREE.SphereGeometry(0.046, 10, 10);
+      beanGeo.scale(1, 0.5, 1);
+      for (let b = -1; b <= 1; b++) {
+        const bean = new THREE.Mesh(beanGeo, mats.pawPad);
+        bean.position.set(b * 0.075, 0.09, 0.22);
+        g.add(bean);
+      }
+      g.position.set(side * 0.56, -0.98, 0.82);
+      return g;
+    }
+
+    const leftPaw = buildPeekingPaw(-1);
+    catGroup.add(leftPaw);
+
+    const rightPaw = buildPeekingPaw(1);
+    catGroup.add(rightPaw);
+
+    // Collar & Golden Jingle Bell Resting on Ledge
+    const collarGeo = new THREE.TorusGeometry(0.85, 0.08, 14, 32);
+    collarGeo.rotateX(Math.PI / 2);
+    const collarMesh = new THREE.Mesh(collarGeo, mats.collar);
+    collarMesh.position.set(0, -0.86, 0.05);
+    catGroup.add(collarMesh);
+
+    const bellGeo = new THREE.SphereGeometry(0.125, 16, 16);
+    const bellMesh = new THREE.Mesh(bellGeo, mats.bell);
+    bellMesh.position.set(0, -0.92, 0.94);
+    catGroup.add(bellMesh);
+
+    // --- Simple Curvy Continuous Long Tail ---
+    // Smooth S-curved long tail that arches gracefully beside Mimi's head
+    const tailGroup = new THREE.Group();
+    tailGroup.position.set(0.50, -0.85, -0.22);
+    catGroup.add(tailGroup);
+
+    const tailCurvePoints = [
+      new THREE.Vector3(0, 0, 0),
+      new THREE.Vector3(0.35, 0.38, -0.15),
+      new THREE.Vector3(0.58, 0.92, 0.05),
+      new THREE.Vector3(0.44, 1.48, 0.18),
+      new THREE.Vector3(0.22, 1.76, 0.22)
+    ];
+    const tailCurve = new THREE.CatmullRomCurve3(tailCurvePoints);
+    const tailGeo = new THREE.TubeGeometry(tailCurve, 32, 0.092, 14, false);
+    const tailMesh = new THREE.Mesh(tailGeo, mats.coatMain);
+    tailGroup.add(tailMesh);
+
+    // Soft Round Tail Tip
+    const tailTipGeo = new THREE.SphereGeometry(0.092, 14, 14);
+    const tailTipMesh = new THREE.Mesh(tailTipGeo, mats.coatMain);
+    tailTipMesh.position.copy(tailCurvePoints[tailCurvePoints.length - 1]);
+    tailGroup.add(tailTipMesh);
 
     // 7. Procedural Web Audio Synthesizer
     function playCatSound(type) {
@@ -597,7 +526,7 @@
       } catch (e) {}
     }
 
-    // 8. Expressive Eye Control (Squinting Removed - Big, Glossy, Living)
+    // 8. Expressive Eye Control (Big, Glossy, Non-Squinting)
     function setExpression(expr) {
       eyeRig.expression = expr;
 
@@ -632,7 +561,7 @@
       bounceCat();
 
       setTimeout(() => {
-        if (eyeRig.expression === expr && !isSpinningHappy && !isRunningAcrossScreen) {
+        if (eyeRig.expression === expr && !isSpinningHappy) {
           setExpression('normal');
           mats.blush.opacity = 0;
         }
@@ -640,9 +569,9 @@
     }
 
     function bounceCat() {
-      if (isSpinningHappy || isRunningAcrossScreen) return;
-      catGroup.position.y = 0.05;
-      setTimeout(() => { catGroup.position.y = -0.15; }, 220);
+      if (isSpinningHappy) return;
+      catGroup.position.y = -0.42;
+      setTimeout(() => { catGroup.position.y = currentTargetY; }, 240);
     }
 
     function spawnParticles(symbol = '💖') {
@@ -651,22 +580,22 @@
         const p = document.createElement('div');
         p.className = 'mochi-float-particle';
         p.textContent = symbol;
-        p.style.left = `${rect.left + 85 + (Math.random() - 0.5) * 60}px`;
-        p.style.top = `${rect.top + 35}px`;
-        p.style.setProperty('--dx', `${(Math.random() - 0.5) * 90}px`);
-        p.style.setProperty('--dy', `${-65 - Math.random() * 65}px`);
+        p.style.left = `${rect.left + 72 + (Math.random() - 0.5) * 55}px`;
+        p.style.top = `${rect.top + 25}px`;
+        p.style.setProperty('--dx', `${(Math.random() - 0.5) * 80}px`);
+        p.style.setProperty('--dy', `${-65 - Math.random() * 55}px`);
         document.body.appendChild(p);
         setTimeout(() => p.remove(), 1200);
       }
     }
 
-    // 9. Joyful 360-Degree Pirouette Jump for "i am babu"
+    // 9. Joyful 360-Degree Pirouette for "i am babu"
     let isSpinningHappy = false;
     let spinStartTime = 0;
     const SPIN_DURATION = 1350;
 
     function celebrateBabu() {
-      if (isSpinningHappy || isRunningAcrossScreen) return;
+      if (isSpinningHappy) return;
       isSpinningHappy = true;
       spinStartTime = performance.now();
 
@@ -683,44 +612,23 @@
       setTimeout(() => spawnParticles('💕'), 750);
     }
 
-    // 10. Cute Gallop Across Screen for "i love you babu"
-    let isRunningAcrossScreen = false;
-    let runStartTime = 0;
-    const RUN_DURATION = 3600;
-    let lastHeartSpawnTime = 0;
-
-    function triggerLoveRun() {
-      if (isRunningAcrossScreen || isSpinningHappy) return;
-      isRunningAcrossScreen = true;
-      runStartTime = performance.now();
-      lastHeartSpawnTime = 0;
-
-      dialogueText.innerHTML = "✨ (♡°▽°♡) <strong>WAIT... YOU LOVE ME?!</strong><br><em>*ZOOMIES ACTIVATED!!*</em> 🐾💖💨";
+    // 10. Loving Affectionate Bounce for "i love you babu"
+    function celebrateLove() {
+      dialogueText.innerHTML = "✨ <strong>I love you so, so much babu!!</strong> ( ˘ ³˘)♥<br>You are my favorite human in the whole universe! 🐾💖🌸✨";
       bubble.classList.add('visible');
 
       setExpression('happy');
       mats.blush.opacity = 0.95;
       playCatSound('happy');
+      bounceCat();
 
-      canvasContainer.classList.add('running');
-      canvasContainer.style.left = '-185px';
+      spawnParticles('💖');
+      setTimeout(() => spawnParticles('💕'), 250);
+      setTimeout(() => spawnParticles('🌸'), 500);
+      setTimeout(() => spawnParticles('✨'), 750);
     }
 
-    function spawnRunningHeart(x, y) {
-      const p = document.createElement('div');
-      p.className = 'mochi-run-heart';
-      const symbols = ['💖', '💕', '❤️', '🌸', '✨', '🥰', '🐾'];
-      p.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-      p.style.left = `${x + (Math.random() - 0.5) * 24}px`;
-      p.style.top = `${y + (Math.random() - 0.5) * 24}px`;
-      p.style.setProperty('--dx', `${-32 - Math.random() * 45}px`);
-      p.style.setProperty('--dy', `${-40 - Math.random() * 50}px`);
-      p.style.setProperty('--rot', `${(Math.random() - 0.5) * 45}deg`);
-      document.body.appendChild(p);
-      setTimeout(() => p.remove(), 1250);
-    }
-
-    // 11. Personality & Wit Repository
+    // 11. Tech Roasts & Wisdom
     const roasts = [
       "🔥 *Looking at your stack:* You've got 14 microservices and 3 daily users. A single SQLite file and a prayer would run faster.",
       "🔥 *System review:* Your architecture is 90% Jenga blocks and 10% hopeful git commits. One bad typo and it's cat food.",
@@ -794,7 +702,7 @@
           lower.includes('love u babu') ||
           (lower.includes('love') && lower.includes('babu'))
         ) {
-          triggerLoveRun();
+          celebrateLove();
           return;
         }
 
@@ -853,11 +761,24 @@
       }
     });
 
-    // 14. Living Kinematics & Tracking
+    // 14. Peeking, Hiding & Living Kinematics
     let mouseNorm = { x: 0, y: 0 };
     let targetHead = { x: 0, y: 0, z: 0 };
     let slowBlinkTimer = 0;
     let isSlowBlinking = false;
+    let lastInteractionTime = performance.now();
+    let currentTargetY = -0.65; // Normal peeking position
+
+    // Hover listeners to perk up or duck down
+    canvasContainer.addEventListener('mouseenter', () => {
+      lastInteractionTime = performance.now();
+      currentTargetY = -0.52; // Perk up with interest!
+    });
+
+    canvasContainer.addEventListener('mouseleave', () => {
+      lastInteractionTime = performance.now();
+      currentTargetY = -0.65; // Back to normal peeking
+    });
 
     window.addEventListener('mousemove', (e) => {
       const rect = canvasContainer.getBoundingClientRect();
@@ -867,14 +788,21 @@
       mouseNorm.x = (e.clientX - cx) / window.innerWidth;
       mouseNorm.y = -(e.clientY - cy) / window.innerHeight;
 
-      targetHead.y = Math.max(-0.55, Math.min(0.55, mouseNorm.x * 1.4));
-      targetHead.x = Math.max(-0.30, Math.min(0.30, -mouseNorm.y * 1.1));
+      // If user moves mouse near Mimi's corner, perk up!
+      const distFromCat = Math.hypot(e.clientX - cx, e.clientY - cy);
+      if (distFromCat < 320) {
+        lastInteractionTime = performance.now();
+        currentTargetY = -0.58;
+      }
+
+      targetHead.y = Math.max(-0.6, Math.min(0.6, mouseNorm.x * 1.5));
+      targetHead.x = Math.max(-0.35, Math.min(0.35, -mouseNorm.y * 1.2));
       targetHead.z = (mouseNorm.x * 0.18);
 
-      // Pupil Gaze Tracking (Smooth & Living)
-      if (eyeRig.expression === 'normal' && !isSpinningHappy && !isRunningAcrossScreen) {
-        const pupilX = THREE.MathUtils.clamp(mouseNorm.x * 0.05, -0.04, 0.04);
-        const pupilY = THREE.MathUtils.clamp(-mouseNorm.y * 0.05, -0.04, 0.04);
+      // Pupil gaze tracking within large expressive eyes
+      if (eyeRig.expression === 'normal' && !isSpinningHappy) {
+        const pupilX = THREE.MathUtils.clamp(mouseNorm.x * 0.06, -0.05, 0.05);
+        const pupilY = THREE.MathUtils.clamp(-mouseNorm.y * 0.06, -0.05, 0.05);
         eyeRig.leftIris.position.x = pupilX;
         eyeRig.leftIris.position.y = pupilY;
         eyeRig.leftPupil.position.x = pupilX;
@@ -884,6 +812,13 @@
         eyeRig.rightIris.position.y = pupilY;
         eyeRig.rightPupil.position.x = pupilX;
         eyeRig.rightPupil.position.y = pupilY;
+      }
+    }, { passive: true });
+
+    // When reader scrolls, hide/duck slightly so text is unobstructed
+    window.addEventListener('scroll', () => {
+      if (!bubble.classList.contains('visible')) {
+        currentTargetY = -0.96; // Duck down while reading/scrolling
       }
     }, { passive: true });
 
@@ -898,96 +833,29 @@
 
       const t = clock.getElapsedTime();
 
-      // --- STATE 1: Rotary Gallop Across Screen ("i love you babu") ---
-      if (isRunningAcrossScreen) {
-        const elapsed = performance.now() - runStartTime;
-        const progress = Math.min(1, elapsed / RUN_DURATION);
-
-        const startX = -185;
-        const endX = window.innerWidth + 70;
-        const currentX = startX + (endX - startX) * progress;
-        canvasContainer.style.left = `${currentX}px`;
-
-        // Profile posture facing run direction
-        catGroup.rotation.y = Math.PI * 0.44;
-        headGroup.rotation.y = 0.10;
-        headGroup.rotation.x = -0.04;
-
-        // Bouncy Gallop Cadence
-        const stride = t * 22;
-        const strideCycle = Math.sin(stride);
-
-        bodyGroup.position.y = -0.72 + Math.abs(strideCycle) * 0.18;
-        bodyGroup.rotation.z = strideCycle * 0.10;
-
-        // Forelegs Running Stride
-        leftForeleg.rotation.x = strideCycle * 0.65;
-        rightForeleg.rotation.x = -strideCycle * 0.65;
-        leftForePaw.position.z = 0.46 + strideCycle * 0.20;
-        rightForePaw.position.z = 0.46 - strideCycle * 0.20;
-        leftForePaw.position.y = -0.66 + Math.max(0, -strideCycle) * 0.14;
-        rightForePaw.position.y = -0.66 + Math.max(0, strideCycle) * 0.14;
-
-        // Hindlegs Running Kick
-        leftHaunch.rotation.x = 0.12 - strideCycle * 0.55;
-        rightHaunch.rotation.x = 0.12 + strideCycle * 0.55;
-        leftHindPaw.position.z = 0.22 - strideCycle * 0.20;
-        rightHindPaw.position.z = 0.22 + strideCycle * 0.20;
-        leftHindPaw.position.y = -0.66 + Math.max(0, strideCycle) * 0.14;
-        rightHindPaw.position.y = -0.66 + Math.max(0, -strideCycle) * 0.14;
-
-        // Tail Aerodynamic Streaming
-        tailSegments.forEach((seg, idx) => {
-          seg.rotation.x = 0.12 + Math.sin(t * 18 - idx * 0.3) * 0.08;
-          seg.rotation.y = -0.15 + Math.cos(t * 18 - idx * 0.25) * 0.12;
-        });
-
-        // Ears pinned back in the wind
-        leftEar.rotation.x = -0.32;
-        rightEar.rotation.x = -0.32;
-
-        // Stream of floating hearts trailing behind
-        const now = performance.now();
-        if (now - lastHeartSpawnTime > 110) {
-          lastHeartSpawnTime = now;
-          spawnRunningHeart(currentX + 35, window.innerHeight - 85);
+      // Check reading idle: if no interaction for > 5s and bubble closed, duck down to hide
+      const now = performance.now();
+      if (!bubble.classList.contains('visible') && !isSpinningHappy) {
+        if (now - lastInteractionTime > 5000) {
+          currentTargetY = -0.94; // Duck down below ledge
+        } else {
+          currentTargetY = -0.65; // Normal peek
         }
+      } else if (bubble.classList.contains('visible')) {
+        currentTargetY = -0.55; // Perked up while speaking
+      }
 
-        if (progress >= 1) {
-          isRunningAcrossScreen = false;
-          canvasContainer.classList.remove('running');
-          canvasContainer.style.left = '';
+      // Smooth vertical peeking / hiding interpolation
+      if (!isSpinningHappy) {
+        catGroup.position.y = THREE.MathUtils.lerp(
+          catGroup.position.y,
+          currentTargetY + Math.sin(t * 2.2) * 0.035,
+          0.06
+        );
+      }
 
-          // Reset Anatomy
-          catGroup.rotation.y = 0;
-          catGroup.position.y = -0.15;
-          bodyGroup.position.set(0, -0.72, 0);
-          bodyGroup.rotation.set(0, 0, 0);
-          headGroup.rotation.set(0, 0, 0);
-          leftForeleg.rotation.x = 0.08;
-          rightForeleg.rotation.x = 0.08;
-          leftForePaw.position.set(-0.24, -0.66, 0.46);
-          rightForePaw.position.set(0.24, -0.66, 0.46);
-          leftHaunch.rotation.set(0.12, 0.24, -0.16);
-          rightHaunch.rotation.set(0.12, -0.24, 0.16);
-          leftHindPaw.position.set(-0.52, -0.66, 0.22);
-          rightHindPaw.position.set(0.52, -0.66, 0.22);
-          leftEar.rotation.x = 0;
-          rightEar.rotation.x = 0;
-
-          playCatSound('purr');
-          dialogueText.innerHTML = "✨ <strong>I love you so, so much babu!!</strong> ( ˘ ³˘)♥<br>My heart just sprinted across the whole screen for you! 🐾💖🌸✨";
-          spawnParticles('💖');
-          setTimeout(() => spawnParticles('✨'), 250);
-
-          setTimeout(() => {
-            mats.blush.opacity = 0;
-            setExpression('normal');
-          }, 5000);
-        }
-
-      // --- STATE 2: Joyful Pirouette Jump ("i am babu") ---
-      } else if (isSpinningHappy) {
+      // Check if 360-Degree Pirouette is active ("i am babu")
+      if (isSpinningHappy) {
         const elapsed = performance.now() - spinStartTime;
         const progress = Math.min(1, elapsed / SPIN_DURATION);
 
@@ -996,17 +864,16 @@
           : 1 - Math.pow(-2 * progress + 2, 3) / 2;
 
         catGroup.rotation.y = ease * Math.PI * 2;
-        catGroup.position.y = -0.15 + Math.sin(progress * Math.PI) * 0.44;
+        catGroup.position.y = -0.42 + Math.sin(progress * Math.PI) * 0.52;
 
-        tailSegments.forEach((seg, idx) => {
-          seg.rotation.y = Math.sin(t * 16 - idx * 0.45) * 0.28;
-          seg.rotation.x = Math.cos(t * 16 - idx * 0.35) * 0.16;
-        });
+        // Tail counter-whip
+        tailGroup.rotation.z = Math.sin(t * 16) * 0.35;
+        tailGroup.rotation.y = Math.cos(t * 16) * 0.45;
 
         if (progress >= 1) {
           isSpinningHappy = false;
           catGroup.rotation.y = 0;
-          catGroup.position.y = -0.15;
+          catGroup.position.y = currentTargetY;
           playCatSound('purr');
           setTimeout(() => {
             mats.blush.opacity = 0;
@@ -1014,41 +881,23 @@
           }, 4500);
         }
 
-      // --- STATE 3: Natural Living Feline Idle Behavior ---
       } else {
-        // 1. Organic Breathing Bob
-        const breath = Math.sin(t * 2.4);
-        torsoMesh.scale.x = 0.88 + breath * 0.025;
-        torsoMesh.scale.z = 0.86 + breath * 0.02;
-        bodyGroup.position.y = -0.72 + breath * 0.015;
+        // Idle living animations
+        headGroup.rotation.y = THREE.MathUtils.lerp(headGroup.rotation.y, targetHead.y * 0.7, 0.09);
+        headGroup.rotation.x = THREE.MathUtils.lerp(headGroup.rotation.x, targetHead.x * 0.7, 0.09);
+        headGroup.rotation.z = THREE.MathUtils.lerp(headGroup.rotation.z, targetHead.z * 0.7, 0.09);
 
-        // 2. Smooth Head & Eye Gaze Parallax
-        headGroup.rotation.y = THREE.MathUtils.lerp(headGroup.rotation.y, targetHead.y * 0.65, 0.08);
-        headGroup.rotation.x = THREE.MathUtils.lerp(headGroup.rotation.x, targetHead.x * 0.65, 0.08);
-        headGroup.rotation.z = THREE.MathUtils.lerp(headGroup.rotation.z, targetHead.z * 0.65, 0.08);
+        // Simple Curvy Continuous Long Tail - Organic Swish & Flick
+        tailGroup.rotation.z = Math.sin(t * 2.6) * 0.15 + (Math.sin(t * 8.5) > 0.86 ? 0.22 : 0);
+        tailGroup.rotation.y = Math.cos(t * 2.2) * 0.20;
 
-        // 3. Sinuous Caudal Tail Wave Dynamics
-        tailSegments.forEach((seg, idx) => {
-          const wave = Math.sin(t * 2.2 - idx * 0.38);
-          seg.rotation.y = wave * 0.16;
-          seg.rotation.x = Math.cos(t * 1.6 - idx * 0.28) * 0.06;
+        // Ear twitches
+        leftEar.rotation.z = 0.36 + Math.sin(t * 3.4) * 0.04 + (Math.sin(t * 13) > 0.88 ? 0.12 : 0);
+        rightEar.rotation.z = -0.36 - Math.cos(t * 3.1) * 0.04 - (Math.sin(t * 10) > 0.90 ? 0.12 : 0);
 
-          // Tip Twitch
-          if (idx >= 5) {
-            const twitch = Math.sin(t * 7.5);
-            if (twitch > 0.86) {
-              seg.rotation.y += (twitch - 0.86) * 0.45;
-            }
-          }
-        });
-
-        // 4. Ear Twitches
-        leftEar.rotation.y = Math.sin(t * 2.8) * 0.05 + (Math.sin(t * 12) > 0.88 ? 0.12 : 0);
-        rightEar.rotation.y = -Math.cos(t * 2.4) * 0.05 - (Math.sin(t * 9.5) > 0.90 ? 0.12 : 0);
-
-        // 5. Authentic Feline Slow Blinks
+        // Gentle authentic feline slow blinks
         slowBlinkTimer += 0.016;
-        if (slowBlinkTimer > 5.0 && !isSlowBlinking) {
+        if (slowBlinkTimer > 4.8 && !isSlowBlinking) {
           isSlowBlinking = true;
           eyeRig.leftEyelid.rotation.x = 0;
           eyeRig.rightEyelid.rotation.x = 0;
@@ -1057,31 +906,31 @@
             eyeRig.rightEyelid.rotation.x = -Math.PI / 2;
             isSlowBlinking = false;
             slowBlinkTimer = Math.random() * 2.0;
-          }, 220);
+          }, 200);
         }
       }
 
       // Bell subtle jingle
-      bellMesh.position.y = 0.38 + Math.sin(t * 4.2) * 0.012;
+      bellMesh.position.y = -0.92 + Math.sin(t * 4.4) * 0.015;
 
       renderer.render(scene, camera);
     }
     animate();
 
-    // 15. Theme Change Observer (Synchronize Materials smoothly)
+    // 15. Theme change sync
     const themeObserver = new MutationObserver(() => {
       mats = getMaterials();
       headMesh.material = mats.coatMain;
-      torsoMesh.material = mats.coatMain;
-      bibMesh.material = mats.coatCream;
-      leftHaunch.material = mats.coatMain;
-      rightHaunch.material = mats.coatMain;
-      leftForeleg.material = mats.coatMain;
-      rightForeleg.material = mats.coatMain;
+      tailMesh.material = mats.coatMain;
+      tailTipMesh.material = mats.coatMain;
+      leftEar.material = mats.coatMain;
+      rightEar.material = mats.coatMain;
       leftWhiskerPad.material = mats.coatCream;
       rightWhiskerPad.material = mats.coatCream;
       chinMesh.material = mats.coatCream;
       noseMesh.material = mats.nose;
+      leftPaw.children[0].material = mats.coatCream;
+      rightPaw.children[0].material = mats.coatCream;
       eyeRig.leftIris.material = mats.iris;
       eyeRig.rightIris.material = mats.iris;
       eyeRig.leftEyelid.material = mats.eyelid;
