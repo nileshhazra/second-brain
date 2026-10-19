@@ -1,42 +1,37 @@
 /**
- * Second Brain - Mimi the 3D Cyber Familiar & Chief Architecture Officer
- * Cute Peeking & Hiding Desk Companion (Soft Natural Geometry & Theme Harmonized)
+ * Second Brain - Rory the 3D Red Panda & Chief Systems Ranger
+ * High-Performance, Cute Peeking & Hiding Desk Companion
  * Powered by Three.js & Web Audio API
  * 
- * Design Features:
- * - Theme-Harmonized Color Palette:
- *   - Light Mode: Elegant, soft warm lilac-cashmere coat (#DED2ED) matching the site's signature
- *     violet accent (#7C3AED) with crisp white bib/paws (#FFFFFF) for perfect silhouette contrast.
- *   - Dark Mode: Deep velvet night-violet (#221F3D) with bioluminescent cyan eyes (#38BDF8).
- * - Soft, Blended & Natural Geometry (Zero Sharp Needle-Edges):
- *   - Smooth rounded feline ears with dome apex tips (no artificial sharp traffic-cone points).
- *   - High-subdivision (48x48) organic cranium with soft zygomatic cheek curvature.
- *   - Wrap-around hemisphere & soft studio lighting producing velvety diffuse micro-fur shading.
- * - Simple Curvy Continuous Long Tail:
- *   - Smooth S-curved Catmull-Rom tube that arches gracefully beside her head with fluid swish physics.
+ * Character Highlights:
+ * - Iconic Red Panda Features:
+ *   - Rich warm russet/cinnabar coat (#C2410C in light mode, #9A3412 in dark mode).
+ *   - Signature white facial mask: white muzzle, curved white brow/tear tracks, and cheek patches.
+ *   - Soft rounded ears with plush white inner tufts (natural, blended, zero sharp needle-edges).
+ *   - Big, soulful, living amber-honey eyes with dual star catchlights and cursor gaze tracking.
+ *   - Dark chocolate paws with pink toe beans resting on the bottom screen ledge.
+ *   - Fluffy striped ringed tail with alternating russet and cream bands that swishes organically.
  * - Peeking & Smart Reading Hide:
- *   - Paws and golden bell resting cutely on the bottom screen ledge.
- *   - Gently ducks down below the edge when reading or scrolling so text is never blocked,
- *     and perks right up when the cursor approaches or when hovered/clicked!
- * - Living Expressive Eyes:
- *   - Big kawaii eyes with triple star sparkles, pupil dilation, responsive cursor tracking,
- *     and gentle slow blinks.
+ *   - Rory peeks from the bottom corner of the screen.
+ *   - Gently ducks down below the ledge when reading or scrolling so text is never blocked.
+ *   - Perks right up when the cursor approaches or when hovered/clicked!
  * - Interactive:
- *   - "i am babu": 360-degree joyful pirouette jump with heart bursts.
- *   - "i love you babu": Loving affectionate bounce, purrs, and floating hearts.
- *   - Witty tech roasts, system design wisdom, chin scratch, coffee, laser mode.
+ *   - "i am babu": 360-degree joyful pirouette jump with heart particles and bamboo sparkles!
+ *   - "i love you babu": Loving affectionate bounce, happy purrs, and floating hearts.
+ *   - Chips: 🌿 Give Bamboo, 🐾 Scratch Ears, ☕ Give Coffee, 🔥 Roast My Stack, 💡 Panda Wisdom, 🔴 Laser Chase.
+ * - 100% Flicker-Free standard WebGL materials with soft wrap-around hemisphere lighting.
  */
 
 (function () {
   'use strict';
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initMimiCat);
+    document.addEventListener('DOMContentLoaded', initRoryPanda);
   } else {
-    initMimiCat();
+    initRoryPanda();
   }
 
-  function initMimiCat() {
+  function initRoryPanda() {
     if (typeof THREE === 'undefined') return;
 
     // 1. Create DOM Elements
@@ -47,34 +42,35 @@
       <div id="mochi-dialogue-bubble" class="mochi-dialogue-bubble">
         <div class="mochi-dialogue-header">
           <div class="mochi-profile">
-            <span class="mochi-avatar">🐱</span>
+            <span class="mochi-avatar">🐾</span>
             <div>
-              <div class="mochi-name">Mimi</div>
-              <div class="mochi-title">Chief Architecture Officer (CAO)</div>
+              <div class="mochi-name">Rory</div>
+              <div class="mochi-title">Chief Systems Ranger (CSR)</div>
             </div>
           </div>
           <button id="mochi-close-dialogue" class="mochi-bubble-close" aria-label="Close dialog">✕</button>
         </div>
 
         <div id="mochi-dialogue-text" class="mochi-dialogue-text">
-          *purr...* Oh look, a human in Nilesh's digital garden! Are you here to read about distributed systems, or did you just come to admire my whiskers?
+          *squeak...* Oh look, a human in Nilesh's digital garden! Are you here to inspect data pipelines, or did you bring me a fresh stalk of bamboo? 🌿
         </div>
 
         <div class="mochi-interactive-chips" id="mochi-chips">
-          <button class="mochi-chip" data-action="scratch">🐾 Scratch Chin</button>
+          <button class="mochi-chip" data-action="bamboo">🌿 Give Bamboo</button>
+          <button class="mochi-chip" data-action="scratch">🐾 Scratch Ears</button>
           <button class="mochi-chip" data-action="coffee">☕ Give Coffee</button>
           <button class="mochi-chip" data-action="roast">🔥 Roast My Stack</button>
-          <button class="mochi-chip" data-action="wisdom">💡 Cat Wisdom</button>
+          <button class="mochi-chip" data-action="wisdom">💡 Panda Wisdom</button>
           <button class="mochi-chip" data-action="laser">🔴 Laser Chase</button>
         </div>
 
         <form id="mochi-chat-form" class="mochi-chat-form">
-          <input type="text" id="mochi-user-input" class="mochi-chat-input" placeholder="Ask Mimi about tech, life, or naps..." autocomplete="off">
+          <input type="text" id="mochi-user-input" class="mochi-chat-input" placeholder="Ask Rory about architecture, life, or snacks..." autocomplete="off">
           <button type="submit" class="mochi-chat-send" aria-label="Send">💬</button>
         </form>
       </div>
 
-      <div id="mochi-canvas-container" class="mochi-canvas-container" title="Click Mimi to chat or pet!">
+      <div id="mochi-canvas-container" class="mochi-canvas-container" title="Click Rory to chat or pet!">
         <div class="mochi-peek-prompt" id="mochi-peek-prompt">Psst! 🐾</div>
       </div>
     `;
@@ -111,27 +107,23 @@
     renderer.setClearColor(0x000000, 0);
     canvasContainer.appendChild(renderer.domElement);
 
-    // 3. Soft, Diffuse Studio Lighting (Eliminates Harsh/Sharp Shadow Edges)
-    // Wrap-around hemisphere light for soft velvety fur fill
-    const hemiLight = new THREE.HemisphereLight(0xffffff, 0xe2e8f0, 0.95);
+    // 3. Warm Studio Lighting (Soft & Wrap-Around)
+    const hemiLight = new THREE.HemisphereLight(0xfff7ed, 0xe2e8f0, 0.95);
     scene.add(hemiLight);
 
-    // Warm key light with softened intensity
-    const keyLight = new THREE.DirectionalLight(0xfff7ed, 1.05);
+    const keyLight = new THREE.DirectionalLight(0xfff1e0, 1.15);
     keyLight.position.set(2.8, 4.0, 3.2);
     scene.add(keyLight);
 
-    // Soft sky fill
     const fillLight = new THREE.DirectionalLight(0xdbeafe, 0.75);
     fillLight.position.set(-2.8, 1.8, 2.2);
     scene.add(fillLight);
 
-    // Subtle violet rim light harmonized with the theme accent
-    const rimLight = new THREE.PointLight(0xa78bfa, 1.4, 12);
+    const rimLight = new THREE.PointLight(0xf59e0b, 1.4, 12);
     rimLight.position.set(0, 2.5, -3.0);
     scene.add(rimLight);
 
-    // 4. Materials Palette (Theme-Harmonized & Diffuse Softness)
+    // 4. Red Panda Materials Palette
     function isDarkTheme() {
       return document.documentElement.getAttribute('data-theme') !== 'light';
     }
@@ -140,40 +132,48 @@
       const isDark = isDarkTheme();
 
       return {
-        // Main coat: In light mode, soft warm lilac-cashmere (#DED2ED) matching site violet #7C3AED
-        coatMain: new THREE.MeshStandardMaterial({
-          color: isDark ? 0x221f3d : 0xded2ed,
-          roughness: 0.65,
+        // Russet / Cinnabar Fur Coat
+        furRusset: new THREE.MeshStandardMaterial({
+          color: isDark ? 0x9a3412 : 0xc2410c,
+          roughness: 0.62,
           metalness: 0.02
         }),
-        // Cream muzzle & paws: Crisp pure white for clear, friendly contrast
-        coatCream: new THREE.MeshStandardMaterial({
-          color: isDark ? 0x352e5a : 0xffffff,
+        // Cream Tail Rings & Highlights
+        furCream: new THREE.MeshStandardMaterial({
+          color: isDark ? 0xd4a373 : 0xfef3c7,
           roughness: 0.65,
           metalness: 0.0
         }),
-        // Soft pastel pink inner ear
-        innerEar: new THREE.MeshStandardMaterial({
-          color: isDark ? 0xf472b6 : 0xf9a8d4,
-          roughness: 0.58
+        // Pure White Facial Mask (Muzzle, Brow Patches, Cheek Badges, Ear Tufts)
+        furWhite: new THREE.MeshStandardMaterial({
+          color: 0xffffff,
+          roughness: 0.65,
+          metalness: 0.0
         }),
-        // Cute strawberry button nose
+        // Dark Chocolate Brown for Paws & Muzzle Accents
+        furDark: new THREE.MeshStandardMaterial({
+          color: isDark ? 0x1f140e : 0x38220f,
+          roughness: 0.6,
+          metalness: 0.04
+        }),
+        // Cute Black Button Nose
         nose: new THREE.MeshStandardMaterial({
-          color: 0xf43f5e,
+          color: 0x18181b,
           roughness: 0.28,
-          metalness: 0.08
+          metalness: 0.1
         }),
+        // Large Soulful Eyes
         sclera: new THREE.MeshBasicMaterial({
           color: 0xffffff
         }),
-        // Living sapphire/sky blue eyes
+        // Warm Amber / Honey-Chocolate Iris
         iris: new THREE.MeshStandardMaterial({
-          color: isDark ? 0x38bdf8 : 0x0284c7,
+          color: isDark ? 0xf59e0b : 0xd97706,
           roughness: 0.25,
           metalness: 0.08
         }),
         limbalRing: new THREE.MeshBasicMaterial({
-          color: isDark ? 0x0c4a6e : 0x075985
+          color: isDark ? 0x78350f : 0x451a03
         }),
         pupil: new THREE.MeshBasicMaterial({
           color: 0x09090b
@@ -182,21 +182,21 @@
           color: 0xffffff
         }),
         eyelid: new THREE.MeshStandardMaterial({
-          color: isDark ? 0x221f3d : 0xded2ed,
-          roughness: 0.65
+          color: isDark ? 0x9a3412 : 0xc2410c,
+          roughness: 0.62
         }),
         blush: new THREE.MeshBasicMaterial({
-          color: 0xff4d8d,
+          color: 0xf43f5e,
           transparent: true,
           opacity: 0
         }),
-        // Royal violet collar matching theme accent #7C3AED
+        // Royal Violet Collar matching site accent #7C3AED
         collar: new THREE.MeshStandardMaterial({
           color: isDark ? 0x8b5cf6 : 0x7c3aed,
           roughness: 0.35,
           metalness: 0.25
         }),
-        // Golden brass bell
+        // Golden Jingle Bell
         bell: new THREE.MeshStandardMaterial({
           color: 0xfbbf24,
           roughness: 0.16,
@@ -211,49 +211,72 @@
 
     let mats = getMaterials();
 
-    // 5. Cute Peeking Cat Hierarchy
-    const catGroup = new THREE.Group();
-    scene.add(catGroup);
-    catGroup.position.set(0, -0.65, 0); // Normal peeking baseline
+    // 5. Cute Peeking Red Panda Model
+    const pandaGroup = new THREE.Group();
+    scene.add(pandaGroup);
+    pandaGroup.position.set(0, -0.65, 0); // Normal peeking baseline
 
     // --- Head Group ---
     const headGroup = new THREE.Group();
-    catGroup.add(headGroup);
+    pandaGroup.add(headGroup);
 
-    // Chubby Round Head (High 48x48 subdivision for silky smooth, non-sharp silhouette)
+    // Chubby Rounded Cranium (High subdivision for smooth silhouette)
     const headGeo = new THREE.SphereGeometry(1.0, 48, 48);
-    headGeo.scale(1.16, 1.0, 1.08);
-    const headMesh = new THREE.Mesh(headGeo, mats.coatMain);
+    headGeo.scale(1.18, 0.98, 1.05);
+    const headMesh = new THREE.Mesh(headGeo, mats.furRusset);
     headGroup.add(headMesh);
 
-    // Puffy Whisker Pads (Cheeks)
-    const whiskerPadGeo = new THREE.SphereGeometry(0.33, 28, 28);
-    whiskerPadGeo.scale(1.22, 0.82, 0.88);
+    // Pure White Muzzle (Whiskers & Mouth area)
+    const muzzleGeo = new THREE.SphereGeometry(0.34, 28, 28);
+    muzzleGeo.scale(1.22, 0.82, 0.92);
+    const muzzleMesh = new THREE.Mesh(muzzleGeo, mats.furWhite);
+    muzzleMesh.position.set(0, -0.22, 0.84);
+    headGroup.add(muzzleMesh);
 
-    const leftWhiskerPad = new THREE.Mesh(whiskerPadGeo, mats.coatCream);
-    leftWhiskerPad.position.set(-0.24, -0.20, 0.86);
-    headGroup.add(leftWhiskerPad);
-
-    const rightWhiskerPad = new THREE.Mesh(whiskerPadGeo, mats.coatCream);
-    rightWhiskerPad.position.set(0.24, -0.20, 0.86);
-    headGroup.add(rightWhiskerPad);
-
-    // Little Rounded Chin
-    const chinGeo = new THREE.SphereGeometry(0.19, 20, 20);
+    // Chin
+    const chinGeo = new THREE.SphereGeometry(0.18, 20, 20);
     chinGeo.scale(1.1, 0.8, 0.88);
-    const chinMesh = new THREE.Mesh(chinGeo, mats.coatCream);
-    chinMesh.position.set(0, -0.36, 0.78);
+    const chinMesh = new THREE.Mesh(chinGeo, mats.furWhite);
+    chinMesh.position.set(0, -0.38, 0.78);
     headGroup.add(chinMesh);
 
-    // Cute Soft Button Nose
-    const noseGeo = new THREE.SphereGeometry(0.088, 20, 20);
+    // Red Panda White Tear Tracks / Brow Badges (Signature Bandit Mask)
+    const tearGeo = new THREE.SphereGeometry(0.14, 18, 18);
+    tearGeo.scale(0.85, 1.35, 0.3);
+
+    const leftTear = new THREE.Mesh(tearGeo, mats.furWhite);
+    leftTear.position.set(-0.46, 0.32, 0.88);
+    leftTear.rotation.set(-0.15, 0.2, 0.28);
+    headGroup.add(leftTear);
+
+    const rightTear = new THREE.Mesh(tearGeo, mats.furWhite);
+    rightTear.position.set(0.46, 0.32, 0.88);
+    rightTear.rotation.set(-0.15, -0.2, -0.28);
+    headGroup.add(rightTear);
+
+    // White Cheek Fluff Badges (Lower cheeks)
+    const cheekBadgeGeo = new THREE.SphereGeometry(0.24, 20, 20);
+    cheekBadgeGeo.scale(1.1, 0.75, 0.35);
+
+    const leftCheekBadge = new THREE.Mesh(cheekBadgeGeo, mats.furWhite);
+    leftCheekBadge.position.set(-0.68, -0.22, 0.72);
+    leftCheekBadge.rotation.set(0.1, -0.35, -0.15);
+    headGroup.add(leftCheekBadge);
+
+    const rightCheekBadge = new THREE.Mesh(cheekBadgeGeo, mats.furWhite);
+    rightCheekBadge.position.set(0.68, -0.22, 0.72);
+    rightCheekBadge.rotation.set(0.1, 0.35, 0.15);
+    headGroup.add(rightCheekBadge);
+
+    // Cute Dark Button Nose
+    const noseGeo = new THREE.SphereGeometry(0.09, 20, 20);
     noseGeo.scale(1.22, 0.82, 0.85);
     const noseMesh = new THREE.Mesh(noseGeo, mats.nose);
-    noseMesh.position.set(0, -0.11, 1.15);
+    noseMesh.position.set(0, -0.12, 1.15);
     headGroup.add(noseMesh);
 
     // Fine Delicate Whiskers
-    const whiskerMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.75 });
+    const whiskerMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.8 });
     function createWhiskers(side) {
       const g = new THREE.Group();
       const angles = [-0.18, 0, 0.16];
@@ -267,64 +290,51 @@
         const geo = new THREE.BufferGeometry().setFromPoints(curve.getPoints(12));
         g.add(new THREE.Line(geo, whiskerMat));
       });
-      g.position.set(side * 0.28, -0.20, 0.94);
+      g.position.set(side * 0.28, -0.22, 0.94);
       return g;
     }
     headGroup.add(createWhiskers(-1));
     headGroup.add(createWhiskers(1));
 
-    // --- Soft, Natural, Curved Feline Ears (NO Sharp Needle Points!) ---
-    function buildSoftCurvedEar(side) {
+    // --- Rounded Red Panda Ears with Fluffy White Tufts (No Sharp Needle-Points!) ---
+    function buildRedPandaEar(side) {
       const g = new THREE.Group();
 
-      // 1. Smooth Ear Root (blends smoothly into skull without sharp seams)
-      const baseGeo = new THREE.SphereGeometry(0.32, 24, 24);
-      baseGeo.scale(1.1, 0.72, 0.85);
-      const baseMesh = new THREE.Mesh(baseGeo, mats.coatMain);
-      baseMesh.position.set(0, 0.08, 0);
-      g.add(baseMesh);
+      // Outer Russet Shell
+      const shellGeo = new THREE.SphereGeometry(0.32, 24, 24);
+      shellGeo.scale(1.0, 1.25, 0.55);
+      const shellMesh = new THREE.Mesh(shellGeo, mats.furRusset);
+      shellMesh.position.set(0, 0.22, 0);
+      g.add(shellMesh);
 
-      // 2. Smooth Tapered Concha Shell (flattened front-to-back like real ears)
-      const coneGeo = new THREE.CylinderGeometry(0.13, 0.35, 0.62, 28);
-      coneGeo.scale(1.0, 1.0, 0.65);
-      const coneMesh = new THREE.Mesh(coneGeo, mats.coatMain);
-      coneMesh.position.set(0, 0.36, 0);
-      g.add(coneMesh);
-
-      // 3. Soft Rounded Ear Apex Tip (Dome tip removes sharp geometric point)
-      const tipGeo = new THREE.SphereGeometry(0.13, 24, 24);
-      tipGeo.scale(1.0, 0.85, 0.65);
-      const tipMesh = new THREE.Mesh(tipGeo, mats.coatMain);
-      tipMesh.position.set(0, 0.66, 0);
-      g.add(tipMesh);
-
-      // 4. Soft Recessed Inner Pink Ear
-      const innerBaseGeo = new THREE.CylinderGeometry(0.08, 0.25, 0.46, 24);
-      innerBaseGeo.scale(1.0, 1.0, 0.55);
-      const innerMesh = new THREE.Mesh(innerBaseGeo, mats.innerEar);
-      innerMesh.position.set(0, 0.32, 0.08);
+      // Fluffy White Inner Tuft
+      const innerGeo = new THREE.SphereGeometry(0.24, 20, 20);
+      innerGeo.scale(1.0, 1.18, 0.5);
+      const innerMesh = new THREE.Mesh(innerGeo, mats.furWhite);
+      innerMesh.position.set(0, 0.20, 0.08);
       g.add(innerMesh);
 
-      const innerTipGeo = new THREE.SphereGeometry(0.08, 20, 20);
-      innerTipGeo.scale(1.0, 0.85, 0.55);
-      const innerTipMesh = new THREE.Mesh(innerTipGeo, mats.innerEar);
-      innerTipMesh.position.set(0, 0.54, 0.08);
-      g.add(innerTipMesh);
+      // Fluffy White Rim Accent
+      const rimGeo = new THREE.SphereGeometry(0.12, 16, 16);
+      rimGeo.scale(1.3, 0.8, 0.5);
+      const rimMesh = new THREE.Mesh(rimGeo, mats.furWhite);
+      rimMesh.position.set(0, 0.50, 0.04);
+      g.add(rimMesh);
 
-      // Organic forward tilt and gentle outward flare
-      g.position.set(side * 0.66, 0.76, 0.08);
-      g.rotation.set(-0.16, side * -0.06, side * -0.32);
+      // Sits cute and perky on top-side of skull
+      g.position.set(side * 0.68, 0.74, 0.06);
+      g.rotation.set(-0.12, side * -0.06, side * -0.32);
       return g;
     }
 
-    const leftEar = buildSoftCurvedEar(-1);
+    const leftEar = buildRedPandaEar(-1);
     headGroup.add(leftEar);
 
-    const rightEar = buildSoftCurvedEar(1);
+    const rightEar = buildRedPandaEar(1);
     headGroup.add(rightEar);
 
     // Rosy Pink Blush Cheeks
-    const blushGeo = new THREE.SphereGeometry(0.22, 20, 20);
+    const blushGeo = new THREE.SphereGeometry(0.20, 20, 20);
     blushGeo.scale(1.2, 0.6, 0.2);
 
     const leftBlush = new THREE.Mesh(blushGeo, mats.blush);
@@ -337,7 +347,7 @@
     rightBlush.rotation.set(0.1, 0.3, 0.1);
     headGroup.add(rightBlush);
 
-    // 6. Big, Soulful, Living Character Eyes (Clean Non-Flickering Layers)
+    // 6. Soulful Warm Honey-Amber Eyes (Flicker-Free Layering)
     const eyeRig = {
       leftEyeGroup: new THREE.Group(),
       rightEyeGroup: new THREE.Group(),
@@ -361,28 +371,28 @@
       const scleraMesh = new THREE.Mesh(scleraGeo, mats.sclera);
       g.add(scleraMesh);
 
-      // Limbal Ring (Frames the Iris)
+      // Dark Chocolate Limbal Ring
       const limbalGeo = new THREE.SphereGeometry(0.22, 24, 24);
       limbalGeo.scale(1.02, 1.18, 0.35);
       const limbalMesh = new THREE.Mesh(limbalGeo, mats.limbalRing);
       limbalMesh.position.set(0, 0, 0.09);
       g.add(limbalMesh);
 
-      // Vibrant Iris
+      // Warm Amber / Honey Iris
       const irisGeo = new THREE.SphereGeometry(0.20, 24, 24);
       irisGeo.scale(1.0, 1.15, 0.35);
       const irisMesh = new THREE.Mesh(irisGeo, mats.iris);
       irisMesh.position.set(0, 0, 0.11);
       g.add(irisMesh);
 
-      // Pupil
+      // Deep Pupil
       const pupilGeo = new THREE.SphereGeometry(0.135, 20, 20);
       pupilGeo.scale(0.95, 1.15, 0.28);
       const pupilMesh = new THREE.Mesh(pupilGeo, mats.pupil);
       pupilMesh.position.set(0, 0, 0.15);
       g.add(pupilMesh);
 
-      // Triple Sparkle Catchlights
+      // Dual Catchlight Sparkles
       const star1Geo = new THREE.SphereGeometry(0.055, 14, 14);
       const star1 = new THREE.Mesh(star1Geo, mats.catchlight);
       star1.position.set(-0.052, 0.072, 0.21);
@@ -393,17 +403,12 @@
       star2.position.set(0.045, -0.045, 0.21);
       g.add(star2);
 
-      const star3Geo = new THREE.SphereGeometry(0.016, 10, 10);
-      const star3 = new THREE.Mesh(star3Geo, mats.catchlight);
-      star3.position.set(-0.026, -0.065, 0.21);
-      g.add(star3);
-
-      // Eyelid for gentle blinks (Radius 0.31 eliminates Z-fighting with sclera 0.27)
+      // Eyelid for gentle blinks
       const lidGeo = new THREE.SphereGeometry(0.31, 28, 28, 0, Math.PI * 2, 0, Math.PI / 2);
       lidGeo.scale(1.06, 1.25, 0.54);
       const lidMesh = new THREE.Mesh(lidGeo, mats.eyelid);
       lidMesh.position.set(0, 0, 0.02);
-      lidMesh.rotation.x = -Math.PI / 2; // Open by default
+      lidMesh.rotation.x = -Math.PI / 2;
       g.add(lidMesh);
 
       return { group: g, iris: irisMesh, pupil: pupilMesh, eyelid: lidMesh };
@@ -424,15 +429,15 @@
     eyeRig.leftEyelid = leftEyeBuilt.eyelid;
     eyeRig.rightEyelid = rightEyeBuilt.eyelid;
 
-    // --- Soft Paws Resting on the Bottom Screen Ledge ---
-    function buildPeekingPaw(side) {
+    // --- Dark Chocolate Paws Resting on Screen Ledge ---
+    function buildPandaPaw(side) {
       const g = new THREE.Group();
       const pawGeo = new THREE.SphereGeometry(0.24, 24, 24);
       pawGeo.scale(1.15, 0.70, 1.40);
-      const pawMesh = new THREE.Mesh(pawGeo, mats.coatCream);
+      const pawMesh = new THREE.Mesh(pawGeo, mats.furDark);
       g.add(pawMesh);
 
-      // Soft Pink Toe Beans
+      // Cute Pink Toe Beans
       const beanGeo = new THREE.SphereGeometry(0.046, 12, 12);
       beanGeo.scale(1, 0.5, 1);
       for (let b = -1; b <= 1; b++) {
@@ -444,28 +449,29 @@
       return g;
     }
 
-    const leftPaw = buildPeekingPaw(-1);
-    catGroup.add(leftPaw);
+    const leftPaw = buildPandaPaw(-1);
+    pandaGroup.add(leftPaw);
 
-    const rightPaw = buildPeekingPaw(1);
-    catGroup.add(rightPaw);
+    const rightPaw = buildPandaPaw(1);
+    pandaGroup.add(rightPaw);
 
-    // Collar & Golden Jingle Bell Resting on Ledge
+    // Collar & Golden Bell Resting on Ledge
     const collarGeo = new THREE.TorusGeometry(0.85, 0.075, 16, 36);
     collarGeo.rotateX(Math.PI / 2);
     const collarMesh = new THREE.Mesh(collarGeo, mats.collar);
     collarMesh.position.set(0, -0.86, 0.05);
-    catGroup.add(collarMesh);
+    pandaGroup.add(collarMesh);
 
     const bellGeo = new THREE.SphereGeometry(0.125, 20, 20);
     const bellMesh = new THREE.Mesh(bellGeo, mats.bell);
     bellMesh.position.set(0, -0.92, 0.94);
-    catGroup.add(bellMesh);
+    pandaGroup.add(bellMesh);
 
-    // --- Simple Curvy Continuous Long Tail (Smooth S-Curve) ---
+    // --- Iconic Fluffy Striped Ringed Tail ---
+    // Alternating warm russet and cream bands on an elegant continuous S-curve
     const tailGroup = new THREE.Group();
     tailGroup.position.set(0.50, -0.85, -0.22);
-    catGroup.add(tailGroup);
+    pandaGroup.add(tailGroup);
 
     const tailCurvePoints = [
       new THREE.Vector3(0, 0, 0),
@@ -475,18 +481,32 @@
       new THREE.Vector3(0.22, 1.76, 0.22)
     ];
     const tailCurve = new THREE.CatmullRomCurve3(tailCurvePoints);
-    const tailGeo = new THREE.TubeGeometry(tailCurve, 48, 0.086, 18, false);
-    const tailMesh = new THREE.Mesh(tailGeo, mats.coatMain);
+
+    // Main Plush Tail Tube
+    const tailGeo = new THREE.TubeGeometry(tailCurve, 48, 0.115, 20, false);
+    const tailMesh = new THREE.Mesh(tailGeo, mats.furRusset);
     tailGroup.add(tailMesh);
 
-    // Soft Round Tail Tip
-    const tailTipGeo = new THREE.SphereGeometry(0.086, 20, 20);
-    const tailTipMesh = new THREE.Mesh(tailTipGeo, mats.coatMain);
+    // Distinctive Red Panda Ring Bands along the curve
+    const ringTValues = [0.22, 0.45, 0.68, 0.88];
+    ringTValues.forEach((tVal) => {
+      const pt = tailCurve.getPoint(tVal);
+      const tangent = tailCurve.getTangent(tVal);
+      const ringGeo = new THREE.CylinderGeometry(0.118, 0.118, 0.14, 18, 1, true);
+      const ringMesh = new THREE.Mesh(ringGeo, mats.furCream);
+      ringMesh.position.copy(pt);
+      ringMesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), tangent);
+      tailGroup.add(ringMesh);
+    });
+
+    // Plush Fluffy Tail Tip
+    const tailTipGeo = new THREE.SphereGeometry(0.115, 20, 20);
+    const tailTipMesh = new THREE.Mesh(tailTipGeo, mats.furCream);
     tailTipMesh.position.copy(tailCurvePoints[tailCurvePoints.length - 1]);
     tailGroup.add(tailTipMesh);
 
-    // 7. Procedural Web Audio Synthesizer
-    function playCatSound(type) {
+    // 7. Procedural Web Audio Synthesizer (Panda Squeaks, Chirps & Purrs)
+    function playPandaSound(type) {
       if (!window.AudioContext && !window.webkitAudioContext) return;
       if (window.SecondBrainAudio && window.SecondBrainAudio.isMuted()) return;
 
@@ -495,16 +515,17 @@
         const ctx = new AudioCtx();
         const t0 = ctx.currentTime;
 
-        if (type === 'happy') {
+        if (type === 'happy' || type === 'squeak') {
+          // Sweet red panda joyful chirp / whistle squeak
           const osc1 = ctx.createOscillator();
           const gain1 = ctx.createGain();
           osc1.type = 'sine';
-          osc1.frequency.setValueAtTime(640, t0);
-          osc1.frequency.exponentialRampToValueAtTime(1220, t0 + 0.12);
-          osc1.frequency.exponentialRampToValueAtTime(900, t0 + 0.28);
+          osc1.frequency.setValueAtTime(780, t0);
+          osc1.frequency.exponentialRampToValueAtTime(1380, t0 + 0.12);
+          osc1.frequency.exponentialRampToValueAtTime(980, t0 + 0.28);
 
           gain1.gain.setValueAtTime(0.01, t0);
-          gain1.gain.linearRampToValueAtTime(0.085, t0 + 0.05);
+          gain1.gain.linearRampToValueAtTime(0.08, t0 + 0.05);
           gain1.gain.exponentialRampToValueAtTime(0.001, t0 + 0.32);
 
           osc1.connect(gain1);
@@ -512,45 +533,12 @@
           osc1.start(t0);
           osc1.stop(t0 + 0.34);
 
-          const osc2 = ctx.createOscillator();
-          const gain2 = ctx.createGain();
-          osc2.type = 'triangle';
-          osc2.frequency.setValueAtTime(960, t0 + 0.12);
-          osc2.frequency.exponentialRampToValueAtTime(1450, t0 + 0.24);
-          osc2.frequency.exponentialRampToValueAtTime(1120, t0 + 0.42);
-
-          gain2.gain.setValueAtTime(0.001, t0 + 0.12);
-          gain2.gain.linearRampToValueAtTime(0.065, t0 + 0.18);
-          gain2.gain.exponentialRampToValueAtTime(0.001, t0 + 0.44);
-
-          osc2.connect(gain2);
-          gain2.connect(ctx.destination);
-          osc2.start(t0 + 0.12);
-          osc2.stop(t0 + 0.46);
-
-        } else if (type === 'meow') {
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.type = 'triangle';
-          osc.frequency.setValueAtTime(620, t0);
-          osc.frequency.exponentialRampToValueAtTime(950, t0 + 0.14);
-          osc.frequency.exponentialRampToValueAtTime(480, t0 + 0.42);
-
-          gain.gain.setValueAtTime(0.01, t0);
-          gain.gain.linearRampToValueAtTime(0.08, t0 + 0.08);
-          gain.gain.exponentialRampToValueAtTime(0.001, t0 + 0.44);
-
-          osc.connect(gain);
-          gain.connect(ctx.destination);
-          osc.start();
-          osc.stop(t0 + 0.46);
-
         } else if (type === 'purr') {
           for (let i = 0; i < 5; i++) {
             const osc = ctx.createOscillator();
             const gain = ctx.createGain();
             osc.type = 'sawtooth';
-            osc.frequency.setValueAtTime(42, t0 + i * 0.11);
+            osc.frequency.setValueAtTime(46, t0 + i * 0.11);
             gain.gain.setValueAtTime(0.024, t0 + i * 0.11);
             gain.gain.exponentialRampToValueAtTime(0.001, t0 + i * 0.11 + 0.09);
             osc.connect(gain);
@@ -558,6 +546,24 @@
             osc.start(t0 + i * 0.11);
             osc.stop(t0 + i * 0.11 + 0.1);
           }
+
+        } else if (type === 'bamboo') {
+          // Playful crunchy nibble pop
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(520, t0);
+          osc.frequency.exponentialRampToValueAtTime(840, t0 + 0.06);
+          osc.frequency.exponentialRampToValueAtTime(320, t0 + 0.16);
+
+          gain.gain.setValueAtTime(0.01, t0);
+          gain.gain.linearRampToValueAtTime(0.07, t0 + 0.04);
+          gain.gain.exponentialRampToValueAtTime(0.001, t0 + 0.18);
+
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(t0);
+          osc.stop(t0 + 0.20);
 
         } else if (type === 'laser') {
           const osc = ctx.createOscillator();
@@ -575,7 +581,7 @@
       } catch (e) {}
     }
 
-    // 8. Expressive Eye Control (Big, Glossy, Non-Squinting)
+    // 8. Expressive Eye Control (Big, Warm, Non-Squinting)
     function setExpression(expr) {
       eyeRig.expression = expr;
 
@@ -601,13 +607,13 @@
       }
     }
 
-    function showDialogue(text, sound = 'meow', expr = 'happy') {
+    function showDialogue(text, sound = 'happy', expr = 'happy') {
       if (peekPrompt) peekPrompt.style.display = 'none';
       dialogueText.innerHTML = text;
       bubble.classList.add('visible');
       setExpression(expr);
-      playCatSound(sound);
-      bounceCat();
+      playPandaSound(sound);
+      bouncePanda();
 
       setTimeout(() => {
         if (eyeRig.expression === expr && !isSpinningHappy) {
@@ -617,13 +623,13 @@
       }, 4000);
     }
 
-    function bounceCat() {
+    function bouncePanda() {
       if (isSpinningHappy) return;
-      catGroup.position.y = -0.42;
-      setTimeout(() => { catGroup.position.y = currentTargetY; }, 240);
+      pandaGroup.position.y = -0.42;
+      setTimeout(() => { pandaGroup.position.y = currentTargetY; }, 240);
     }
 
-    function spawnParticles(symbol = '💖') {
+    function spawnParticles(symbol = '🌿') {
       const rect = canvasContainer.getBoundingClientRect();
       for (let i = 0; i < 7; i++) {
         const p = document.createElement('div');
@@ -648,50 +654,50 @@
       isSpinningHappy = true;
       spinStartTime = performance.now();
 
-      dialogueText.innerHTML = "✨ <strong>OMG BABU!! It's you!!</strong> (≧◡≦) ♡<br><strong>I love you so, so much babu!</strong> Always and forever! 💖🌸✨";
+      dialogueText.innerHTML = "✨ <strong>OMG BABU!! It's you!!</strong> (≧◡≦) ♡<br>Always and forever! 🐾🌿✨";
       bubble.classList.add('visible');
 
       setExpression('happy');
       mats.blush.opacity = 0.95;
-      playCatSound('happy');
+      playPandaSound('happy');
 
       spawnParticles('💖');
-      setTimeout(() => spawnParticles('✨'), 250);
-      setTimeout(() => spawnParticles('🌸'), 500);
+      setTimeout(() => spawnParticles('🌿'), 250);
+      setTimeout(() => spawnParticles('✨'), 500);
       setTimeout(() => spawnParticles('💕'), 750);
     }
 
     // 10. Loving Affectionate Response for "i love you babu"
     function celebrateLove() {
-      dialogueText.innerHTML = "✨ <strong>I love you so, so much babu!!</strong> ( ˘ ³˘)♥<br>You are my favorite human in the whole universe! 🐾💖🌸✨";
+      dialogueText.innerHTML = "✨ <strong>I love you so, so much babu!!</strong> ( ˘ ³˘)♥<br>You are my favorite human in the whole universe! 🐾💖🌿✨";
       bubble.classList.add('visible');
 
       setExpression('happy');
       mats.blush.opacity = 0.95;
-      playCatSound('happy');
-      bounceCat();
+      playPandaSound('happy');
+      bouncePanda();
 
       spawnParticles('💖');
-      setTimeout(() => spawnParticles('💕'), 250);
+      setTimeout(() => spawnParticles('🌿'), 250);
       setTimeout(() => spawnParticles('🌸'), 500);
       setTimeout(() => spawnParticles('✨'), 750);
     }
 
-    // 11. Tech Roasts & Wisdom
+    // 11. Tech Roasts & Red Panda Wisdom
     const roasts = [
-      "🔥 *Looking at your stack:* You've got 14 microservices and 3 daily users. A single SQLite file and a prayer would run faster.",
-      "🔥 *System review:* Your architecture is 90% Jenga blocks and 10% hopeful git commits. One bad typo and it's cat food.",
-      "🔥 You call it 'eventual consistency'. I call it 'the data went out for milk and never came back'.",
-      "🔥 Monoliths are like a warm cardboard box. Microservices are 40 tiny boxes scattered on fire across AWS.",
-      "🔥 Your pull request says 'minor refactor' but touches 84 files. That's not a refactor, that's arson."
+      "🔥 *Looking at your stack:* You've got 14 microservices and 3 daily users. A single SQLite file and a basket of bamboo would run faster.",
+      "🔥 *Architecture review:* Your system is 90% Jenga blocks and 10% hopeful git commits. One bad typo and it's panda chow.",
+      "🔥 You call it 'eventual consistency'. I call it 'the data went out for bamboo and never came back'.",
+      "🔥 Monoliths are like a cozy hollow tree. Microservices are 40 tiny trees scattered on fire across AWS.",
+      "🔥 Your pull request says 'minor refactor' but touches 84 files. That's not a refactor, that's forest arson."
     ];
 
     const wisdom = [
-      "💡 *Architecture Rule #1:* If you can't explain your data pipeline to a sleepy cat on a whiteboard in 5 minutes, it's too complex.",
-      "💡 Horizontal scaling > Vertical scaling. Same reason I don't get one giant kettle; I just hire more cat friends.",
-      "💡 In high-scale data engineering: decoupled message queues are like scratching posts. Essential for peace of mind.",
-      "💡 Direct Lake mode in Power BI bypasses scheduled refreshes completely. Zero-copy sub-second queries = more nap time for everyone.",
-      "💡 Context engineering is like giving an LLM the exact right cardboard box. Otherwise it just knocks over your vase."
+      "💡 *Ranger Rule #1:* If you can't explain your data pipeline to a sleepy red panda on a whiteboard in 5 minutes, it's too complex.",
+      "💡 Horizontal scaling > Vertical scaling. Same reason I don't climb one giant tree; I explore the whole grove.",
+      "💡 In high-scale data engineering: decoupled message queues are like scratching logs. Essential for peace of mind.",
+      "💡 Direct Lake mode in Power BI bypasses scheduled refreshes completely. Zero-copy sub-second queries = more bamboo nap time for everyone.",
+      "💡 Context engineering is like giving an LLM the exact right hollow branch. Otherwise it knocks over your prod cluster."
     ];
 
     // 12. Interactive Action Chips
@@ -702,15 +708,18 @@
         if (!btn) return;
         const action = btn.dataset.action;
 
-        if (action === 'scratch') {
-          showDialogue("*Purrrrrrrrr...* ( ^ ﻌ ^ ) Under the chin! That's the sweet spot! All bugs in Nilesh's code are now forgiven.", 'purr', 'happy');
+        if (action === 'bamboo') {
+          showDialogue("*crunch crunch crunch!* 🌿 Delicious bamboo snack! Nilesh's cluster uptime is now guaranteed for 30 days.", 'bamboo', 'happy');
+          spawnParticles('🌿');
+        } else if (action === 'scratch') {
+          showDialogue("*Purrrrrrrrr...* ( ^ ﻌ ^ ) Right behind the fluffy ears! That's the sweet spot! All bugs are forgiven.", 'purr', 'happy');
           spawnParticles('💖');
         } else if (action === 'coffee') {
-          showDialogue("☕ *Sips espresso* CAFFEINE DETECTED. Throughput elevated to 45,000 requests/sec! No downtime allowed!", 'meow', 'laser');
+          showDialogue("☕ *Sips espresso* CAFFEINE DETECTED. Throughput elevated to 45,000 requests/sec! Red panda zoomies activated!", 'happy', 'laser');
           spawnParticles('⚡');
         } else if (action === 'roast') {
           const r = roasts[Math.floor(Math.random() * roasts.length)];
-          showDialogue(r, 'meow', 'skeptical');
+          showDialogue(r, 'squeak', 'wink');
         } else if (action === 'wisdom') {
           const w = wisdom[Math.floor(Math.random() * wisdom.length)];
           showDialogue(w, 'purr', 'wink');
@@ -727,7 +736,7 @@
       const interval = setInterval(() => {
         targetHead.x = (Math.random() - 0.5) * 0.9;
         targetHead.y = (Math.random() - 0.5) * 0.9;
-        playCatSound('laser');
+        playPandaSound('laser');
         count++;
         if (count > 5) clearInterval(interval);
       }, 250);
@@ -766,26 +775,26 @@
           return;
         }
 
-        let reply = "Meow? That sounds like a 500 error waiting to happen. Press '/' to search the garden notes for clarity!";
-        let sound = 'meow';
+        let reply = "Squeak? That sounds like a 500 error waiting to happen. Press '/' to search the garden notes for clarity!";
+        let sound = 'squeak';
         let expr = 'happy';
 
         if (lower.includes('hello') || lower.includes('hi') || lower.includes('hey')) {
-          reply = "Meowdy partner! 🤠 Welcome to Nilesh's knowledge garden. What architecture disaster can we prevent today?";
+          reply = "Greetings, human! 🐾 Welcome to Nilesh's digital knowledge garden. What architecture disaster can we prevent today?";
           expr = 'wink';
         } else if (lower.includes('spark') || lower.includes('data')) {
           reply = "Apache Spark! The Driver acts as the head chef, and Executors do the cooking. Read Issue #4 above for the full recipe!";
           expr = 'laser';
-        } else if (lower.includes('cat') || lower.includes('cute') || lower.includes('good') || lower.includes('mimi')) {
-          reply = "*Purrrr!* Of course I'm cute, I run on 60 FPS WebGL and pure biological perfection.";
+        } else if (lower.includes('panda') || lower.includes('cute') || lower.includes('good') || lower.includes('rory')) {
+          reply = "*Squeak!* Of course I'm cute, I run on 60 FPS WebGL, fluffy ears, and pure biological perfection.";
           expr = 'happy';
           sound = 'purr';
           spawnParticles('✨');
         } else if (lower.includes('system') || lower.includes('design')) {
           reply = "Scalability, reliability, observability, and simplicity! Keep it simple, or I will bat your microservices off the shelf.";
-          expr = 'skeptical';
+          expr = 'wink';
         } else if (lower.includes('bye') || lower.includes('sleep') || lower.includes('nap')) {
-          reply = "Going to nap? Wise choice. 14 hours of daily sleep is the secret to zero production bugs.";
+          reply = "Going to nap? Wise choice. 14 hours of daily bamboo sleep is the secret to zero production bugs.";
           expr = 'wink';
         }
 
@@ -801,10 +810,10 @@
 
     canvasContainer.addEventListener('click', () => {
       if (!bubble.classList.contains('visible')) {
-        showDialogue("Meow! Need a witty roast, tech wisdom, or just a chin scratch?", 'meow', 'wink');
+        showDialogue("Squeak! Need a witty roast, tech wisdom, or want to give me bamboo?", 'happy', 'wink');
       } else {
-        bounceCat();
-        playCatSound('purr');
+        bouncePanda();
+        playPandaSound('purr');
         setExpression('happy');
         spawnParticles('🐾');
       }
@@ -818,7 +827,6 @@
     let lastInteractionTime = performance.now();
     let currentTargetY = -0.65; // Normal peeking position
 
-    // Hover listeners to perk up or duck down
     canvasContainer.addEventListener('mouseenter', () => {
       lastInteractionTime = performance.now();
       currentTargetY = -0.52; // Perk up with interest!
@@ -837,9 +845,9 @@
       mouseNorm.x = (e.clientX - cx) / window.innerWidth;
       mouseNorm.y = -(e.clientY - cy) / window.innerHeight;
 
-      // If user moves mouse near Mimi's corner, perk up!
-      const distFromCat = Math.hypot(e.clientX - cx, e.clientY - cy);
-      if (distFromCat < 320) {
+      // If user moves mouse near Rory's corner, perk up!
+      const distFromPanda = Math.hypot(e.clientX - cx, e.clientY - cy);
+      if (distFromPanda < 320) {
         lastInteractionTime = performance.now();
         currentTargetY = -0.58;
       }
@@ -896,8 +904,8 @@
 
       // Smooth vertical peeking / hiding interpolation
       if (!isSpinningHappy) {
-        catGroup.position.y = THREE.MathUtils.lerp(
-          catGroup.position.y,
+        pandaGroup.position.y = THREE.MathUtils.lerp(
+          pandaGroup.position.y,
           currentTargetY + Math.sin(t * 2.2) * 0.035,
           0.06
         );
@@ -912,8 +920,8 @@
           ? 4 * progress * progress * progress 
           : 1 - Math.pow(-2 * progress + 2, 3) / 2;
 
-        catGroup.rotation.y = ease * Math.PI * 2;
-        catGroup.position.y = -0.42 + Math.sin(progress * Math.PI) * 0.52;
+        pandaGroup.rotation.y = ease * Math.PI * 2;
+        pandaGroup.position.y = -0.42 + Math.sin(progress * Math.PI) * 0.52;
 
         // Tail counter-whip
         tailGroup.rotation.z = Math.sin(t * 16) * 0.35;
@@ -921,9 +929,9 @@
 
         if (progress >= 1) {
           isSpinningHappy = false;
-          catGroup.rotation.y = 0;
-          catGroup.position.y = currentTargetY;
-          playCatSound('purr');
+          pandaGroup.rotation.y = 0;
+          pandaGroup.position.y = currentTargetY;
+          playPandaSound('purr');
           setTimeout(() => {
             mats.blush.opacity = 0;
             setExpression('normal');
@@ -936,15 +944,15 @@
         headGroup.rotation.x = THREE.MathUtils.lerp(headGroup.rotation.x, targetHead.x * 0.7, 0.09);
         headGroup.rotation.z = THREE.MathUtils.lerp(headGroup.rotation.z, targetHead.z * 0.7, 0.09);
 
-        // Simple Curvy Continuous Long Tail - Organic Swish & Flick
-        tailGroup.rotation.z = Math.sin(t * 2.6) * 0.15 + (Math.sin(t * 8.5) > 0.86 ? 0.22 : 0);
-        tailGroup.rotation.y = Math.cos(t * 2.2) * 0.20;
+        // Fluffy Striped Tail - Organic Gentle Swish & Flick
+        tailGroup.rotation.z = Math.sin(t * 2.4) * 0.14 + (Math.sin(t * 8.5) > 0.88 ? 0.20 : 0);
+        tailGroup.rotation.y = Math.cos(t * 2.0) * 0.18;
 
         // Ear twitches
         leftEar.rotation.z = -0.32 + Math.sin(t * 3.4) * 0.04 + (Math.sin(t * 13) > 0.88 ? 0.10 : 0);
         rightEar.rotation.z = 0.32 - Math.cos(t * 3.1) * 0.04 - (Math.sin(t * 10) > 0.90 ? 0.10 : 0);
 
-        // Gentle authentic feline slow blinks
+        // Gentle authentic slow blinks
         slowBlinkTimer += 0.016;
         if (slowBlinkTimer > 4.8 && !isSlowBlinking) {
           isSlowBlinking = true;
@@ -970,21 +978,20 @@
     function applyThemeColors() {
       const isDark = isDarkTheme();
       if (isDark) {
-        mats.coatMain.color.setHex(0x221f3d);
-        mats.coatCream.color.setHex(0x352e5a);
-        mats.innerEar.color.setHex(0xf472b6);
-        mats.iris.color.setHex(0x38bdf8);
-        mats.limbalRing.color.setHex(0x0c4a6e);
-        mats.eyelid.color.setHex(0x221f3d);
+        mats.furRusset.color.setHex(0x9a3412);
+        mats.furCream.color.setHex(0xd4a373);
+        mats.furDark.color.setHex(0x1f140e);
+        mats.iris.color.setHex(0xf59e0b);
+        mats.limbalRing.color.setHex(0x78350f);
+        mats.eyelid.color.setHex(0x9a3412);
         mats.collar.color.setHex(0x8b5cf6);
       } else {
-        // Soft lilac-cashmere coat (#DED2ED) perfectly harmonized with light theme violet accent #7C3AED
-        mats.coatMain.color.setHex(0xded2ed);
-        mats.coatCream.color.setHex(0xffffff);
-        mats.innerEar.color.setHex(0xf9a8d4);
-        mats.iris.color.setHex(0x0284c7);
-        mats.limbalRing.color.setHex(0x075985);
-        mats.eyelid.color.setHex(0xded2ed);
+        mats.furRusset.color.setHex(0xc2410c);
+        mats.furCream.color.setHex(0xfef3c7);
+        mats.furDark.color.setHex(0x38220f);
+        mats.iris.color.setHex(0xd97706);
+        mats.limbalRing.color.setHex(0x451a03);
+        mats.eyelid.color.setHex(0xc2410c);
         mats.collar.color.setHex(0x7c3aed);
       }
     }
