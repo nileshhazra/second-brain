@@ -24,14 +24,11 @@ title: Home
         <span class="stat-label">Headless CMS</span>
       </div>
       <div class="stat-pill">
-        <span class="stat-num">Global Mesh</span>
-        <span class="stat-label">3D Network Globe</span>
+        <span class="stat-num">Open Source</span>
+        <span class="stat-label">Second Brain</span>
       </div>
     </div>
   </div>
-
-  <!-- Interactive 3D Earth Globe with Animated Network Connections -->
-  {% include globe-3d.html %}
 </section>
 
 <!-- Interactive Explorer Toolbar: Search & Tag Filter -->
