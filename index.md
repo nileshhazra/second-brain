@@ -70,6 +70,8 @@ title: Home
     <button class="filter-tag-pill active" data-tag="all">All ({{ site.posts.size }})</button>
     <button class="filter-tag-pill" data-tag="system design">System Design</button>
     <button class="filter-tag-pill" data-tag="data engineering">Data Engineering</button>
+    <button class="filter-tag-pill" data-tag="azure">Azure &amp; Cloud</button>
+    <button class="filter-tag-pill" data-tag="apache spark">Apache Spark</button>
     <button class="filter-tag-pill" data-tag="python">Python</button>
     <button class="filter-tag-pill" data-tag="artificial intelligence">AI &amp; ML</button>
   </div>
