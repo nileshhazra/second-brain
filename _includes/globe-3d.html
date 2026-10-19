@@ -1,0 +1,108 @@
+<!-- Advanced Interactive 3D Earth Globe with Animated Network Connections -->
+<div class="globe-stage-wrapper" id="globe-stage-wrapper">
+  <!-- Top Stage Header & HUD Controls -->
+  <div class="globe-stage-header">
+    <div class="globe-brand-lockup">
+      <span class="globe-live-indicator">
+        <span class="globe-pulse-dot"></span>
+        <span class="globe-live-text">LIVE</span>
+      </span>
+      <div class="globe-title-group">
+        <span class="globe-stage-title">Global Distributed Network Mesh</span>
+        <span class="globe-stage-subtitle">12 Edge Backbones · 24 High-Speed Optical Arcs · Real-Time Telemetry</span>
+      </div>
+    </div>
+
+    <!-- HUD Control Actions -->
+    <div class="globe-hud-controls">
+      <button class="globe-hud-btn" id="btn-globe-surge" title="Trigger Global Data Surge Packet Burst">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+        </svg>
+        <span>Data Surge</span>
+      </button>
+
+      <button class="globe-hud-btn active" id="btn-globe-orbit" title="Toggle Auto-Orbit Rotation">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+        </svg>
+        <span>Auto Orbit</span>
+      </button>
+
+      <button class="globe-hud-btn globe-hud-btn-icon" id="btn-globe-reset" title="Reset Camera View to Primary Focus">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- City Focus Quick-Pill Toolbar -->
+  <div class="globe-city-toolbar">
+    <span class="city-toolbar-label">Focus Node:</span>
+    <div class="city-pills-scroll" id="city-pills-container">
+      <button class="city-pill active" data-city="mumbai"><span>🇮🇳</span> Mumbai</button>
+      <button class="city-pill" data-city="san-francisco"><span>🇺🇸</span> San Francisco</button>
+      <button class="city-pill" data-city="london"><span>🇬🇧</span> London</button>
+      <button class="city-pill" data-city="frankfurt"><span>🇩🇪</span> Frankfurt</button>
+      <button class="city-pill" data-city="tokyo"><span>🇯🇵</span> Tokyo</button>
+      <button class="city-pill" data-city="singapore"><span>🇸🇬</span> Singapore</button>
+      <button class="city-pill" data-city="sydney"><span>🇦🇺</span> Sydney</button>
+      <button class="city-pill" data-city="sao-paulo"><span>🇧🇷</span> São Paulo</button>
+    </div>
+  </div>
+
+  <!-- Three.js 3D WebGL Globe Canvas Container -->
+  <div class="globe-canvas-container" id="globe-canvas-container" title="Drag to inspect 360°, scroll to zoom, hover nodes for latency">
+    <div class="globe-loading-state" id="globe-loading">
+      <div class="globe-spinner"></div>
+      <span>Initializing Global 3D Mesh...</span>
+    </div>
+
+    <!-- Floating Interactive Node Tooltip -->
+    <div class="globe-node-tooltip" id="globe-node-tooltip">
+      <div class="tooltip-header">
+        <span class="tooltip-status-dot"></span>
+        <strong class="tooltip-city-name" id="tooltip-city">Node</strong>
+        <span class="tooltip-tier-badge" id="tooltip-tier">TIER-1 POP</span>
+      </div>
+      <div class="tooltip-metrics">
+        <div class="tooltip-metric-row">
+          <span class="metric-label">Coordinates:</span>
+          <span class="metric-value" id="tooltip-coords">0° N, 0° E</span>
+        </div>
+        <div class="tooltip-metric-row">
+          <span class="metric-label">Round-Trip Latency:</span>
+          <span class="metric-value accent" id="tooltip-latency">18 ms</span>
+        </div>
+        <div class="tooltip-metric-row">
+          <span class="metric-label">Backbone Throughput:</span>
+          <span class="metric-value" id="tooltip-bandwidth">98.4 Gbps</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Live Network Status Footer -->
+  <div class="globe-stage-footer">
+    <div class="globe-telemetry-strip">
+      <div class="telemetry-item">
+        <span class="telemetry-label">Avg Inter-POP Latency:</span>
+        <span class="telemetry-val" id="metric-avg-latency">42.8 ms</span>
+      </div>
+      <div class="telemetry-item">
+        <span class="telemetry-label">Packet Delivery:</span>
+        <span class="telemetry-val success">99.998%</span>
+      </div>
+      <div class="telemetry-item hide-mobile">
+        <span class="telemetry-label">Active Optical Arcs:</span>
+        <span class="telemetry-val accent">24 Splines</span>
+      </div>
+    </div>
+    <div class="globe-guide-hint">
+      <span>🖱️ Drag to rotate 360° · ⚡ Click "Data Surge" to surge packets</span>
+    </div>
+  </div>
+</div>

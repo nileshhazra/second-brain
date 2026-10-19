@@ -24,14 +24,14 @@ title: Home
         <span class="stat-label">Headless CMS</span>
       </div>
       <div class="stat-pill">
-        <span class="stat-num">Field Journal</span>
-        <span class="stat-label">3D Vintage Notebook</span>
+        <span class="stat-num">Global Mesh</span>
+        <span class="stat-label">3D Network Globe</span>
       </div>
     </div>
   </div>
 
-  <!-- Interactive 3D Vintage Notebook & Field Journal Component -->
-  {% include vintage-notebook.html %}
+  <!-- Interactive 3D Earth Globe with Animated Network Connections -->
+  {% include globe-3d.html %}
 </section>
 
 <!-- Interactive Explorer Toolbar: Search & Tag Filter -->
