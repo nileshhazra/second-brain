@@ -619,7 +619,7 @@
     const SPIN_DURATION = 1350; // Smooth 1.35s pirouette
 
     function celebrateBabu() {
-      if (isSpinningHappy) return;
+      if (isSpinningHappy || isRunningAcrossScreen) return;
       isSpinningHappy = true;
       spinStartTime = performance.now();
 
@@ -637,6 +637,44 @@
       setTimeout(() => spawnParticles('🌸'), 500);
       setTimeout(() => spawnParticles('💕'), 750);
       setTimeout(() => spawnParticles('🥰'), 1000);
+    }
+
+    // 8B. Happy Cute Run Across Screen (When someone says 'i love you babu'!)
+    let isRunningAcrossScreen = false;
+    let runStartTime = 0;
+    const RUN_DURATION = 3600; // 3.6s happy gallop across screen
+    let lastHeartSpawnTime = 0;
+
+    function triggerLoveRun() {
+      if (isRunningAcrossScreen || isSpinningHappy) return;
+      isRunningAcrossScreen = true;
+      runStartTime = performance.now();
+      lastHeartSpawnTime = 0;
+
+      // Loving excited dialogue
+      dialogueText.innerHTML = "✨ (♡°▽°♡) <strong>WAIT... YOU LOVE ME?!</strong><br><em>*ZOOMIES ACTIVATED!!*</em> 🐾💖💨";
+      bubble.classList.add('visible');
+
+      setExpression('happy');
+      mats.blush.opacity = 0.95;
+      playCatSound('happy');
+
+      canvasContainer.classList.add('running');
+      canvasContainer.style.left = '-180px';
+    }
+
+    function spawnRunningHeart(x, y) {
+      const p = document.createElement('div');
+      p.className = 'mochi-run-heart';
+      const symbols = ['💖', '💕', '❤️', '🌸', '✨', '🥰', '🐾'];
+      p.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+      p.style.left = `${x + (Math.random() - 0.5) * 24}px`;
+      p.style.top = `${y + (Math.random() - 0.5) * 24}px`;
+      p.style.setProperty('--dx', `${-32 - Math.random() * 45}px`);
+      p.style.setProperty('--dy', `${-40 - Math.random() * 50}px`);
+      p.style.setProperty('--rot', `${(Math.random() - 0.5) * 45}deg`);
+      document.body.appendChild(p);
+      setTimeout(() => p.remove(), 1250);
     }
 
     // 9. Tech Roasts & Wisdom Repositories
@@ -705,7 +743,19 @@
         chatInput.value = '';
         const lower = msg.toLowerCase();
 
-        // Check for babu declaration
+        // Check for 'i love you babu' running across screen
+        if (
+          lower.includes('i love you babu') ||
+          lower.includes('i love u babu') ||
+          lower.includes('love you babu') ||
+          lower.includes('love u babu') ||
+          (lower.includes('love') && lower.includes('babu'))
+        ) {
+          triggerLoveRun();
+          return;
+        }
+
+        // Check for babu declaration ("i am babu")
         if (
           lower.includes('i am babu') ||
           lower.includes("i'm babu") ||
@@ -800,8 +850,92 @@
 
       const t = clock.getElapsedTime();
 
+      // 1. Check if Running Across Screen is active ('i love you babu'!)
+      if (isRunningAcrossScreen) {
+        const elapsed = performance.now() - runStartTime;
+        const progress = Math.min(1, elapsed / RUN_DURATION);
+
+        // Move container from off-screen left (-180px) to off-screen right (window.innerWidth + 60px)
+        const startX = -180;
+        const endX = window.innerWidth + 60;
+        const currentX = startX + (endX - startX) * progress;
+        canvasContainer.style.left = `${currentX}px`;
+
+        // Profile pose: face to the right, slightly angled toward user
+        catGroup.rotation.y = Math.PI * 0.44;
+        headGroup.rotation.y = 0.12;
+        headGroup.rotation.x = -0.06;
+
+        // Galloping body bob & bounce
+        const runStride = t * 24;
+        catGroup.position.y = -0.12 + Math.abs(Math.sin(runStride)) * 0.16;
+        catGroup.rotation.z = Math.sin(runStride) * 0.08;
+
+        // Front legs running swing
+        leftFrontLeg.rotation.x = Math.sin(runStride) * 0.6;
+        rightFrontLeg.rotation.x = -Math.sin(runStride) * 0.6;
+        leftFrontPaw.position.z = 0.46 + Math.sin(runStride) * 0.18;
+        rightFrontPaw.position.z = 0.46 - Math.sin(runStride) * 0.18;
+        leftFrontPaw.position.y = -1.34 + Math.max(0, -Math.sin(runStride)) * 0.12;
+        rightFrontPaw.position.y = -1.34 + Math.max(0, Math.sin(runStride)) * 0.12;
+
+        // Rear haunches & hind legs running kick
+        leftHaunch.rotation.x = 0.1 - Math.sin(runStride) * 0.5;
+        rightHaunch.rotation.x = 0.1 + Math.sin(runStride) * 0.5;
+        leftHindPaw.position.z = 0.22 - Math.sin(runStride) * 0.18;
+        rightHindPaw.position.z = 0.22 + Math.sin(runStride) * 0.18;
+        leftHindPaw.position.y = -1.34 + Math.max(0, Math.sin(runStride)) * 0.12;
+        rightHindPaw.position.y = -1.34 + Math.max(0, -Math.sin(runStride)) * 0.12;
+
+        // Tail wags high in excitement
+        tailGroup.rotation.y = -0.3 + Math.sin(t * 18) * 0.35;
+        tailGroup.rotation.z = 0.35 + Math.cos(t * 18) * 0.2;
+
+        // Ears pinned back cutely in the wind
+        leftEar.rotation.x = -0.3;
+        rightEar.rotation.x = -0.3;
+
+        // Spawn stream of running hearts directly behind Mimi!
+        const now = performance.now();
+        if (now - lastHeartSpawnTime > 110) {
+          lastHeartSpawnTime = now;
+          spawnRunningHeart(currentX + 35, window.innerHeight - 85);
+        }
+
+        if (progress >= 1) {
+          isRunningAcrossScreen = false;
+          canvasContainer.classList.remove('running');
+          canvasContainer.style.left = '';
+
+          // Reset all limbs and orientation
+          catGroup.rotation.y = 0;
+          catGroup.rotation.z = 0;
+          catGroup.position.y = -0.12;
+          headGroup.rotation.set(0, 0, 0);
+          leftFrontLeg.rotation.x = 0.08;
+          rightFrontLeg.rotation.x = 0.08;
+          leftFrontPaw.position.set(-0.24, -1.34, 0.46);
+          rightFrontPaw.position.set(0.24, -1.34, 0.46);
+          leftHaunch.rotation.set(0.1, 0.25, -0.15);
+          rightHaunch.rotation.set(0.1, -0.25, 0.15);
+          leftHindPaw.position.set(-0.52, -1.34, 0.22);
+          rightHindPaw.position.set(0.52, -1.34, 0.22);
+          leftEar.rotation.x = -0.15;
+          rightEar.rotation.x = -0.15;
+
+          playCatSound('purr');
+          dialogueText.innerHTML = "✨ <strong>I love you so, so much babu!!</strong> ( ˘ ³˘)♥<br>My heart just sprinted across the whole screen for you! 🐾💖🌸✨";
+          spawnParticles('💖');
+          setTimeout(() => spawnParticles('✨'), 250);
+
+          setTimeout(() => {
+            mats.blush.opacity = 0;
+            setExpression('normal');
+          }, 5000);
+        }
+
       // Check if 360-Degree Pirouette is active
-      if (isSpinningHappy) {
+      } else if (isSpinningHappy) {
         const elapsed = performance.now() - spinStartTime;
         const progress = Math.min(1, elapsed / SPIN_DURATION);
 

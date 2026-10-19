@@ -1715,3 +1715,38 @@ pre {
     transform: translate(var(--dx), var(--dy)) scale(1.35);
   }
 }
+
+/* Running Mode Across Screen */
+.mochi-canvas-container.running {
+  position: fixed !important;
+  bottom: 0 !important;
+  right: auto !important;
+  pointer-events: none;
+  z-index: 10000;
+  transition: none !important;
+  filter: drop-shadow(0 12px 28px rgba(244, 114, 182, 0.45));
+}
+
+.mochi-run-heart {
+  position: fixed;
+  pointer-events: none;
+  font-size: 1.55rem;
+  z-index: 9999;
+  animation: run-heart-float 1.25s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  filter: drop-shadow(0 2px 8px rgba(244, 63, 94, 0.45));
+}
+
+@keyframes run-heart-float {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(0.6) rotate(0deg);
+  }
+  50% {
+    opacity: 0.95;
+    transform: translate(var(--dx), var(--dy)) scale(1.25) rotate(var(--rot));
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(var(--dx) * 1.35), calc(var(--dy) - 35px)) scale(1.5) rotate(calc(var(--rot) * 1.5));
+  }
+}
