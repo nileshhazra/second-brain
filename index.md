@@ -24,14 +24,14 @@ title: Home
         <span class="stat-label">Headless CMS</span>
       </div>
       <div class="stat-pill">
-        <span class="stat-num">Real-Time</span>
-        <span class="stat-label">3D WebGL Neural Graph</span>
+        <span class="stat-num">Field Journal</span>
+        <span class="stat-label">3D Vintage Notebook</span>
       </div>
     </div>
   </div>
 
-  <!-- Interactive 3D Second Brain & Model Viewer Component -->
-  {% include brain-3d.html %}
+  <!-- Interactive 3D Vintage Notebook & Field Journal Component -->
+  {% include vintage-notebook.html %}
 </section>
 
 <!-- Interactive Explorer Toolbar: Search & Tag Filter -->
