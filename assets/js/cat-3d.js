@@ -1,21 +1,30 @@
 /**
  * Second Brain - Mimi the 3D Cyber Familiar & Chief Architecture Officer
- * Cute Peeking & Hiding Desk Companion
+ * Cute Peeking & Hiding Desk Companion (Soft Natural Geometry & Theme Harmonized)
  * Powered by Three.js & Web Audio API
  * 
- * Design:
- * - Peeking & Hiding: Mimi peeks cutely from the bottom edge of the screen with her paws
- *   resting on the ledge. When idle or reading, she gently ducks down so she never blocks
- *   content, and perks right up when the cursor approaches or when hovered/clicked!
- * - Super Cute Kawaii Face: Big, soulful, living eyes with triple sparkle catchlights,
- *   chubby cheeks, soft whisker pads, button nose, rosy blush, and pink inner ears.
- * - Simple Curvy Continuous Long Tail: An elegant, smooth S-curved long tail that arches
- *   up beside her head and swishes with organic fluid motion.
- * - 100% Flicker-Free & Rock-Solid WebGL rendering.
+ * Design Features:
+ * - Theme-Harmonized Color Palette:
+ *   - Light Mode: Elegant, soft warm lilac-cashmere coat (#DED2ED) matching the site's signature
+ *     violet accent (#7C3AED) with crisp white bib/paws (#FFFFFF) for perfect silhouette contrast.
+ *   - Dark Mode: Deep velvet night-violet (#221F3D) with bioluminescent cyan eyes (#38BDF8).
+ * - Soft, Blended & Natural Geometry (Zero Sharp Needle-Edges):
+ *   - Smooth rounded feline ears with dome apex tips (no artificial sharp traffic-cone points).
+ *   - High-subdivision (48x48) organic cranium with soft zygomatic cheek curvature.
+ *   - Wrap-around hemisphere & soft studio lighting producing velvety diffuse micro-fur shading.
+ * - Simple Curvy Continuous Long Tail:
+ *   - Smooth S-curved Catmull-Rom tube that arches gracefully beside her head with fluid swish physics.
+ * - Peeking & Smart Reading Hide:
+ *   - Paws and golden bell resting cutely on the bottom screen ledge.
+ *   - Gently ducks down below the edge when reading or scrolling so text is never blocked,
+ *     and perks right up when the cursor approaches or when hovered/clicked!
+ * - Living Expressive Eyes:
+ *   - Big kawaii eyes with triple star sparkles, pupil dilation, responsive cursor tracking,
+ *     and gentle slow blinks.
  * - Interactive:
- *   - Typing "i am babu": 360-degree joyful pirouette jump with heart particles!
- *   - Typing "i love you babu": Loving affectionate bounce, purrs, and floating hearts (no screen-blocking runs).
- *   - Chin scratch, coffee, roasts, wisdom, laser mode.
+ *   - "i am babu": 360-degree joyful pirouette jump with heart bursts.
+ *   - "i love you babu": Loving affectionate bounce, purrs, and floating hearts.
+ *   - Witty tech roasts, system design wisdom, chin scratch, coffee, laser mode.
  */
 
 (function () {
@@ -102,53 +111,66 @@
     renderer.setClearColor(0x000000, 0);
     canvasContainer.appendChild(renderer.domElement);
 
-    // 3. Studio Lighting (Warm, Crisp, Non-Flickering)
-    const keyLight = new THREE.DirectionalLight(0xfff7ed, 1.4);
-    keyLight.position.set(2.8, 4.2, 3.5);
+    // 3. Soft, Diffuse Studio Lighting (Eliminates Harsh/Sharp Shadow Edges)
+    // Wrap-around hemisphere light for soft velvety fur fill
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0xe2e8f0, 0.95);
+    scene.add(hemiLight);
+
+    // Warm key light with softened intensity
+    const keyLight = new THREE.DirectionalLight(0xfff7ed, 1.05);
+    keyLight.position.set(2.8, 4.0, 3.2);
     scene.add(keyLight);
 
-    const fillLight = new THREE.DirectionalLight(0xdbeafe, 0.85);
-    fillLight.position.set(-2.8, 2.0, 2.2);
+    // Soft sky fill
+    const fillLight = new THREE.DirectionalLight(0xdbeafe, 0.75);
+    fillLight.position.set(-2.8, 1.8, 2.2);
     scene.add(fillLight);
 
-    const rimLight = new THREE.PointLight(0xa78bfa, 1.8, 12);
+    // Subtle violet rim light harmonized with the theme accent
+    const rimLight = new THREE.PointLight(0xa78bfa, 1.4, 12);
     rimLight.position.set(0, 2.5, -3.0);
     scene.add(rimLight);
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
-    scene.add(ambientLight);
+    // 4. Materials Palette (Theme-Harmonized & Diffuse Softness)
+    function isDarkTheme() {
+      return document.documentElement.getAttribute('data-theme') !== 'light';
+    }
 
-    // 4. Materials Palette
     function getMaterials() {
-      const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+      const isDark = isDarkTheme();
 
       return {
+        // Main coat: In light mode, soft warm lilac-cashmere (#DED2ED) matching site violet #7C3AED
         coatMain: new THREE.MeshStandardMaterial({
-          color: isDark ? 0x221f3d : 0xfcf8f2,
-          roughness: 0.52,
-          metalness: 0.04
+          color: isDark ? 0x221f3d : 0xded2ed,
+          roughness: 0.65,
+          metalness: 0.02
         }),
+        // Cream muzzle & paws: Crisp pure white for clear, friendly contrast
         coatCream: new THREE.MeshStandardMaterial({
-          color: isDark ? 0x312b55 : 0xffffff,
-          roughness: 0.58,
+          color: isDark ? 0x352e5a : 0xffffff,
+          roughness: 0.65,
           metalness: 0.0
         }),
+        // Soft pastel pink inner ear
         innerEar: new THREE.MeshStandardMaterial({
-          color: 0xf472b6,
-          roughness: 0.55
+          color: isDark ? 0xf472b6 : 0xf9a8d4,
+          roughness: 0.58
         }),
+        // Cute strawberry button nose
         nose: new THREE.MeshStandardMaterial({
           color: 0xf43f5e,
-          roughness: 0.25,
-          metalness: 0.1
+          roughness: 0.28,
+          metalness: 0.08
         }),
         sclera: new THREE.MeshBasicMaterial({
           color: 0xffffff
         }),
+        // Living sapphire/sky blue eyes
         iris: new THREE.MeshStandardMaterial({
           color: isDark ? 0x38bdf8 : 0x0284c7,
           roughness: 0.25,
-          metalness: 0.1
+          metalness: 0.08
         }),
         limbalRing: new THREE.MeshBasicMaterial({
           color: isDark ? 0x0c4a6e : 0x075985
@@ -160,27 +182,29 @@
           color: 0xffffff
         }),
         eyelid: new THREE.MeshStandardMaterial({
-          color: isDark ? 0x221f3d : 0xfcf8f2,
-          roughness: 0.52
+          color: isDark ? 0x221f3d : 0xded2ed,
+          roughness: 0.65
         }),
         blush: new THREE.MeshBasicMaterial({
           color: 0xff4d8d,
           transparent: true,
           opacity: 0
         }),
+        // Royal violet collar matching theme accent #7C3AED
         collar: new THREE.MeshStandardMaterial({
-          color: 0x8b5cf6,
+          color: isDark ? 0x8b5cf6 : 0x7c3aed,
           roughness: 0.35,
-          metalness: 0.3
+          metalness: 0.25
         }),
+        // Golden brass bell
         bell: new THREE.MeshStandardMaterial({
           color: 0xfbbf24,
-          roughness: 0.15,
+          roughness: 0.16,
           metalness: 0.88
         }),
         pawPad: new THREE.MeshStandardMaterial({
           color: 0xf472b6,
-          roughness: 0.4
+          roughness: 0.42
         })
       };
     }
@@ -196,14 +220,14 @@
     const headGroup = new THREE.Group();
     catGroup.add(headGroup);
 
-    // Chubby Cute Round Head
-    const headGeo = new THREE.SphereGeometry(1.0, 32, 32);
-    headGeo.scale(1.18, 1.0, 1.08);
+    // Chubby Round Head (High 48x48 subdivision for silky smooth, non-sharp silhouette)
+    const headGeo = new THREE.SphereGeometry(1.0, 48, 48);
+    headGeo.scale(1.16, 1.0, 1.08);
     const headMesh = new THREE.Mesh(headGeo, mats.coatMain);
     headGroup.add(headMesh);
 
     // Puffy Whisker Pads (Cheeks)
-    const whiskerPadGeo = new THREE.SphereGeometry(0.32, 22, 22);
+    const whiskerPadGeo = new THREE.SphereGeometry(0.33, 28, 28);
     whiskerPadGeo.scale(1.22, 0.82, 0.88);
 
     const leftWhiskerPad = new THREE.Mesh(whiskerPadGeo, mats.coatCream);
@@ -214,22 +238,22 @@
     rightWhiskerPad.position.set(0.24, -0.20, 0.86);
     headGroup.add(rightWhiskerPad);
 
-    // Little Chin
-    const chinGeo = new THREE.SphereGeometry(0.18, 16, 16);
+    // Little Rounded Chin
+    const chinGeo = new THREE.SphereGeometry(0.19, 20, 20);
     chinGeo.scale(1.1, 0.8, 0.88);
     const chinMesh = new THREE.Mesh(chinGeo, mats.coatCream);
     chinMesh.position.set(0, -0.36, 0.78);
     headGroup.add(chinMesh);
 
-    // Cute Button Nose
-    const noseGeo = new THREE.SphereGeometry(0.088, 16, 16);
+    // Cute Soft Button Nose
+    const noseGeo = new THREE.SphereGeometry(0.088, 20, 20);
     noseGeo.scale(1.22, 0.82, 0.85);
     const noseMesh = new THREE.Mesh(noseGeo, mats.nose);
     noseMesh.position.set(0, -0.11, 1.15);
     headGroup.add(noseMesh);
 
-    // Fine White Whiskers
-    const whiskerMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.8 });
+    // Fine Delicate Whiskers
+    const whiskerMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.75 });
     function createWhiskers(side) {
       const g = new THREE.Group();
       const angles = [-0.18, 0, 0.16];
@@ -240,7 +264,7 @@
           new THREE.Vector3(side * 0.92, ang * 0.8 - 0.08, 0.16)
         ];
         const curve = new THREE.CatmullRomCurve3(pts);
-        const geo = new THREE.BufferGeometry().setFromPoints(curve.getPoints(10));
+        const geo = new THREE.BufferGeometry().setFromPoints(curve.getPoints(12));
         g.add(new THREE.Line(geo, whiskerMat));
       });
       g.position.set(side * 0.28, -0.20, 0.94);
@@ -249,32 +273,58 @@
     headGroup.add(createWhiskers(-1));
     headGroup.add(createWhiskers(1));
 
-    // Pointy Kawaii Ears
-    function buildEar(side) {
+    // --- Soft, Natural, Curved Feline Ears (NO Sharp Needle Points!) ---
+    function buildSoftCurvedEar(side) {
       const g = new THREE.Group();
-      const earGeo = new THREE.ConeGeometry(0.40, 0.76, 18);
-      const earMesh = new THREE.Mesh(earGeo, mats.coatMain);
-      earMesh.rotation.set(-0.14, 0, side * 0.36);
-      g.add(earMesh);
 
-      const innerGeo = new THREE.ConeGeometry(0.26, 0.58, 18);
-      const innerMesh = new THREE.Mesh(innerGeo, mats.innerEar);
-      innerMesh.position.set(side * 0.02, -0.02, 0.07);
-      innerMesh.rotation.set(-0.14, 0, side * 0.36);
+      // 1. Smooth Ear Root (blends smoothly into skull without sharp seams)
+      const baseGeo = new THREE.SphereGeometry(0.32, 24, 24);
+      baseGeo.scale(1.1, 0.72, 0.85);
+      const baseMesh = new THREE.Mesh(baseGeo, mats.coatMain);
+      baseMesh.position.set(0, 0.08, 0);
+      g.add(baseMesh);
+
+      // 2. Smooth Tapered Concha Shell (flattened front-to-back like real ears)
+      const coneGeo = new THREE.CylinderGeometry(0.13, 0.35, 0.62, 28);
+      coneGeo.scale(1.0, 1.0, 0.65);
+      const coneMesh = new THREE.Mesh(coneGeo, mats.coatMain);
+      coneMesh.position.set(0, 0.36, 0);
+      g.add(coneMesh);
+
+      // 3. Soft Rounded Ear Apex Tip (Dome tip removes sharp geometric point)
+      const tipGeo = new THREE.SphereGeometry(0.13, 24, 24);
+      tipGeo.scale(1.0, 0.85, 0.65);
+      const tipMesh = new THREE.Mesh(tipGeo, mats.coatMain);
+      tipMesh.position.set(0, 0.66, 0);
+      g.add(tipMesh);
+
+      // 4. Soft Recessed Inner Pink Ear
+      const innerBaseGeo = new THREE.CylinderGeometry(0.08, 0.25, 0.46, 24);
+      innerBaseGeo.scale(1.0, 1.0, 0.55);
+      const innerMesh = new THREE.Mesh(innerBaseGeo, mats.innerEar);
+      innerMesh.position.set(0, 0.32, 0.08);
       g.add(innerMesh);
 
-      g.position.set(side * 0.68, 0.88, 0.08);
+      const innerTipGeo = new THREE.SphereGeometry(0.08, 20, 20);
+      innerTipGeo.scale(1.0, 0.85, 0.55);
+      const innerTipMesh = new THREE.Mesh(innerTipGeo, mats.innerEar);
+      innerTipMesh.position.set(0, 0.54, 0.08);
+      g.add(innerTipMesh);
+
+      // Organic forward tilt and gentle outward flare
+      g.position.set(side * 0.66, 0.76, 0.08);
+      g.rotation.set(-0.16, side * -0.06, side * -0.32);
       return g;
     }
 
-    const leftEar = buildEar(-1);
+    const leftEar = buildSoftCurvedEar(-1);
     headGroup.add(leftEar);
 
-    const rightEar = buildEar(1);
+    const rightEar = buildSoftCurvedEar(1);
     headGroup.add(rightEar);
 
     // Rosy Pink Blush Cheeks
-    const blushGeo = new THREE.SphereGeometry(0.22, 16, 16);
+    const blushGeo = new THREE.SphereGeometry(0.22, 20, 20);
     blushGeo.scale(1.2, 0.6, 0.2);
 
     const leftBlush = new THREE.Mesh(blushGeo, mats.blush);
@@ -287,7 +337,7 @@
     rightBlush.rotation.set(0.1, 0.3, 0.1);
     headGroup.add(rightBlush);
 
-    // 6. Big, Soulful, Living Character Eyes (Flicker-Free Layering)
+    // 6. Big, Soulful, Living Character Eyes (Clean Non-Flickering Layers)
     const eyeRig = {
       leftEyeGroup: new THREE.Group(),
       rightEyeGroup: new THREE.Group(),
@@ -306,50 +356,50 @@
       g.rotation.y = side * -0.18;
 
       // Sclera
-      const scleraGeo = new THREE.SphereGeometry(0.27, 24, 24);
+      const scleraGeo = new THREE.SphereGeometry(0.27, 28, 28);
       scleraGeo.scale(1.05, 1.25, 0.52);
       const scleraMesh = new THREE.Mesh(scleraGeo, mats.sclera);
       g.add(scleraMesh);
 
-      // Limbal Ring
-      const limbalGeo = new THREE.SphereGeometry(0.22, 22, 22);
+      // Limbal Ring (Frames the Iris)
+      const limbalGeo = new THREE.SphereGeometry(0.22, 24, 24);
       limbalGeo.scale(1.02, 1.18, 0.35);
       const limbalMesh = new THREE.Mesh(limbalGeo, mats.limbalRing);
       limbalMesh.position.set(0, 0, 0.09);
       g.add(limbalMesh);
 
       // Vibrant Iris
-      const irisGeo = new THREE.SphereGeometry(0.20, 22, 22);
+      const irisGeo = new THREE.SphereGeometry(0.20, 24, 24);
       irisGeo.scale(1.0, 1.15, 0.35);
       const irisMesh = new THREE.Mesh(irisGeo, mats.iris);
       irisMesh.position.set(0, 0, 0.11);
       g.add(irisMesh);
 
       // Pupil
-      const pupilGeo = new THREE.SphereGeometry(0.135, 18, 18);
+      const pupilGeo = new THREE.SphereGeometry(0.135, 20, 20);
       pupilGeo.scale(0.95, 1.15, 0.28);
       const pupilMesh = new THREE.Mesh(pupilGeo, mats.pupil);
       pupilMesh.position.set(0, 0, 0.15);
       g.add(pupilMesh);
 
       // Triple Sparkle Catchlights
-      const star1Geo = new THREE.SphereGeometry(0.055, 12, 12);
+      const star1Geo = new THREE.SphereGeometry(0.055, 14, 14);
       const star1 = new THREE.Mesh(star1Geo, mats.catchlight);
       star1.position.set(-0.052, 0.072, 0.21);
       g.add(star1);
 
-      const star2Geo = new THREE.SphereGeometry(0.028, 10, 10);
+      const star2Geo = new THREE.SphereGeometry(0.028, 12, 12);
       const star2 = new THREE.Mesh(star2Geo, mats.catchlight);
       star2.position.set(0.045, -0.045, 0.21);
       g.add(star2);
 
-      const star3Geo = new THREE.SphereGeometry(0.016, 8, 8);
+      const star3Geo = new THREE.SphereGeometry(0.016, 10, 10);
       const star3 = new THREE.Mesh(star3Geo, mats.catchlight);
       star3.position.set(-0.026, -0.065, 0.21);
       g.add(star3);
 
-      // Eyelid for gentle blinks (Zero Z-fighting)
-      const lidGeo = new THREE.SphereGeometry(0.31, 24, 24, 0, Math.PI * 2, 0, Math.PI / 2);
+      // Eyelid for gentle blinks (Radius 0.31 eliminates Z-fighting with sclera 0.27)
+      const lidGeo = new THREE.SphereGeometry(0.31, 28, 28, 0, Math.PI * 2, 0, Math.PI / 2);
       lidGeo.scale(1.06, 1.25, 0.54);
       const lidMesh = new THREE.Mesh(lidGeo, mats.eyelid);
       lidMesh.position.set(0, 0, 0.02);
@@ -374,16 +424,16 @@
     eyeRig.leftEyelid = leftEyeBuilt.eyelid;
     eyeRig.rightEyelid = rightEyeBuilt.eyelid;
 
-    // --- Paws Resting on the Bottom Screen Ledge ---
+    // --- Soft Paws Resting on the Bottom Screen Ledge ---
     function buildPeekingPaw(side) {
       const g = new THREE.Group();
-      const pawGeo = new THREE.SphereGeometry(0.24, 18, 18);
+      const pawGeo = new THREE.SphereGeometry(0.24, 24, 24);
       pawGeo.scale(1.15, 0.70, 1.40);
       const pawMesh = new THREE.Mesh(pawGeo, mats.coatCream);
       g.add(pawMesh);
 
-      // Pink Toe Beans
-      const beanGeo = new THREE.SphereGeometry(0.046, 10, 10);
+      // Soft Pink Toe Beans
+      const beanGeo = new THREE.SphereGeometry(0.046, 12, 12);
       beanGeo.scale(1, 0.5, 1);
       for (let b = -1; b <= 1; b++) {
         const bean = new THREE.Mesh(beanGeo, mats.pawPad);
@@ -401,19 +451,18 @@
     catGroup.add(rightPaw);
 
     // Collar & Golden Jingle Bell Resting on Ledge
-    const collarGeo = new THREE.TorusGeometry(0.85, 0.08, 14, 32);
+    const collarGeo = new THREE.TorusGeometry(0.85, 0.075, 16, 36);
     collarGeo.rotateX(Math.PI / 2);
     const collarMesh = new THREE.Mesh(collarGeo, mats.collar);
     collarMesh.position.set(0, -0.86, 0.05);
     catGroup.add(collarMesh);
 
-    const bellGeo = new THREE.SphereGeometry(0.125, 16, 16);
+    const bellGeo = new THREE.SphereGeometry(0.125, 20, 20);
     const bellMesh = new THREE.Mesh(bellGeo, mats.bell);
     bellMesh.position.set(0, -0.92, 0.94);
     catGroup.add(bellMesh);
 
-    // --- Simple Curvy Continuous Long Tail ---
-    // Smooth S-curved long tail that arches gracefully beside Mimi's head
+    // --- Simple Curvy Continuous Long Tail (Smooth S-Curve) ---
     const tailGroup = new THREE.Group();
     tailGroup.position.set(0.50, -0.85, -0.22);
     catGroup.add(tailGroup);
@@ -426,12 +475,12 @@
       new THREE.Vector3(0.22, 1.76, 0.22)
     ];
     const tailCurve = new THREE.CatmullRomCurve3(tailCurvePoints);
-    const tailGeo = new THREE.TubeGeometry(tailCurve, 32, 0.092, 14, false);
+    const tailGeo = new THREE.TubeGeometry(tailCurve, 48, 0.086, 18, false);
     const tailMesh = new THREE.Mesh(tailGeo, mats.coatMain);
     tailGroup.add(tailMesh);
 
     // Soft Round Tail Tip
-    const tailTipGeo = new THREE.SphereGeometry(0.092, 14, 14);
+    const tailTipGeo = new THREE.SphereGeometry(0.086, 20, 20);
     const tailTipMesh = new THREE.Mesh(tailTipGeo, mats.coatMain);
     tailTipMesh.position.copy(tailCurvePoints[tailCurvePoints.length - 1]);
     tailGroup.add(tailTipMesh);
@@ -612,7 +661,7 @@
       setTimeout(() => spawnParticles('💕'), 750);
     }
 
-    // 10. Loving Affectionate Bounce for "i love you babu"
+    // 10. Loving Affectionate Response for "i love you babu"
     function celebrateLove() {
       dialogueText.innerHTML = "✨ <strong>I love you so, so much babu!!</strong> ( ˘ ³˘)♥<br>You are my favorite human in the whole universe! 🐾💖🌸✨";
       bubble.classList.add('visible');
@@ -892,8 +941,8 @@
         tailGroup.rotation.y = Math.cos(t * 2.2) * 0.20;
 
         // Ear twitches
-        leftEar.rotation.z = 0.36 + Math.sin(t * 3.4) * 0.04 + (Math.sin(t * 13) > 0.88 ? 0.12 : 0);
-        rightEar.rotation.z = -0.36 - Math.cos(t * 3.1) * 0.04 - (Math.sin(t * 10) > 0.90 ? 0.12 : 0);
+        leftEar.rotation.z = -0.32 + Math.sin(t * 3.4) * 0.04 + (Math.sin(t * 13) > 0.88 ? 0.10 : 0);
+        rightEar.rotation.z = 0.32 - Math.cos(t * 3.1) * 0.04 - (Math.sin(t * 10) > 0.90 ? 0.10 : 0);
 
         // Gentle authentic feline slow blinks
         slowBlinkTimer += 0.016;
@@ -917,25 +966,32 @@
     }
     animate();
 
-    // 15. Theme change sync
+    // 15. Real-Time Theme Change Synchronizer
+    function applyThemeColors() {
+      const isDark = isDarkTheme();
+      if (isDark) {
+        mats.coatMain.color.setHex(0x221f3d);
+        mats.coatCream.color.setHex(0x352e5a);
+        mats.innerEar.color.setHex(0xf472b6);
+        mats.iris.color.setHex(0x38bdf8);
+        mats.limbalRing.color.setHex(0x0c4a6e);
+        mats.eyelid.color.setHex(0x221f3d);
+        mats.collar.color.setHex(0x8b5cf6);
+      } else {
+        // Soft lilac-cashmere coat (#DED2ED) perfectly harmonized with light theme violet accent #7C3AED
+        mats.coatMain.color.setHex(0xded2ed);
+        mats.coatCream.color.setHex(0xffffff);
+        mats.innerEar.color.setHex(0xf9a8d4);
+        mats.iris.color.setHex(0x0284c7);
+        mats.limbalRing.color.setHex(0x075985);
+        mats.eyelid.color.setHex(0xded2ed);
+        mats.collar.color.setHex(0x7c3aed);
+      }
+    }
+
     const themeObserver = new MutationObserver(() => {
-      mats = getMaterials();
-      headMesh.material = mats.coatMain;
-      tailMesh.material = mats.coatMain;
-      tailTipMesh.material = mats.coatMain;
-      leftEar.material = mats.coatMain;
-      rightEar.material = mats.coatMain;
-      leftWhiskerPad.material = mats.coatCream;
-      rightWhiskerPad.material = mats.coatCream;
-      chinMesh.material = mats.coatCream;
-      noseMesh.material = mats.nose;
-      leftPaw.children[0].material = mats.coatCream;
-      rightPaw.children[0].material = mats.coatCream;
-      eyeRig.leftIris.material = mats.iris;
-      eyeRig.rightIris.material = mats.iris;
-      eyeRig.leftEyelid.material = mats.eyelid;
-      eyeRig.rightEyelid.material = mats.eyelid;
+      applyThemeColors();
     });
-    themeObserver.observe(document.documentElement, { attributes: true });
+    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
   }
 })();
