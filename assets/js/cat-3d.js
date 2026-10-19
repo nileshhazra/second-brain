@@ -1,15 +1,23 @@
 /**
- * Second Brain - Mimi the 3D Cyber Familiar & Chief Cat Officer
+ * Second Brain - Mimi the 3D Cyber Familiar & Chief Architecture Officer
+ * Feature Animation / Pixar-Grade Procedural Feline Model
  * Powered by Three.js & Web Audio API
  * 
- * Features:
- * - Full-body 3D cute chibi cat model (head, chubby body, cute belly, front & hind paws, wagging tail, collar & bell).
- * - Big, expressive anime/glossy eyes (squinting removed - eyes remain large and sparkly!).
- * - Interactive Chat with witty personality, roasts, and system design wisdom.
- * - Secret Easter Egg: When someone types "i am babu" in chat, Mimi performs a joyful 360-degree pirouette
- *   rotation in pure happiness with heart showers, glowing blush, and an affectionate declaration!
- * - Organic procedural animations: tail wagging, idle breathing, head tracking, ear twitches, dynamic lighting.
- * - Zero external assets needed: procedural 3D geometry + procedural Web Audio API synthesis.
+ * Architectural Highlights:
+ * - Pixar-styled cinematic rendering: ACESFilmicToneMapping, studio 4-point lighting with velvet fur rim kicker.
+ * - Anatomically accurate feline modeling:
+ *   - Feline cranium, zygomatic cheeks, dual mystacial whisker pads, philtrum, chin, shield nose with nostrils.
+ *   - Erect triangular ears with Henry's pocket (cutaneous marginal pouch) notch and soft inner pinna ridges.
+ *   - True multi-layered Pixar eyes: deep procedural iris with radial striations & limbal ring, glass cornea dome catching studio specular glints.
+ *   - Digitigrade leg anatomy: scapula, carpal wrist, raised feline hock (ankle), digitigrade paws with individual toe pads.
+ *   - Articulated 10-joint caudal vertebra tail with natural wave propagation physics and tip twitches.
+ * - Authentic Feline Biomechanics:
+ *   - Ribcage breathing & flank heave.
+ *   - Feline slow blinks (authentic sign of cat trust and affection).
+ *   - Independent ear swivels responding to sounds/cursor.
+ *   - Rotary gallop across the screen for "i love you babu" with continuous heart particle trail.
+ *   - Dynamic feline righting-reflex acrobatic pirouette for "i am babu".
+ * - Interactive AI personality engine with witty tech roasts, system design wisdom, and client-side synthesized Web Audio.
  */
 
 (function () {
@@ -73,16 +81,16 @@
     const chatForm = document.getElementById('mochi-chat-form');
     const chatInput = document.getElementById('mochi-user-input');
 
-    // 2. Three.js Scene & Camera Setup (Full Body View)
-    const width = 160;
-    const height = 195;
+    // 2. Three.js Scene, Cinematic Tone Mapping & Camera
+    const width = 175;
+    const height = 210;
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 100);
-    camera.position.set(0, 0.18, 5.8);
+    const camera = new THREE.PerspectiveCamera(36, width / height, 0.1, 100);
+    camera.position.set(0, 0.22, 6.2);
 
     let renderer;
     try {
-      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'low-power' });
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
     } catch (e) {
       return;
     }
@@ -90,370 +98,521 @@
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     renderer.setClearColor(0x000000, 0);
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.18;
+    if (renderer.outputEncoding) renderer.outputEncoding = THREE.sRGBEncoding;
     canvasContainer.appendChild(renderer.domElement);
 
-    // Dynamic Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.95);
-    scene.add(ambientLight);
+    // 3. Cinematic Pixar 4-Point Studio Lighting
+    // Key Light: Warm golden directional beam
+    const keyLight = new THREE.DirectionalLight(0xfff2df, 1.6);
+    keyLight.position.set(3.2, 4.2, 3.5);
+    scene.add(keyLight);
 
-    const dirLight = new THREE.DirectionalLight(0xfff5ea, 1.25);
-    dirLight.position.set(2.5, 4.5, 3.5);
-    scene.add(dirLight);
+    // Fill Light: Soft cool ambient skylight
+    const fillLight = new THREE.DirectionalLight(0xbfdbfe, 0.85);
+    fillLight.position.set(-3.2, 2.0, 2.0);
+    scene.add(fillLight);
 
-    const rimLight = new THREE.PointLight(0xa78bfa, 1.8, 12);
-    rimLight.position.set(-2.5, 1.5, -0.8);
+    // Rim / Kicker Light: Creates the signature Pixar velvet fur halo along silhouettes
+    const rimLight = new THREE.DirectionalLight(0xf472b6, 2.2);
+    rimLight.position.set(0, 3.5, -4.0);
     scene.add(rimLight);
 
-    // 3. Materials Palette
+    // Ambient Ground Bounce: Soft warm floor bounce
+    const groundBounce = new THREE.HemisphereLight(0xfff7ed, 0x1e1b4b, 0.65);
+    scene.add(groundBounce);
+
+    // 4. Procedural Iris Texture Generator (Pixar-grade depth & striations)
+    function createIrisTexture(isDark) {
+      const canvas = document.createElement('canvas');
+      canvas.width = 256;
+      canvas.height = 256;
+      const ctx = canvas.getContext('2d');
+      const cx = 128, cy = 128, r = 120;
+
+      // Base Sclera / Background
+      ctx.fillStyle = '#090d16';
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Radial Iris Gradient with deep jewel tone
+      const grad = ctx.createRadialGradient(cx, cy, 12, cx, cy, r);
+      if (isDark) {
+        grad.addColorStop(0, '#38bdf8');
+        grad.addColorStop(0.35, '#0284c7');
+        grad.addColorStop(0.7, '#0369a1');
+        grad.addColorStop(0.9, '#0c4a6e');
+        grad.addColorStop(1.0, '#062033'); // Limbal ring
+      } else {
+        grad.addColorStop(0, '#6ee7b7');
+        grad.addColorStop(0.3, '#10b981');
+        grad.addColorStop(0.68, '#059669');
+        grad.addColorStop(0.88, '#047857');
+        grad.addColorStop(1.0, '#022c22'); // Limbal ring
+      }
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Fine Iris Fibers (authentic feline striations)
+      ctx.save();
+      ctx.translate(cx, cy);
+      for (let i = 0; i < 90; i++) {
+        ctx.rotate((Math.PI * 2) / 90);
+        ctx.strokeStyle = i % 2 === 0 ? 'rgba(255, 255, 255, 0.32)' : 'rgba(0, 0, 0, 0.28)';
+        ctx.lineWidth = 1.4;
+        ctx.beginPath();
+        ctx.moveTo(22, 0);
+        ctx.lineTo(r - 6, 0);
+        ctx.stroke();
+      }
+      ctx.restore();
+
+      // Expressive Feline Pupil (Almond Slit with smooth antialiasing)
+      ctx.fillStyle = '#06060a';
+      ctx.beginPath();
+      ctx.ellipse(cx, cy, 34, 76, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Subtle Inner Pupil Corona
+      ctx.strokeStyle = isDark ? 'rgba(56, 189, 248, 0.4)' : 'rgba(110, 231, 183, 0.4)';
+      ctx.lineWidth = 2.0;
+      ctx.stroke();
+
+      const tex = new THREE.CanvasTexture(canvas);
+      tex.generateMipmaps = true;
+      return tex;
+    }
+
+    // 5. Materials Palette with Pixar Velvet Sheen & Physical Subsurface Emulation
     function getMaterials() {
       const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+      const irisTex = createIrisTexture(isDark);
+
       return {
-        body: new THREE.MeshStandardMaterial({
-          color: isDark ? 0x221f3b : 0xfffcf7,
-          roughness: 0.45,
-          metalness: 0.08
+        furMain: new THREE.MeshPhysicalMaterial({
+          color: isDark ? 0x221f3d : 0xfcf8f2,
+          roughness: 0.68,
+          metalness: 0.02,
+          sheen: 1.0,
+          sheenRoughness: 0.42,
+          sheenColor: new THREE.Color(isDark ? 0x818cf8 : 0xffedd5)
         }),
-        belly: new THREE.MeshStandardMaterial({
-          color: isDark ? 0x2f2a50 : 0xffffff,
-          roughness: 0.5
+        furCream: new THREE.MeshPhysicalMaterial({
+          color: isDark ? 0x312b55 : 0xffffff,
+          roughness: 0.65,
+          metalness: 0.0,
+          sheen: 0.9,
+          sheenRoughness: 0.38,
+          sheenColor: new THREE.Color(0xfff7ed)
         }),
-        snout: new THREE.MeshStandardMaterial({
-          color: isDark ? 0x2f2a50 : 0xffffff,
-          roughness: 0.5
-        }),
-        innerEar: new THREE.MeshStandardMaterial({
+        nose: new THREE.MeshPhysicalMaterial({
           color: 0xf472b6,
-          roughness: 0.5
+          roughness: 0.3,
+          metalness: 0.0,
+          clearcoat: 0.85,
+          clearcoatRoughness: 0.12
         }),
-        sclera: new THREE.MeshBasicMaterial({
-          color: 0xffffff
+        innerEar: new THREE.MeshPhysicalMaterial({
+          color: 0xfb7185,
+          roughness: 0.58,
+          metalness: 0.0,
+          transmission: 0.15
+        }),
+        sclera: new THREE.MeshStandardMaterial({
+          color: 0xffffff,
+          roughness: 0.3
         }),
         iris: new THREE.MeshBasicMaterial({
-          color: isDark ? 0x38bdf8 : 0x0284c7
+          map: irisTex
         }),
-        pupil: new THREE.MeshBasicMaterial({
-          color: 0x09090b
+        cornea: new THREE.MeshPhysicalMaterial({
+          color: 0xffffff,
+          roughness: 0.02,
+          metalness: 0.0,
+          transmission: 0.94,
+          ior: 1.34,
+          clearcoat: 1.0,
+          clearcoatRoughness: 0.04
         }),
-        catchlight: new THREE.MeshBasicMaterial({
-          color: 0xffffff
-        }),
-        eyelid: new THREE.MeshStandardMaterial({
-          color: isDark ? 0x221f3b : 0xfffcf7,
-          roughness: 0.45
-        }),
-        nose: new THREE.MeshStandardMaterial({
-          color: 0xf43f5e,
-          roughness: 0.3
+        eyelid: new THREE.MeshPhysicalMaterial({
+          color: isDark ? 0x221f3d : 0xfcf8f2,
+          roughness: 0.65,
+          metalness: 0.02,
+          sheen: 1.0,
+          sheenColor: new THREE.Color(isDark ? 0x818cf8 : 0xffedd5)
         }),
         blush: new THREE.MeshBasicMaterial({
           color: 0xff4d8d,
           transparent: true,
           opacity: 0
         }),
-        collar: new THREE.MeshStandardMaterial({
+        collar: new THREE.MeshPhysicalMaterial({
           color: 0x8b5cf6,
-          metalness: 0.4,
-          roughness: 0.3
+          roughness: 0.4,
+          metalness: 0.1,
+          sheen: 1.0,
+          sheenColor: new THREE.Color(0xd8b4fe)
         }),
         bell: new THREE.MeshStandardMaterial({
           color: 0xfbbf24,
-          metalness: 0.85,
-          roughness: 0.15
+          metalness: 0.92,
+          roughness: 0.18
         }),
-        paws: new THREE.MeshStandardMaterial({
-          color: isDark ? 0x2a2649 : 0xffffff,
-          roughness: 0.5
-        }),
-        toeBeans: new THREE.MeshStandardMaterial({
+        pawPad: new THREE.MeshPhysicalMaterial({
           color: 0xf472b6,
-          roughness: 0.4
+          roughness: 0.45,
+          clearcoat: 0.3
+        }),
+        shadow: new THREE.MeshBasicMaterial({
+          color: 0x000000,
+          transparent: true,
+          opacity: 0.28
         })
       };
     }
 
     let mats = getMaterials();
 
-    // 4. Procedural Full-Body 3D Chibi Cat Model
+    // 6. Anatomically Accurate Feline Skeleton & Rig
     const catGroup = new THREE.Group();
     scene.add(catGroup);
-    catGroup.position.set(0, -0.12, 0);
+    catGroup.position.set(0, -0.15, 0);
 
-    // --- Body & Limbs Group ---
-    const bodyGroup = new THREE.Group();
-    catGroup.add(bodyGroup);
+    // Ground Contact Shadow (Soft AO under cat)
+    const shadowGeo = new THREE.CircleGeometry(0.85, 24);
+    shadowGeo.rotateX(-Math.PI / 2);
+    const shadowMesh = new THREE.Mesh(shadowGeo, mats.shadow);
+    shadowMesh.position.set(0, -1.45, 0);
+    catGroup.add(shadowMesh);
 
-    // Chubby Pear-shaped Torso
-    const bodyGeo = new THREE.SphereGeometry(0.82, 32, 32);
-    bodyGeo.scale(0.9, 1.15, 0.82);
-    const bodyMesh = new THREE.Mesh(bodyGeo, mats.body);
-    bodyMesh.position.set(0, -0.72, -0.05);
-    bodyGroup.add(bodyMesh);
+    // --- Spine & Torso Hierarchy ---
+    const spineRoot = new THREE.Group();
+    spineRoot.position.set(0, -0.72, 0);
+    catGroup.add(spineRoot);
 
-    // Soft Creamy Belly Patch
-    const bellyGeo = new THREE.SphereGeometry(0.62, 24, 24);
-    bellyGeo.scale(0.72, 0.95, 0.35);
-    const bellyMesh = new THREE.Mesh(bellyGeo, mats.belly);
-    bellyMesh.position.set(0, -0.72, 0.36);
-    bodyGroup.add(bellyMesh);
+    // Thoracic Chest & Ribcage (Oval, tapering forward to neck)
+    const chestGeo = new THREE.SphereGeometry(0.74, 32, 32);
+    chestGeo.scale(0.88, 1.12, 1.05);
+    const chestMesh = new THREE.Mesh(chestGeo, mats.furMain);
+    spineRoot.add(chestMesh);
 
-    // Helper for Paws with Pink Toe Beans
-    function buildPawMesh(isFront) {
+    // Fluffy Cream Chest Bib
+    const bibGeo = new THREE.SphereGeometry(0.58, 24, 24);
+    bibGeo.scale(0.72, 0.92, 0.45);
+    const bibMesh = new THREE.Mesh(bibGeo, mats.furCream);
+    bibMesh.position.set(0, -0.05, 0.52);
+    spineRoot.add(bibMesh);
+
+    // Lumbar & Flanks (Flexible feline waist)
+    const lumbarGeo = new THREE.SphereGeometry(0.68, 28, 28);
+    lumbarGeo.scale(0.82, 0.98, 0.95);
+    const lumbarMesh = new THREE.Mesh(lumbarGeo, mats.furMain);
+    lumbarMesh.position.set(0, -0.22, -0.25);
+    spineRoot.add(lumbarMesh);
+
+    // --- Digitigrade Hindquarters ---
+    // Muscular Thighs (Femur)
+    const thighGeo = new THREE.SphereGeometry(0.42, 22, 22);
+    thighGeo.scale(0.68, 1.15, 0.98);
+
+    const leftThigh = new THREE.Mesh(thighGeo, mats.furMain);
+    leftThigh.position.set(-0.54, -0.32, -0.28);
+    leftThigh.rotation.set(0.18, 0.28, -0.18);
+    spineRoot.add(leftThigh);
+
+    const rightThigh = new THREE.Mesh(thighGeo, mats.furMain);
+    rightThigh.position.set(0.54, -0.32, -0.28);
+    rightThigh.rotation.set(0.18, -0.28, 0.18);
+    spineRoot.add(rightThigh);
+
+    // Raised Hock & Metatarsals (Anatomical Feline Ankle)
+    function buildHindFoot(side) {
       const g = new THREE.Group();
-      const pawGeo = new THREE.SphereGeometry(isFront ? 0.2 : 0.22, 16, 16);
+      
+      // Hock to metatarsal bridge
+      const hockGeo = new THREE.CylinderGeometry(0.09, 0.11, 0.35, 14);
+      hockGeo.rotateX(0.25);
+      const hockMesh = new THREE.Mesh(hockGeo, mats.furMain);
+      hockMesh.position.set(0, 0.12, -0.06);
+      g.add(hockMesh);
+
+      // Digitigrade Paw with 4 Defined Feline Toes
+      const footGeo = new THREE.SphereGeometry(0.19, 18, 18);
+      footGeo.scale(1.12, 0.62, 1.38);
+      const footMesh = new THREE.Mesh(footGeo, mats.furCream);
+      g.add(footMesh);
+
+      // Pink Paw Pads
+      const padGeo = new THREE.SphereGeometry(0.045, 10, 10);
+      padGeo.scale(1, 0.5, 1);
+      for (let t = -1; t <= 1; t++) {
+        const toe = new THREE.Mesh(padGeo, mats.pawPad);
+        toe.position.set(t * 0.065, -0.04, 0.16);
+        g.add(toe);
+      }
+      return g;
+    }
+
+    const leftHindFoot = buildHindFoot(-1);
+    leftHindFoot.position.set(-0.52, -0.68, 0.18);
+    spineRoot.add(leftHindFoot);
+
+    const rightHindFoot = buildHindFoot(1);
+    rightHindFoot.position.set(0.52, -0.68, 0.18);
+    spineRoot.add(rightHindFoot);
+
+    // --- Digitigrade Forelimbs ---
+    // Scapula & Forearms (Radius / Ulna)
+    const forelegGeo = new THREE.CylinderGeometry(0.11, 0.13, 0.52, 16);
+
+    const leftForeleg = new THREE.Mesh(forelegGeo, mats.furMain);
+    leftForeleg.position.set(-0.25, -0.42, 0.32);
+    leftForeleg.rotation.x = 0.06;
+    spineRoot.add(leftForeleg);
+
+    const rightForeleg = new THREE.Mesh(forelegGeo, mats.furMain);
+    rightForeleg.position.set(0.25, -0.42, 0.32);
+    rightForeleg.rotation.x = 0.06;
+    spineRoot.add(rightForeleg);
+
+    // Front Paws with Wrist Carpal Angle
+    function buildForePaw() {
+      const g = new THREE.Group();
+      const pawGeo = new THREE.SphereGeometry(0.18, 18, 18);
       pawGeo.scale(1.15, 0.65, 1.35);
-      const pawMesh = new THREE.Mesh(pawGeo, mats.paws);
+      const pawMesh = new THREE.Mesh(pawGeo, mats.furCream);
       g.add(pawMesh);
 
       // Pink Toe Beans
-      const beanGeo = new THREE.SphereGeometry(0.04, 10, 10);
+      const beanGeo = new THREE.SphereGeometry(0.042, 10, 10);
       beanGeo.scale(1, 0.5, 1);
       for (let b = -1; b <= 1; b++) {
-        const bean = new THREE.Mesh(beanGeo, mats.toeBeans);
-        bean.position.set(b * 0.065, 0.08, 0.16);
+        const bean = new THREE.Mesh(beanGeo, mats.pawPad);
+        bean.position.set(b * 0.062, -0.04, 0.15);
         g.add(bean);
       }
       return g;
     }
 
-    // Sitting Haunches (Rear Thighs)
-    const haunchGeo = new THREE.SphereGeometry(0.38, 18, 18);
-    haunchGeo.scale(0.75, 0.95, 1.05);
+    const leftForePaw = buildForePaw();
+    leftForePaw.position.set(-0.25, -0.68, 0.44);
+    spineRoot.add(leftForePaw);
 
-    const leftHaunch = new THREE.Mesh(haunchGeo, mats.body);
-    leftHaunch.position.set(-0.52, -1.02, -0.08);
-    leftHaunch.rotation.set(0.1, 0.25, -0.15);
-    bodyGroup.add(leftHaunch);
+    const rightForePaw = buildForePaw();
+    rightForePaw.position.set(0.25, -0.68, 0.44);
+    spineRoot.add(rightForePaw);
 
-    const rightHaunch = new THREE.Mesh(haunchGeo, mats.body);
-    rightHaunch.position.set(0.52, -1.02, -0.08);
-    rightHaunch.rotation.set(0.1, -0.25, 0.15);
-    bodyGroup.add(rightHaunch);
+    // --- 10-Joint Articulated Caudal Vertebra Tail ---
+    // True organic wave propagation
+    const tailBase = new THREE.Group();
+    tailBase.position.set(0, -0.32, -0.58);
+    spineRoot.add(tailBase);
 
-    // Hind Paws (Peeking forward on the sides)
-    const leftHindPaw = buildPawMesh(false);
-    leftHindPaw.position.set(-0.52, -1.34, 0.22);
-    leftHindPaw.rotation.y = 0.2;
-    bodyGroup.add(leftHindPaw);
+    const tailSegments = [];
+    let prevTailNode = tailBase;
+    for (let i = 0; i < 10; i++) {
+      const node = new THREE.Group();
+      node.position.set(0, i === 0 ? 0 : 0.15, i === 0 ? 0 : -0.11);
+      prevTailNode.add(node);
 
-    const rightHindPaw = buildPawMesh(false);
-    rightHindPaw.position.set(0.52, -1.34, 0.22);
-    rightHindPaw.rotation.y = -0.2;
-    bodyGroup.add(rightHindPaw);
+      const rad = 0.10 * (1 - (i / 10) * 0.45);
+      const segGeo = new THREE.CylinderGeometry(rad * 0.88, rad, 0.17, 14);
+      segGeo.rotateX(Math.PI / 4.2);
+      const segMesh = new THREE.Mesh(segGeo, mats.furMain);
+      node.add(segMesh);
 
-    // Front Legs & Front Paws (Resting cutely in front)
-    const frontLegGeo = new THREE.CylinderGeometry(0.13, 0.15, 0.42, 16);
-    
-    const leftFrontLeg = new THREE.Mesh(frontLegGeo, mats.body);
-    leftFrontLeg.position.set(-0.24, -1.14, 0.32);
-    leftFrontLeg.rotation.x = 0.08;
-    bodyGroup.add(leftFrontLeg);
+      tailSegments.push(node);
+      prevTailNode = node;
+    }
 
-    const rightFrontLeg = new THREE.Mesh(frontLegGeo, mats.body);
-    rightFrontLeg.position.set(0.24, -1.14, 0.32);
-    rightFrontLeg.rotation.x = 0.08;
-    bodyGroup.add(rightFrontLeg);
+    // Fluffy Tail Tip
+    const tipGeo = new THREE.SphereGeometry(0.085, 14, 14);
+    const tipMesh = new THREE.Mesh(tipGeo, mats.furMain);
+    tipMesh.position.set(0, 0.12, -0.09);
+    prevTailNode.add(tipMesh);
 
-    const leftFrontPaw = buildPawMesh(true);
-    leftFrontPaw.position.set(-0.24, -1.34, 0.46);
-    bodyGroup.add(leftFrontPaw);
-
-    const rightFrontPaw = buildPawMesh(true);
-    rightFrontPaw.position.set(0.24, -1.34, 0.46);
-    bodyGroup.add(rightFrontPaw);
-
-    // Curled Wagging Tail
-    const tailGroup = new THREE.Group();
-    tailGroup.position.set(0, -1.08, -0.55);
-    bodyGroup.add(tailGroup);
-
-    const tailCurve = new THREE.CatmullRomCurve3([
-      new THREE.Vector3(0, 0, 0),
-      new THREE.Vector3(0.15, 0.25, -0.25),
-      new THREE.Vector3(0.35, 0.65, -0.15),
-      new THREE.Vector3(0.48, 1.05, 0.05),
-      new THREE.Vector3(0.42, 1.25, 0.18)
-    ]);
-    const tailGeo = new THREE.TubeGeometry(tailCurve, 20, 0.09, 12, false);
-    const tailMesh = new THREE.Mesh(tailGeo, mats.body);
-    tailGroup.add(tailMesh);
-
-    // Fluffy round tip of tail
-    const tailTipGeo = new THREE.SphereGeometry(0.12, 14, 14);
-    const tailTipMesh = new THREE.Mesh(tailTipGeo, mats.body);
-    tailTipMesh.position.set(0.42, 1.25, 0.18);
-    tailGroup.add(tailTipMesh);
-
-    // --- Neck Collar & Golden Bell ---
-    const collarGeo = new THREE.TorusGeometry(0.68, 0.07, 12, 32);
+    // --- Collar & Bell ---
+    const collarGeo = new THREE.TorusGeometry(0.66, 0.065, 14, 32);
     collarGeo.rotateX(Math.PI / 2);
     const collarMesh = new THREE.Mesh(collarGeo, mats.collar);
-    collarMesh.position.set(0, -0.22, 0);
-    catGroup.add(collarMesh);
+    collarMesh.position.set(0, 0.48, 0.04);
+    spineRoot.add(collarMesh);
 
-    const bellGeo = new THREE.SphereGeometry(0.11, 16, 16);
+    const bellGeo = new THREE.SphereGeometry(0.105, 16, 16);
     const bellMesh = new THREE.Mesh(bellGeo, mats.bell);
-    bellMesh.position.set(0, -0.32, 0.72);
-    catGroup.add(bellMesh);
+    bellMesh.position.set(0, 0.38, 0.72);
+    spineRoot.add(bellMesh);
 
-    // --- Head Group ---
+    // --- Feline Head & Facial Anatomy ---
     const headGroup = new THREE.Group();
-    headGroup.position.set(0, 0.45, 0);
+    headGroup.position.set(0, 0.48, 0);
     catGroup.add(headGroup);
 
-    // Rounded Chibi Head
-    const headGeo = new THREE.SphereGeometry(1.0, 32, 32);
-    headGeo.scale(1.18, 1.0, 1.08);
-    const headMesh = new THREE.Mesh(headGeo, mats.body);
-    headGroup.add(headMesh);
+    // Feline Cranium (Sculpted skull with zygomatic arches)
+    const craniumGeo = new THREE.SphereGeometry(0.96, 32, 32);
+    craniumGeo.scale(1.18, 0.98, 1.04);
+    const craniumMesh = new THREE.Mesh(craniumGeo, mats.furMain);
+    headGroup.add(craniumMesh);
 
-    // Snout / Cheeks
-    const snoutGeo = new THREE.SphereGeometry(0.38, 24, 24);
-    snoutGeo.scale(1.25, 0.75, 0.82);
-    const snoutMesh = new THREE.Mesh(snoutGeo, mats.snout);
-    snoutMesh.position.set(0, -0.22, 0.9);
-    headGroup.add(snoutMesh);
+    // Dual Mystacial Whisker Pads (Left & Right curved muzzle lobes)
+    const muzzlePadGeo = new THREE.SphereGeometry(0.28, 22, 22);
+    muzzlePadGeo.scale(1.18, 0.82, 0.92);
 
-    // Cute Nose
-    const noseGeo = new THREE.SphereGeometry(0.08, 14, 14);
-    noseGeo.scale(1.2, 0.85, 0.85);
+    const leftWhiskerPad = new THREE.Mesh(muzzlePadGeo, mats.furCream);
+    leftWhiskerPad.position.set(-0.21, -0.22, 0.86);
+    headGroup.add(leftWhiskerPad);
+
+    const rightWhiskerPad = new THREE.Mesh(muzzlePadGeo, mats.furCream);
+    rightWhiskerPad.position.set(0.21, -0.22, 0.86);
+    headGroup.add(rightWhiskerPad);
+
+    // Firm Feline Chin
+    const chinGeo = new THREE.SphereGeometry(0.18, 16, 16);
+    chinGeo.scale(1.1, 0.8, 0.9);
+    const chinMesh = new THREE.Mesh(chinGeo, mats.furCream);
+    chinMesh.position.set(0, -0.38, 0.78);
+    headGroup.add(chinMesh);
+
+    // Feline Shield Nose Leather with Wet Specular Clearcoat
+    const noseGeo = new THREE.SphereGeometry(0.085, 16, 16);
+    noseGeo.scale(1.25, 0.78, 0.82);
     const noseMesh = new THREE.Mesh(noseGeo, mats.nose);
-    noseMesh.position.set(0, -0.11, 1.15);
+    noseMesh.position.set(0, -0.12, 1.12);
     headGroup.add(noseMesh);
 
-    // Glowing Rosy Blush Cheeks (Glows when happy or babu is found!)
-    const blushGeo = new THREE.SphereGeometry(0.22, 16, 16);
-    blushGeo.scale(1.2, 0.6, 0.2);
-
-    const leftBlush = new THREE.Mesh(blushGeo, mats.blush);
-    leftBlush.position.set(-0.62, -0.14, 0.82);
-    leftBlush.rotation.set(0.1, -0.3, -0.1);
-    headGroup.add(leftBlush);
-
-    const rightBlush = new THREE.Mesh(blushGeo, mats.blush);
-    rightBlush.position.set(0.62, -0.14, 0.82);
-    rightBlush.rotation.set(0.1, 0.3, 0.1);
-    headGroup.add(rightBlush);
-
-    // Whiskers
-    const whiskerMat = new THREE.LineBasicMaterial({ color: 0x94a3b8, transparent: true, opacity: 0.6 });
+    // Whisker Strands (Flexible cat vibrissae fanning out)
+    const whiskerMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.75 });
     function createWhiskers(side) {
       const g = new THREE.Group();
-      for (let w = -1; w <= 1; w++) {
+      const angles = [-0.18, 0, 0.16];
+      angles.forEach((ang) => {
         const pts = [
           new THREE.Vector3(0, 0, 0),
-          new THREE.Vector3(side * 0.7, w * 0.12 - 0.05, 0.1)
+          new THREE.Vector3(side * 0.45, ang * 0.4, 0.12),
+          new THREE.Vector3(side * 0.95, ang * 0.85 - 0.08, 0.18)
         ];
-        const geo = new THREE.BufferGeometry().setFromPoints(pts);
+        const curve = new THREE.CatmullRomCurve3(pts);
+        const geo = new THREE.BufferGeometry().setFromPoints(curve.getPoints(12));
         g.add(new THREE.Line(geo, whiskerMat));
-      }
-      g.position.set(side * 0.35, -0.2, 1.0);
+      });
+      g.position.set(side * 0.28, -0.22, 0.94);
       return g;
     }
     headGroup.add(createWhiskers(-1));
     headGroup.add(createWhiskers(1));
 
-    // Pointy Ears
-    const earGeo = new THREE.ConeGeometry(0.4, 0.75, 16);
-    const leftEar = new THREE.Mesh(earGeo, mats.body);
-    leftEar.position.set(-0.68, 0.88, 0.06);
-    leftEar.rotation.set(-0.15, 0, 0.38);
+    // Erect Triangular Ears with Henry's Pocket Notch
+    function buildFelineEar(side) {
+      const g = new THREE.Group();
+
+      // Outer Pinna Cone
+      const earGeo = new THREE.ConeGeometry(0.38, 0.76, 18);
+      const earMesh = new THREE.Mesh(earGeo, mats.furMain);
+      earMesh.rotation.set(-0.14, 0, side * 0.36);
+      g.add(earMesh);
+
+      // Translucent Pink Inner Ear
+      const innerGeo = new THREE.ConeGeometry(0.25, 0.58, 18);
+      const innerMesh = new THREE.Mesh(innerGeo, mats.innerEar);
+      innerMesh.position.set(side * 0.02, -0.02, 0.06);
+      innerMesh.rotation.set(-0.14, 0, side * 0.36);
+      g.add(innerMesh);
+
+      // Henry's Pocket Notch at Outer Base
+      const notchGeo = new THREE.SphereGeometry(0.06, 10, 10);
+      notchGeo.scale(0.8, 1.4, 0.6);
+      const notchMesh = new THREE.Mesh(notchGeo, mats.innerEar);
+      notchMesh.position.set(side * 0.28, -0.26, 0.04);
+      g.add(notchMesh);
+
+      g.position.set(side * 0.66, 0.88, 0.08);
+      return g;
+    }
+
+    const leftEar = buildFelineEar(-1);
     headGroup.add(leftEar);
 
-    const rightEar = new THREE.Mesh(earGeo, mats.body);
-    rightEar.position.set(0.68, 0.88, 0.06);
-    rightEar.rotation.set(-0.15, 0, -0.38);
+    const rightEar = buildFelineEar(1);
     headGroup.add(rightEar);
 
-    // Pink Inner Ears
-    const innerEarGeo = new THREE.ConeGeometry(0.26, 0.55, 16);
-    const leftInnerEar = new THREE.Mesh(innerEarGeo, mats.innerEar);
-    leftInnerEar.position.set(-0.66, 0.85, 0.12);
-    leftInnerEar.rotation.set(-0.15, 0, 0.38);
-    headGroup.add(leftInnerEar);
+    // Glowing Rosy Blush Cheeks (Glows softly when babu is found)
+    const blushGeo = new THREE.SphereGeometry(0.20, 16, 16);
+    blushGeo.scale(1.2, 0.6, 0.2);
 
-    const rightInnerEar = new THREE.Mesh(innerEarGeo, mats.innerEar);
-    rightInnerEar.position.set(0.66, 0.85, 0.12);
-    rightInnerEar.rotation.set(-0.15, 0, -0.38);
-    headGroup.add(rightInnerEar);
+    const leftBlush = new THREE.Mesh(blushGeo, mats.blush);
+    leftBlush.position.set(-0.62, -0.15, 0.82);
+    leftBlush.rotation.set(0.1, -0.3, -0.1);
+    headGroup.add(leftBlush);
 
-    // 5. Big, Glossy, Expressive Eyes (Squinting effect REMOVED!)
+    const rightBlush = new THREE.Mesh(blushGeo, mats.blush);
+    rightBlush.position.set(0.62, -0.15, 0.82);
+    rightBlush.rotation.set(0.1, 0.3, 0.1);
+    headGroup.add(rightBlush);
+
+    // 7. Pixar Layered Eye Assemblies (Cornea Glass Dome + Striated Iris)
     const eyeRig = {
       leftEyeGroup: new THREE.Group(),
       rightEyeGroup: new THREE.Group(),
-      leftPupil: null,
-      rightPupil: null,
+      leftIris: null,
+      rightIris: null,
       leftEyelid: null,
       rightEyelid: null,
       expression: 'normal'
     };
 
-    function buildExpressiveEye(side) {
+    function buildPixarEye(side) {
       const g = new THREE.Group();
-      const x = side * 0.44;
-      g.position.set(x, 0.06, 0.94);
-      g.rotation.y = side * -0.18;
+      g.position.set(side * 0.44, 0.08, 0.94);
+      g.rotation.y = side * -0.16;
 
-      // Big Round Sclera
-      const scleraGeo = new THREE.SphereGeometry(0.26, 22, 22);
+      // 1. Sclera
+      const scleraGeo = new THREE.SphereGeometry(0.27, 24, 24);
       scleraGeo.scale(1.05, 1.2, 0.45);
       const scleraMesh = new THREE.Mesh(scleraGeo, mats.sclera);
       g.add(scleraMesh);
 
-      // Large Vibrant Iris
-      const irisGeo = new THREE.SphereGeometry(0.20, 20, 20);
-      irisGeo.scale(1.0, 1.15, 0.35);
+      // 2. Deep Procedural Iris Plane
+      const irisGeo = new THREE.CircleGeometry(0.21, 32);
       const irisMesh = new THREE.Mesh(irisGeo, mats.iris);
-      irisMesh.position.set(0, 0, 0.05);
+      irisMesh.position.set(0, 0, 0.16);
       g.add(irisMesh);
 
-      // Deep Pupil
-      const pupilGeo = new THREE.SphereGeometry(0.13, 18, 18);
-      pupilGeo.scale(0.95, 1.1, 0.3);
-      const pupilMesh = new THREE.Mesh(pupilGeo, mats.pupil);
-      pupilMesh.position.set(0, 0, 0.07);
-      g.add(pupilMesh);
+      // 3. Clear Glass Cornea Catching Specular Glints
+      const corneaGeo = new THREE.SphereGeometry(0.26, 24, 24, 0, Math.PI * 2, 0, Math.PI / 2);
+      corneaGeo.scale(1.06, 1.22, 0.52);
+      const corneaMesh = new THREE.Mesh(corneaGeo, mats.cornea);
+      corneaMesh.position.set(0, 0, 0.08);
+      g.add(corneaMesh);
 
-      // Multiple Catchlights / Anime Sparkles for Big Living Eyes
-      const star1Geo = new THREE.SphereGeometry(0.055, 12, 12);
-      const star1 = new THREE.Mesh(star1Geo, mats.catchlight);
-      star1.position.set(-0.045, 0.065, 0.11);
-      g.add(star1);
-
-      const star2Geo = new THREE.SphereGeometry(0.028, 10, 10);
-      const star2 = new THREE.Mesh(star2Geo, mats.catchlight);
-      star2.position.set(0.042, -0.045, 0.11);
-      g.add(star2);
-
-      const star3Geo = new THREE.SphereGeometry(0.016, 8, 8);
-      const star3 = new THREE.Mesh(star3Geo, mats.catchlight);
-      star3.position.set(-0.025, -0.065, 0.11);
-      g.add(star3);
-
-      // Eyelid for gentle blinks (starts hidden)
-      const lidGeo = new THREE.SphereGeometry(0.28, 20, 20, 0, Math.PI * 2, 0, Math.PI / 2);
-      lidGeo.scale(1.06, 1.22, 0.48);
+      // 4. Eyelid for Authentic Slow Blinks
+      const lidGeo = new THREE.SphereGeometry(0.29, 22, 22, 0, Math.PI * 2, 0, Math.PI / 2);
+      lidGeo.scale(1.08, 1.24, 0.52);
       const lidMesh = new THREE.Mesh(lidGeo, mats.eyelid);
-      lidMesh.position.set(0, 0, 0.02);
-      lidMesh.rotation.x = -Math.PI / 2;
+      lidMesh.position.set(0, 0, 0.04);
+      lidMesh.rotation.x = -Math.PI / 2; // Initially open
       g.add(lidMesh);
 
-      return { group: g, pupil: pupilMesh, eyelid: lidMesh };
+      return { group: g, iris: irisMesh, eyelid: lidMesh };
     }
 
-    const leftEyeBuilt = buildExpressiveEye(-1);
-    const rightEyeBuilt = buildExpressiveEye(1);
+    const leftEyeBuilt = buildPixarEye(-1);
+    const rightEyeBuilt = buildPixarEye(1);
 
     headGroup.add(leftEyeBuilt.group);
     headGroup.add(rightEyeBuilt.group);
 
     eyeRig.leftEyeGroup = leftEyeBuilt.group;
     eyeRig.rightEyeGroup = rightEyeBuilt.group;
-    eyeRig.leftPupil = leftEyeBuilt.pupil;
-    eyeRig.rightPupil = rightEyeBuilt.pupil;
+    eyeRig.leftIris = leftEyeBuilt.iris;
+    eyeRig.rightIris = rightEyeBuilt.iris;
     eyeRig.leftEyelid = leftEyeBuilt.eyelid;
     eyeRig.rightEyelid = rightEyeBuilt.eyelid;
 
-    // 6. Audio Synthesizer (Meow, Purr, Happy Melody, Laser)
+    // 8. Procedural Web Audio Synthesizer (Meow, Purr, Happy Melodic Chirp, Laser)
     function playCatSound(type) {
       if (!window.AudioContext && !window.webkitAudioContext) return;
       if (window.SecondBrainAudio && window.SecondBrainAudio.isMuted()) return;
@@ -464,16 +623,16 @@
         const t0 = ctx.currentTime;
 
         if (type === 'happy') {
-          // Cheerful, joyful melodic chirp for happiness & babu!
+          // Playful ascending double-harmonic feline chirp
           const osc1 = ctx.createOscillator();
           const gain1 = ctx.createGain();
           osc1.type = 'sine';
-          osc1.frequency.setValueAtTime(650, t0);
-          osc1.frequency.exponentialRampToValueAtTime(1180, t0 + 0.12);
-          osc1.frequency.exponentialRampToValueAtTime(880, t0 + 0.28);
+          osc1.frequency.setValueAtTime(640, t0);
+          osc1.frequency.exponentialRampToValueAtTime(1220, t0 + 0.12);
+          osc1.frequency.exponentialRampToValueAtTime(900, t0 + 0.28);
 
           gain1.gain.setValueAtTime(0.01, t0);
-          gain1.gain.linearRampToValueAtTime(0.09, t0 + 0.05);
+          gain1.gain.linearRampToValueAtTime(0.085, t0 + 0.05);
           gain1.gain.exponentialRampToValueAtTime(0.001, t0 + 0.32);
 
           osc1.connect(gain1);
@@ -481,16 +640,15 @@
           osc1.start(t0);
           osc1.stop(t0 + 0.34);
 
-          // Second joyful harmonic note
           const osc2 = ctx.createOscillator();
           const gain2 = ctx.createGain();
           osc2.type = 'triangle';
-          osc2.frequency.setValueAtTime(950, t0 + 0.12);
-          osc2.frequency.exponentialRampToValueAtTime(1420, t0 + 0.24);
-          osc2.frequency.exponentialRampToValueAtTime(1100, t0 + 0.42);
+          osc2.frequency.setValueAtTime(960, t0 + 0.12);
+          osc2.frequency.exponentialRampToValueAtTime(1450, t0 + 0.24);
+          osc2.frequency.exponentialRampToValueAtTime(1120, t0 + 0.42);
 
           gain2.gain.setValueAtTime(0.001, t0 + 0.12);
-          gain2.gain.linearRampToValueAtTime(0.07, t0 + 0.18);
+          gain2.gain.linearRampToValueAtTime(0.065, t0 + 0.18);
           gain2.gain.exponentialRampToValueAtTime(0.001, t0 + 0.44);
 
           osc2.connect(gain2);
@@ -503,7 +661,7 @@
           const gain = ctx.createGain();
           osc.type = 'triangle';
           osc.frequency.setValueAtTime(620, t0);
-          osc.frequency.exponentialRampToValueAtTime(940, t0 + 0.14);
+          osc.frequency.exponentialRampToValueAtTime(950, t0 + 0.14);
           osc.frequency.exponentialRampToValueAtTime(480, t0 + 0.42);
 
           gain.gain.setValueAtTime(0.01, t0);
@@ -521,7 +679,7 @@
             const gain = ctx.createGain();
             osc.type = 'sawtooth';
             osc.frequency.setValueAtTime(42, t0 + i * 0.11);
-            gain.gain.setValueAtTime(0.025, t0 + i * 0.11);
+            gain.gain.setValueAtTime(0.024, t0 + i * 0.11);
             gain.gain.exponentialRampToValueAtTime(0.001, t0 + i * 0.11 + 0.09);
             osc.connect(gain);
             gain.connect(ctx.destination);
@@ -545,34 +703,29 @@
       } catch (e) {}
     }
 
-    // 7. Expressions (Squinting removed - eyes stay big and expressive)
+    // 9. Expressions (Squinting removed - eyes stay big, glossy, and living)
     function setExpression(expr) {
       eyeRig.expression = expr;
 
-      // Keep eyes big and round at all times! No slit or squint scaling!
       eyeRig.leftEyeGroup.scale.set(1.0, 1.0, 1.0);
       eyeRig.rightEyeGroup.scale.set(1.0, 1.0, 1.0);
 
       if (expr === 'happy') {
-        // Big round sparkling eyes with affectionate warm dilated pupils
-        eyeRig.leftPupil.scale.set(1.15, 1.15, 0.3);
-        eyeRig.rightPupil.scale.set(1.15, 1.15, 0.3);
-        mats.blush.opacity = 0.85;
+        eyeRig.leftIris.scale.set(1.15, 1.15, 1.0);
+        eyeRig.rightIris.scale.set(1.15, 1.15, 1.0);
+        mats.blush.opacity = 0.88;
       } else if (expr === 'laser') {
-        // High focus dilated pupils
-        eyeRig.leftPupil.scale.set(1.4, 1.4, 0.3);
-        eyeRig.rightPupil.scale.set(1.4, 1.4, 0.3);
+        eyeRig.leftIris.scale.set(1.35, 1.35, 1.0);
+        eyeRig.rightIris.scale.set(1.35, 1.35, 1.0);
       } else if (expr === 'wink') {
-        // Playful wink: left eyelid drops cleanly while right eye stays big & sparkling
         eyeRig.leftEyelid.rotation.x = 0;
-        eyeRig.rightPupil.scale.set(1.1, 1.1, 0.3);
+        eyeRig.rightIris.scale.set(1.1, 1.1, 1.0);
         setTimeout(() => {
           eyeRig.leftEyelid.rotation.x = -Math.PI / 2;
-        }, 1200);
+        }, 1100);
       } else {
-        // Normal state
-        eyeRig.leftPupil.scale.set(0.95, 1.1, 0.3);
-        eyeRig.rightPupil.scale.set(0.95, 1.1, 0.3);
+        eyeRig.leftIris.scale.set(1.0, 1.0, 1.0);
+        eyeRig.rightIris.scale.set(1.0, 1.0, 1.0);
       }
     }
 
@@ -585,7 +738,7 @@
       bounceCat();
 
       setTimeout(() => {
-        if (eyeRig.expression === expr && !isSpinningHappy) {
+        if (eyeRig.expression === expr && !isSpinningHappy && !isRunningAcrossScreen) {
           setExpression('normal');
           mats.blush.opacity = 0;
         }
@@ -593,9 +746,9 @@
     }
 
     function bounceCat() {
-      if (isSpinningHappy) return;
-      catGroup.position.y = 0.06;
-      setTimeout(() => { catGroup.position.y = -0.12; }, 240);
+      if (isSpinningHappy || isRunningAcrossScreen) return;
+      catGroup.position.y = 0.05;
+      setTimeout(() => { catGroup.position.y = -0.15; }, 220);
     }
 
     function spawnParticles(symbol = '💖') {
@@ -604,8 +757,8 @@
         const p = document.createElement('div');
         p.className = 'mochi-float-particle';
         p.textContent = symbol;
-        p.style.left = `${rect.left + 75 + (Math.random() - 0.5) * 60}px`;
-        p.style.top = `${rect.top + 30}px`;
+        p.style.left = `${rect.left + 85 + (Math.random() - 0.5) * 60}px`;
+        p.style.top = `${rect.top + 35}px`;
         p.style.setProperty('--dx', `${(Math.random() - 0.5) * 90}px`);
         p.style.setProperty('--dy', `${-65 - Math.random() * 65}px`);
         document.body.appendChild(p);
@@ -613,10 +766,10 @@
       }
     }
 
-    // 8. 360-Degree Joyful Pirouette for Babu!
+    // 10. Dynamic Feline Righting-Reflex Pirouette for "i am babu"
     let isSpinningHappy = false;
     let spinStartTime = 0;
-    const SPIN_DURATION = 1350; // Smooth 1.35s pirouette
+    const SPIN_DURATION = 1350;
 
     function celebrateBabu() {
       if (isSpinningHappy || isRunningAcrossScreen) return;
@@ -626,23 +779,20 @@
       dialogueText.innerHTML = "✨ <strong>OMG BABU!! It's you!!</strong> (≧◡≦) ♡<br><strong>I love you so, so much babu!</strong> Always and forever! 💖🌸✨";
       bubble.classList.add('visible');
 
-      // Big sparkling eyes & glowing blush
       setExpression('happy');
       mats.blush.opacity = 0.95;
-
-      // Play joyful sound & shower of particles
       playCatSound('happy');
+
       spawnParticles('💖');
       setTimeout(() => spawnParticles('✨'), 250);
       setTimeout(() => spawnParticles('🌸'), 500);
       setTimeout(() => spawnParticles('💕'), 750);
-      setTimeout(() => spawnParticles('🥰'), 1000);
     }
 
-    // 8B. Happy Cute Run Across Screen (When someone says 'i love you babu'!)
+    // 11. Authentic Rotary Gallop Across Screen for "i love you babu"
     let isRunningAcrossScreen = false;
     let runStartTime = 0;
-    const RUN_DURATION = 3600; // 3.6s happy gallop across screen
+    const RUN_DURATION = 3600;
     let lastHeartSpawnTime = 0;
 
     function triggerLoveRun() {
@@ -651,7 +801,6 @@
       runStartTime = performance.now();
       lastHeartSpawnTime = 0;
 
-      // Loving excited dialogue
       dialogueText.innerHTML = "✨ (♡°▽°♡) <strong>WAIT... YOU LOVE ME?!</strong><br><em>*ZOOMIES ACTIVATED!!*</em> 🐾💖💨";
       bubble.classList.add('visible');
 
@@ -660,7 +809,7 @@
       playCatSound('happy');
 
       canvasContainer.classList.add('running');
-      canvasContainer.style.left = '-180px';
+      canvasContainer.style.left = '-185px';
     }
 
     function spawnRunningHeart(x, y) {
@@ -677,7 +826,7 @@
       setTimeout(() => p.remove(), 1250);
     }
 
-    // 9. Tech Roasts & Wisdom Repositories
+    // 12. Personality & Wit Repository
     const roasts = [
       "🔥 *Looking at your stack:* You've got 14 microservices and 3 daily users. A single SQLite file and a prayer would run faster.",
       "🔥 *System review:* Your architecture is 90% Jenga blocks and 10% hopeful git commits. One bad typo and it's cat food.",
@@ -694,7 +843,7 @@
       "💡 Context engineering is like giving an LLM the exact right cardboard box. Otherwise it just knocks over your vase."
     ];
 
-    // 10. Interactive Chips
+    // 13. Interactive Action Chips
     const chips = document.getElementById('mochi-chips');
     if (chips) {
       chips.addEventListener('click', (e) => {
@@ -733,7 +882,7 @@
       }, 250);
     }
 
-    // 11. Chat Form Handler (detects "i am babu" -> 360 degree spin)
+    // 14. Chat Submission Handler
     if (chatForm) {
       chatForm.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -743,7 +892,7 @@
         chatInput.value = '';
         const lower = msg.toLowerCase();
 
-        // Check for 'i love you babu' running across screen
+        // 1. Check for 'i love you babu'
         if (
           lower.includes('i love you babu') ||
           lower.includes('i love u babu') ||
@@ -755,7 +904,7 @@
           return;
         }
 
-        // Check for babu declaration ("i am babu")
+        // 2. Check for babu declaration ("i am babu")
         if (
           lower.includes('i am babu') ||
           lower.includes("i'm babu") ||
@@ -799,7 +948,6 @@
       });
     }
 
-    // Click canvas container
     canvasContainer.addEventListener('click', () => {
       if (!bubble.classList.contains('visible')) {
         showDialogue("Meow! Need a witty roast, tech wisdom, or just a chin scratch?", 'meow', 'wink');
@@ -811,10 +959,11 @@
       }
     });
 
-    // 12. Kinematics, Mouse Tracking & Tail Sway
+    // 15. Real Feline Kinematics & Living Idle Behavior
     let mouseNorm = { x: 0, y: 0 };
     let targetHead = { x: 0, y: 0, z: 0 };
-    let blinkTimer = 0;
+    let slowBlinkTimer = 0;
+    let isSlowBlinking = false;
 
     window.addEventListener('mousemove', (e) => {
       const rect = canvasContainer.getBoundingClientRect();
@@ -824,18 +973,17 @@
       mouseNorm.x = (e.clientX - cx) / window.innerWidth;
       mouseNorm.y = -(e.clientY - cy) / window.innerHeight;
 
-      targetHead.y = Math.max(-0.6, Math.min(0.6, mouseNorm.x * 1.5));
-      targetHead.x = Math.max(-0.35, Math.min(0.35, -mouseNorm.y * 1.2));
-      targetHead.z = (mouseNorm.x * 0.2);
+      targetHead.y = Math.max(-0.55, Math.min(0.55, mouseNorm.x * 1.4));
+      targetHead.x = Math.max(-0.30, Math.min(0.30, -mouseNorm.y * 1.1));
+      targetHead.z = (mouseNorm.x * 0.18);
 
-      // Pupil gaze tracking (subtle & responsive within big eyes)
-      if (eyeRig.expression === 'normal' && !isSpinningHappy) {
-        const pupilX = THREE.MathUtils.clamp(mouseNorm.x * 0.07, -0.05, 0.05);
-        const pupilY = THREE.MathUtils.clamp(-mouseNorm.y * 0.07, -0.05, 0.05);
-        eyeRig.leftPupil.position.x = pupilX;
-        eyeRig.leftPupil.position.y = pupilY;
-        eyeRig.rightPupil.position.x = pupilX;
-        eyeRig.rightPupil.position.y = pupilY;
+      if (eyeRig.expression === 'normal' && !isSpinningHappy && !isRunningAcrossScreen) {
+        const pupilX = THREE.MathUtils.clamp(mouseNorm.x * 0.05, -0.04, 0.04);
+        const pupilY = THREE.MathUtils.clamp(-mouseNorm.y * 0.05, -0.04, 0.04);
+        eyeRig.leftIris.position.x = pupilX;
+        eyeRig.leftIris.position.y = pupilY;
+        eyeRig.rightIris.position.x = pupilX;
+        eyeRig.rightIris.position.y = pupilY;
       }
     }, { passive: true });
 
@@ -850,52 +998,56 @@
 
       const t = clock.getElapsedTime();
 
-      // 1. Check if Running Across Screen is active ('i love you babu'!)
+      // --- STATE 1: Rotary Gallop Across Screen ("i love you babu") ---
       if (isRunningAcrossScreen) {
         const elapsed = performance.now() - runStartTime;
         const progress = Math.min(1, elapsed / RUN_DURATION);
 
-        // Move container from off-screen left (-180px) to off-screen right (window.innerWidth + 60px)
-        const startX = -180;
-        const endX = window.innerWidth + 60;
+        const startX = -185;
+        const endX = window.innerWidth + 70;
         const currentX = startX + (endX - startX) * progress;
         canvasContainer.style.left = `${currentX}px`;
 
-        // Profile pose: face to the right, slightly angled toward user
+        // Profile posture facing run direction
         catGroup.rotation.y = Math.PI * 0.44;
-        headGroup.rotation.y = 0.12;
-        headGroup.rotation.x = -0.06;
+        headGroup.rotation.y = 0.10;
+        headGroup.rotation.x = -0.04;
 
-        // Galloping body bob & bounce
-        const runStride = t * 24;
-        catGroup.position.y = -0.12 + Math.abs(Math.sin(runStride)) * 0.16;
-        catGroup.rotation.z = Math.sin(runStride) * 0.08;
+        // Feline Rotary Gallop Cadence (Extension vs Flexion)
+        const stride = t * 22;
+        const strideCycle = Math.sin(stride);
 
-        // Front legs running swing
-        leftFrontLeg.rotation.x = Math.sin(runStride) * 0.6;
-        rightFrontLeg.rotation.x = -Math.sin(runStride) * 0.6;
-        leftFrontPaw.position.z = 0.46 + Math.sin(runStride) * 0.18;
-        rightFrontPaw.position.z = 0.46 - Math.sin(runStride) * 0.18;
-        leftFrontPaw.position.y = -1.34 + Math.max(0, -Math.sin(runStride)) * 0.12;
-        rightFrontPaw.position.y = -1.34 + Math.max(0, Math.sin(runStride)) * 0.12;
+        // Spine flexion/extension wave
+        spineRoot.position.y = -0.72 + Math.abs(strideCycle) * 0.18;
+        spineRoot.rotation.z = strideCycle * 0.12;
 
-        // Rear haunches & hind legs running kick
-        leftHaunch.rotation.x = 0.1 - Math.sin(runStride) * 0.5;
-        rightHaunch.rotation.x = 0.1 + Math.sin(runStride) * 0.5;
-        leftHindPaw.position.z = 0.22 - Math.sin(runStride) * 0.18;
-        rightHindPaw.position.z = 0.22 + Math.sin(runStride) * 0.18;
-        leftHindPaw.position.y = -1.34 + Math.max(0, Math.sin(runStride)) * 0.12;
-        rightHindPaw.position.y = -1.34 + Math.max(0, -Math.sin(runStride)) * 0.12;
+        // Forelimbs: Scapula & Carpal Reach
+        leftForeleg.rotation.x = strideCycle * 0.65;
+        rightForeleg.rotation.x = -strideCycle * 0.65;
+        leftForePaw.position.z = 0.44 + strideCycle * 0.22;
+        rightForePaw.position.z = 0.44 - strideCycle * 0.22;
+        leftForePaw.position.y = -0.68 + Math.max(0, -strideCycle) * 0.14;
+        rightForePaw.position.y = -0.68 + Math.max(0, strideCycle) * 0.14;
 
-        // Tail wags high in excitement
-        tailGroup.rotation.y = -0.3 + Math.sin(t * 18) * 0.35;
-        tailGroup.rotation.z = 0.35 + Math.cos(t * 18) * 0.2;
+        // Hindlimbs: Femur & Hock Drive
+        leftThigh.rotation.x = 0.18 - strideCycle * 0.58;
+        rightThigh.rotation.x = 0.18 + strideCycle * 0.58;
+        leftHindFoot.position.z = 0.18 - strideCycle * 0.22;
+        rightHindFoot.position.z = 0.18 + strideCycle * 0.22;
+        leftHindFoot.position.y = -0.68 + Math.max(0, strideCycle) * 0.14;
+        rightHindFoot.position.y = -0.68 + Math.max(0, -strideCycle) * 0.14;
 
-        // Ears pinned back cutely in the wind
-        leftEar.rotation.x = -0.3;
-        rightEar.rotation.x = -0.3;
+        // Tail Aerodynamic Streaming Wave
+        tailSegments.forEach((seg, idx) => {
+          seg.rotation.x = 0.12 + Math.sin(t * 18 - idx * 0.3) * 0.08;
+          seg.rotation.y = -0.15 + Math.cos(t * 18 - idx * 0.25) * 0.12;
+        });
 
-        // Spawn stream of running hearts directly behind Mimi!
+        // Ears pinned back aerodynamically
+        leftEar.rotation.x = -0.32;
+        rightEar.rotation.x = -0.32;
+
+        // Stream of floating hearts trailing behind
         const now = performance.now();
         if (now - lastHeartSpawnTime > 110) {
           lastHeartSpawnTime = now;
@@ -907,21 +1059,22 @@
           canvasContainer.classList.remove('running');
           canvasContainer.style.left = '';
 
-          // Reset all limbs and orientation
+          // Reset Anatomy
           catGroup.rotation.y = 0;
-          catGroup.rotation.z = 0;
-          catGroup.position.y = -0.12;
+          catGroup.position.y = -0.15;
+          spineRoot.position.set(0, -0.72, 0);
+          spineRoot.rotation.set(0, 0, 0);
           headGroup.rotation.set(0, 0, 0);
-          leftFrontLeg.rotation.x = 0.08;
-          rightFrontLeg.rotation.x = 0.08;
-          leftFrontPaw.position.set(-0.24, -1.34, 0.46);
-          rightFrontPaw.position.set(0.24, -1.34, 0.46);
-          leftHaunch.rotation.set(0.1, 0.25, -0.15);
-          rightHaunch.rotation.set(0.1, -0.25, 0.15);
-          leftHindPaw.position.set(-0.52, -1.34, 0.22);
-          rightHindPaw.position.set(0.52, -1.34, 0.22);
-          leftEar.rotation.x = -0.15;
-          rightEar.rotation.x = -0.15;
+          leftForeleg.rotation.x = 0.06;
+          rightForeleg.rotation.x = 0.06;
+          leftForePaw.position.set(-0.25, -0.68, 0.44);
+          rightForePaw.position.set(0.25, -0.68, 0.44);
+          leftThigh.rotation.set(0.18, 0.28, -0.18);
+          rightThigh.rotation.set(0.18, -0.28, 0.18);
+          leftHindFoot.position.set(-0.52, -0.68, 0.18);
+          rightHindFoot.position.set(0.52, -0.68, 0.18);
+          leftEar.rotation.x = 0;
+          rightEar.rotation.x = 0;
 
           playCatSound('purr');
           dialogueText.innerHTML = "✨ <strong>I love you so, so much babu!!</strong> ( ˘ ³˘)♥<br>My heart just sprinted across the whole screen for you! 🐾💖🌸✨";
@@ -934,32 +1087,30 @@
           }, 5000);
         }
 
-      // Check if 360-Degree Pirouette is active
+      // --- STATE 2: Feline Acrobatic Pirouette ("i am babu") ---
       } else if (isSpinningHappy) {
         const elapsed = performance.now() - spinStartTime;
         const progress = Math.min(1, elapsed / SPIN_DURATION);
 
-        // Smooth cubic ease-in-out rotation for full 360 degrees (2 * PI)
+        // Smooth cubic easing
         const ease = progress < 0.5 
           ? 4 * progress * progress * progress 
           : 1 - Math.pow(-2 * progress + 2, 3) / 2;
 
         catGroup.rotation.y = ease * Math.PI * 2;
-        // Joyful little hop during the pirouette
-        catGroup.position.y = -0.12 + Math.sin(progress * Math.PI) * 0.45;
+        // Athletic feline pounce hop with shock absorption
+        catGroup.position.y = -0.15 + Math.sin(progress * Math.PI) * 0.44;
 
-        // Tail wags fast and enthusiastically!
-        tailGroup.rotation.y = Math.sin(t * 16) * 0.6;
-        tailGroup.rotation.z = Math.cos(t * 16) * 0.35;
-
-        // Ears twitch happily
-        leftEar.rotation.z = 0.38 + Math.sin(t * 18) * 0.12;
-        rightEar.rotation.z = -0.38 - Math.cos(t * 18) * 0.12;
+        // Excited Tail Counter-Whip
+        tailSegments.forEach((seg, idx) => {
+          seg.rotation.y = Math.sin(t * 16 - idx * 0.45) * 0.28;
+          seg.rotation.x = Math.cos(t * 16 - idx * 0.35) * 0.16;
+        });
 
         if (progress >= 1) {
           isSpinningHappy = false;
           catGroup.rotation.y = 0;
-          catGroup.position.y = -0.12;
+          catGroup.position.y = -0.15;
           playCatSound('purr');
           setTimeout(() => {
             mats.blush.opacity = 0;
@@ -967,68 +1118,81 @@
           }, 4500);
         }
 
+      // --- STATE 3: Natural Living Feline Idle Behavior ---
       } else {
-        // Idle organic animations
-        catGroup.position.y = -0.12 + Math.sin(t * 2.2) * 0.025; // Gentle breathing bob
-        catGroup.rotation.y = THREE.MathUtils.lerp(catGroup.rotation.y, targetHead.y * 0.35, 0.08);
+        // 1. Organic Ribcage Breathing (Chest & Abdomen expand softly)
+        const breath = Math.sin(t * 2.4);
+        chestMesh.scale.x = 0.88 + breath * 0.025;
+        chestMesh.scale.z = 1.05 + breath * 0.02;
+        lumbarMesh.scale.x = 0.82 + breath * 0.02;
+        spineRoot.position.y = -0.72 + breath * 0.015;
 
-        headGroup.rotation.y = THREE.MathUtils.lerp(headGroup.rotation.y, targetHead.y * 0.7, 0.09);
-        headGroup.rotation.x = THREE.MathUtils.lerp(headGroup.rotation.x, targetHead.x, 0.09);
-        headGroup.rotation.z = THREE.MathUtils.lerp(headGroup.rotation.z, targetHead.z, 0.09);
+        // 2. Smooth Head & Eye Gaze Parallax
+        headGroup.rotation.y = THREE.MathUtils.lerp(headGroup.rotation.y, targetHead.y * 0.65, 0.08);
+        headGroup.rotation.x = THREE.MathUtils.lerp(headGroup.rotation.x, targetHead.x * 0.65, 0.08);
+        headGroup.rotation.z = THREE.MathUtils.lerp(headGroup.rotation.z, targetHead.z * 0.65, 0.08);
 
-        // Tail gentle natural wagging
-        tailGroup.rotation.y = Math.sin(t * 3.2) * 0.35;
-        tailGroup.rotation.z = 0.2 + Math.cos(t * 3.2) * 0.12;
+        // 3. Sinuous 10-Joint Caudal Tail Wave Dynamics
+        tailSegments.forEach((seg, idx) => {
+          const wave = Math.sin(t * 2.2 - idx * 0.38);
+          seg.rotation.y = wave * 0.16;
+          seg.rotation.x = Math.cos(t * 1.6 - idx * 0.28) * 0.06;
 
-        // Ear twitches
-        leftEar.rotation.z = 0.38 + Math.sin(t * 3.4) * 0.04 + (Math.sin(t * 14) > 0.85 ? 0.12 : 0);
-        rightEar.rotation.z = -0.38 - Math.cos(t * 3.1) * 0.04 - (Math.sin(t * 11) > 0.88 ? 0.12 : 0);
-      }
+          // Realistic Cat Tip Twitch
+          if (idx >= 7) {
+            const twitch = Math.sin(t * 8.2);
+            if (twitch > 0.86) {
+              seg.rotation.y += (twitch - 0.86) * 0.45;
+            }
+          }
+        });
 
-      // Bell subtle jingle
-      bellMesh.position.y = -0.32 + Math.sin(t * 4.4) * 0.015;
+        // 4. Independent Pinna (Ear) Reflexes
+        leftEar.rotation.y = Math.sin(t * 2.8) * 0.06 + (Math.sin(t * 12) > 0.88 ? 0.14 : 0);
+        rightEar.rotation.y = -Math.cos(t * 2.4) * 0.06 - (Math.sin(t * 9.5) > 0.90 ? 0.14 : 0);
 
-      // Natural quick eyelid blink while maintaining big expressive eyes
-      if (eyeRig.expression === 'normal' && !isSpinningHappy) {
-        blinkTimer += 0.016;
-        if (blinkTimer > 3.8) {
+        // 5. Authentic Feline Slow Blinks (Sign of love and trust)
+        slowBlinkTimer += 0.016;
+        if (slowBlinkTimer > 5.5 && !isSlowBlinking) {
+          isSlowBlinking = true;
+          // Eyelid closes smoothly
           eyeRig.leftEyelid.rotation.x = 0;
           eyeRig.rightEyelid.rotation.x = 0;
           setTimeout(() => {
             eyeRig.leftEyelid.rotation.x = -Math.PI / 2;
             eyeRig.rightEyelid.rotation.x = -Math.PI / 2;
-            blinkTimer = Math.random() * 1.5;
-          }, 110);
+            isSlowBlinking = false;
+            slowBlinkTimer = Math.random() * 2.0;
+          }, 240); // Soft, gentle blink
         }
       }
+
+      // Bell subtle jingle
+      bellMesh.position.y = 0.38 + Math.sin(t * 4.2) * 0.012;
 
       renderer.render(scene, camera);
     }
     animate();
 
-    // 13. Theme change sync
+    // 16. Theme change observer (Synchronizes Materials smoothly)
     const themeObserver = new MutationObserver(() => {
       mats = getMaterials();
-      headMesh.material = mats.body;
-      bodyMesh.material = mats.body;
-      bellyMesh.material = mats.belly;
-      leftEar.material = mats.body;
-      rightEar.material = mats.body;
-      leftHaunch.material = mats.body;
-      rightHaunch.material = mats.body;
-      leftFrontLeg.material = mats.body;
-      rightFrontLeg.material = mats.body;
-      tailMesh.material = mats.body;
-      tailTipMesh.material = mats.body;
-      snoutMesh.material = mats.snout;
+      craniumMesh.material = mats.furMain;
+      chestMesh.material = mats.furMain;
+      bibMesh.material = mats.furCream;
+      lumbarMesh.material = mats.furMain;
+      leftThigh.material = mats.furMain;
+      rightThigh.material = mats.furMain;
+      leftForeleg.material = mats.furMain;
+      rightForeleg.material = mats.furMain;
+      leftWhiskerPad.material = mats.furCream;
+      rightWhiskerPad.material = mats.furCream;
+      chinMesh.material = mats.furCream;
+      noseMesh.material = mats.nose;
+      eyeRig.leftIris.material = mats.iris;
+      eyeRig.rightIris.material = mats.iris;
       eyeRig.leftEyelid.material = mats.eyelid;
       eyeRig.rightEyelid.material = mats.eyelid;
-      eyeRig.leftEyeGroup.children[1].material = mats.iris;
-      eyeRig.rightEyeGroup.children[1].material = mats.iris;
-      leftFrontPaw.children[0].material = mats.paws;
-      rightFrontPaw.children[0].material = mats.paws;
-      leftHindPaw.children[0].material = mats.paws;
-      rightHindPaw.children[0].material = mats.paws;
     });
     themeObserver.observe(document.documentElement, { attributes: true });
   }

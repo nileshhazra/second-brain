@@ -1501,8 +1501,8 @@ pre {
 }
 
 .mochi-canvas-container {
-  width: 160px;
-  height: 195px;
+  width: 175px;
+  height: 210px;
   position: relative;
   pointer-events: auto;
   cursor: pointer;
@@ -1552,7 +1552,7 @@ pre {
 /* Mochi Speech Bubble */
 .mochi-dialogue-bubble {
   position: absolute;
-  bottom: 190px;
+  bottom: 205px;
   right: 0;
   width: 330px;
   max-width: calc(100vw - 2rem);
