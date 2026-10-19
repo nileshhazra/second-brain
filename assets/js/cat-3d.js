@@ -1,13 +1,14 @@
 /**
- * Second Brain - Mochi the 3D Cyber Familiar & Chief Cat Officer
+ * Second Brain - Mimi the 3D Cyber Familiar & Chief Cat Officer
  * Powered by Three.js & Web Audio API
  * 
  * Features:
+ * - Renamed to Mimi!
+ * - 'Are you babu?' interactive question with Yes/No choices.
+ * - When Yes is chosen: Mimi comes out and starts happily jumping with joy, saying 'i love you babu'!
  * - Expressive Eyes with emotional states (Happy, Skeptical, Dilated Laser Focus, Winking, Blinking)
  * - Head tracking with inquisitive tilt and cursor parallax
- * - Independent ear twitching and tail swish
- * - Hilarious, witty, sarcastic developer & data engineering personality
- * - Interactive actions: Scratch chin, Give coffee, Laser pointer chase, Roast code, Drop wisdom
+ * - Hilarious, witty tech personality & chat engine
  * - Synthesized procedural meow, purr, and laser sounds
  */
 
@@ -15,12 +16,12 @@
   'use strict';
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initMochiCat);
+    document.addEventListener('DOMContentLoaded', initMimiCat);
   } else {
-    initMochiCat();
+    initMimiCat();
   }
 
-  function initMochiCat() {
+  function initMimiCat() {
     if (typeof THREE === 'undefined') return;
 
     // Create DOM Elements
@@ -33,7 +34,7 @@
           <div class="mochi-profile">
             <span class="mochi-avatar">🐱</span>
             <div>
-              <div class="mochi-name">Mochi</div>
+              <div class="mochi-name">Mimi</div>
               <div class="mochi-title">Chief Architecture Officer (CAO)</div>
             </div>
           </div>
@@ -44,7 +45,17 @@
           *purr...* Oh look, a human in Nilesh's digital garden! Are you here to read about distributed systems, or did you just come to admire my whiskers?
         </div>
 
+        <!-- Special Babu Interactive Choice Box -->
+        <div id="mochi-babu-box" class="mochi-babu-box" style="display: none;">
+          <div class="mochi-babu-question">Wait a second... are you babu? 🥺👉👈</div>
+          <div class="mochi-babu-choices">
+            <button class="mochi-choice-btn yes" id="btn-babu-yes">Yes! 🥰</button>
+            <button class="mochi-choice-btn no" id="btn-babu-no">No 😅</button>
+          </div>
+        </div>
+
         <div class="mochi-interactive-chips" id="mochi-chips">
+          <button class="mochi-chip mochi-chip-babu" data-action="babu">🌸 Are you babu?</button>
           <button class="mochi-chip" data-action="scratch">🐾 Scratch Chin</button>
           <button class="mochi-chip" data-action="coffee">☕ Give Coffee</button>
           <button class="mochi-chip" data-action="roast">🔥 Roast My Stack</button>
@@ -53,12 +64,12 @@
         </div>
 
         <form id="mochi-chat-form" class="mochi-chat-form">
-          <input type="text" id="mochi-user-input" class="mochi-chat-input" placeholder="Ask Mochi about tech, life, or naps..." autocomplete="off">
+          <input type="text" id="mochi-user-input" class="mochi-chat-input" placeholder="Ask Mimi about tech, life, or naps..." autocomplete="off">
           <button type="submit" class="mochi-chat-send" aria-label="Send">💬</button>
         </form>
       </div>
 
-      <div id="mochi-canvas-container" class="mochi-canvas-container" title="Click Mochi to chat or pet!">
+      <div id="mochi-canvas-container" class="mochi-canvas-container" title="Click Mimi to chat or pet!">
         <div class="mochi-peek-prompt" id="mochi-peek-prompt">Psst! 🐾</div>
       </div>
     `;
@@ -67,6 +78,9 @@
     const canvasContainer = document.getElementById('mochi-canvas-container');
     const bubble = document.getElementById('mochi-dialogue-bubble');
     const dialogueText = document.getElementById('mochi-dialogue-text');
+    const babuBox = document.getElementById('mochi-babu-box');
+    const btnBabuYes = document.getElementById('btn-babu-yes');
+    const btnBabuNo = document.getElementById('btn-babu-no');
     const peekPrompt = document.getElementById('mochi-peek-prompt');
     const closeBtn = document.getElementById('mochi-close-dialogue');
     const chatForm = document.getElementById('mochi-chat-form');
@@ -74,7 +88,7 @@
 
     // 1. Three.js Scene & Camera Setup
     const width = 160;
-    const height = 175;
+    const height = 180;
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 100);
     camera.position.set(0, 0.55, 5.4);
@@ -111,6 +125,9 @@
     const headGroup = new THREE.Group();
     catGroup.add(headGroup);
 
+    let isHappyJumping = false;
+    let happyJumpEnd = 0;
+
     function getMaterials() {
       const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
       return {
@@ -131,7 +148,7 @@
           color: 0xffffff
         }),
         iris: new THREE.MeshBasicMaterial({
-          color: isDark ? 0x38bdf8 : 0x0284c7 // Glowing cyan in dark, bright sky in light
+          color: isDark ? 0x38bdf8 : 0x0284c7
         }),
         pupil: new THREE.MeshBasicMaterial({
           color: 0x09090b
@@ -190,7 +207,7 @@
     noseMesh.position.set(0, -0.11, 1.15);
     headGroup.add(noseMesh);
 
-    // Whiskers (Left & Right thin cylinders)
+    // Whiskers
     const whiskerMat = new THREE.LineBasicMaterial({ color: 0x94a3b8, transparent: true, opacity: 0.6 });
     function createWhiskers(side) {
       const g = new THREE.Group();
@@ -232,7 +249,7 @@
     rightInnerEar.rotation.set(-0.15, 0, -0.38);
     headGroup.add(rightInnerEar);
 
-    // 3. EXPRESSIVE EYE RIG (Pupils, Catchlights, Eyelids, Expressions)
+    // 3. Expressive Eye Rig
     const eyeRig = {
       leftEyeGroup: new THREE.Group(),
       rightEyeGroup: new THREE.Group(),
@@ -240,7 +257,7 @@
       rightPupil: null,
       leftEyelid: null,
       rightEyelid: null,
-      expression: 'normal' // 'normal' | 'happy' | 'skeptical' | 'laser' | 'wink'
+      expression: 'normal'
     };
 
     function buildExpressiveEye(side) {
@@ -249,27 +266,23 @@
       g.position.set(x, 0.06, 0.94);
       g.rotation.y = side * -0.18;
 
-      // Sclera (White base)
       const scleraGeo = new THREE.SphereGeometry(0.24, 20, 20);
       scleraGeo.scale(1.0, 1.25, 0.45);
       const scleraMesh = new THREE.Mesh(scleraGeo, mats.sclera);
       g.add(scleraMesh);
 
-      // Iris (Glowing colored disc)
       const irisGeo = new THREE.SphereGeometry(0.18, 18, 18);
       irisGeo.scale(0.95, 1.15, 0.35);
       const irisMesh = new THREE.Mesh(irisGeo, mats.iris);
       irisMesh.position.set(0, 0, 0.05);
       g.add(irisMesh);
 
-      // Pupil (Dark center that dilates)
       const pupilGeo = new THREE.SphereGeometry(0.12, 16, 16);
       pupilGeo.scale(0.9, 1.1, 0.3);
       const pupilMesh = new THREE.Mesh(pupilGeo, mats.pupil);
       pupilMesh.position.set(0, 0, 0.07);
       g.add(pupilMesh);
 
-      // Sparkle Catchlights (Big & Small for anime expression)
       const star1Geo = new THREE.SphereGeometry(0.05, 12, 12);
       const star1 = new THREE.Mesh(star1Geo, mats.catchlight);
       star1.position.set(-0.04, 0.06, 0.11);
@@ -280,12 +293,11 @@
       star2.position.set(0.04, -0.04, 0.11);
       g.add(star2);
 
-      // Eyelid for Blinking & Squinting
       const lidGeo = new THREE.SphereGeometry(0.26, 18, 18, 0, Math.PI * 2, 0, Math.PI / 2);
       lidGeo.scale(1.02, 1.28, 0.48);
       const lidMesh = new THREE.Mesh(lidGeo, mats.eyelid);
       lidMesh.position.set(0, 0, 0.02);
-      lidMesh.rotation.x = -Math.PI / 2; // Open
+      lidMesh.rotation.x = -Math.PI / 2;
       g.add(lidMesh);
 
       return { group: g, pupil: pupilMesh, eyelid: lidMesh };
@@ -316,7 +328,7 @@
     bellMesh.position.set(0, -0.94, 0.92);
     catGroup.add(bellMesh);
 
-    // Paws Peeking Over Edge with Toe Beans
+    // Paws with Pink Toe Beans
     function buildPaw(side) {
       const g = new THREE.Group();
       const pawGeo = new THREE.SphereGeometry(0.24, 16, 16);
@@ -324,7 +336,6 @@
       const pawMesh = new THREE.Mesh(pawGeo, mats.paws);
       g.add(pawMesh);
 
-      // Little pink toe beans
       const padGeo = new THREE.SphereGeometry(0.045, 10, 10);
       padGeo.scale(1, 0.5, 1);
       for (let b = -1; b <= 1; b++) {
@@ -341,7 +352,7 @@
     catGroup.add(leftPaw);
     catGroup.add(rightPaw);
 
-    // 4. Procedural Audio Synthesizer (Purr, Meow, Laser Chirp)
+    // 4. Procedural Audio Synthesizer
     function playCatSound(type) {
       if (!window.AudioContext && !window.webkitAudioContext) return;
       if (window.SecondBrainAudio && window.SecondBrainAudio.isMuted()) return;
@@ -355,17 +366,34 @@
           const gain = ctx.createGain();
           osc.type = 'triangle';
           osc.frequency.setValueAtTime(620, ctx.currentTime);
-          osc.frequency.exponentialRampToValueAtTime(920, ctx.currentTime + 0.14);
+          osc.frequency.exponentialRampToValueAtTime(940, ctx.currentTime + 0.14);
           osc.frequency.exponentialRampToValueAtTime(480, ctx.currentTime + 0.42);
 
           gain.gain.setValueAtTime(0.01, ctx.currentTime);
-          gain.gain.linearRampToValueAtTime(0.07, ctx.currentTime + 0.08);
+          gain.gain.linearRampToValueAtTime(0.08, ctx.currentTime + 0.08);
           gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.44);
 
           osc.connect(gain);
           gain.connect(ctx.destination);
           osc.start();
           osc.stop(ctx.currentTime + 0.46);
+        } else if (type === 'happyMeow') {
+          // Double joyous chirp!
+          for (let i = 0; i < 2; i++) {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(750 + i * 150, ctx.currentTime + i * 0.18);
+            osc.frequency.exponentialRampToValueAtTime(1250 + i * 150, ctx.currentTime + i * 0.18 + 0.12);
+
+            gain.gain.setValueAtTime(0.04, ctx.currentTime + i * 0.18);
+            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.18 + 0.15);
+
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(ctx.currentTime + i * 0.18);
+            osc.stop(ctx.currentTime + i * 0.18 + 0.16);
+          }
         } else if (type === 'purr') {
           for (let i = 0; i < 5; i++) {
             const osc = ctx.createOscillator();
@@ -416,15 +444,12 @@
       eyeRig.expression = expr;
 
       if (expr === 'happy') {
-        // Closed anime smile eyes ^_^
         eyeRig.leftEyeGroup.scale.set(1.0, 0.15, 1.0);
         eyeRig.rightEyeGroup.scale.set(1.0, 0.15, 1.0);
       } else if (expr === 'skeptical') {
-        // Squinty judging eyes
         eyeRig.leftEyeGroup.scale.set(1.0, 0.55, 1.0);
         eyeRig.rightEyeGroup.scale.set(1.0, 0.55, 1.0);
       } else if (expr === 'laser') {
-        // Hyper-dilated pupils
         eyeRig.leftEyeGroup.scale.set(1.15, 1.15, 1.0);
         eyeRig.rightEyeGroup.scale.set(1.15, 1.15, 1.0);
         eyeRig.leftPupil.scale.set(1.6, 1.6, 1.0);
@@ -433,7 +458,6 @@
         eyeRig.leftEyeGroup.scale.set(1.0, 0.15, 1.0);
         eyeRig.rightEyeGroup.scale.set(1.0, 1.1, 1.0);
       } else {
-        // Normal
         eyeRig.leftEyeGroup.scale.set(1.0, 1.0, 1.0);
         eyeRig.rightEyeGroup.scale.set(1.0, 1.0, 1.0);
         eyeRig.leftPupil.scale.set(0.9, 1.1, 0.3);
@@ -443,6 +467,7 @@
 
     function showDialogue(text, sound = 'meow', expr = 'happy') {
       if (peekPrompt) peekPrompt.style.display = 'none';
+      if (babuBox) babuBox.style.display = 'none';
       dialogueText.innerHTML = text;
       bubble.classList.add('visible');
       setExpression(expr);
@@ -450,31 +475,82 @@
       bounceCat();
 
       setTimeout(() => {
-        if (eyeRig.expression === expr) setExpression('normal');
+        if (eyeRig.expression === expr && !isHappyJumping) setExpression('normal');
       }, 3500);
     }
 
     function bounceCat() {
+      if (isHappyJumping) return;
       catGroup.position.y = -0.25;
       setTimeout(() => { catGroup.position.y = -0.65; }, 260);
     }
 
     function spawnParticles(symbol = '💖') {
       const rect = canvasContainer.getBoundingClientRect();
-      for (let i = 0; i < 6; i++) {
+      for (let i = 0; i < 7; i++) {
         const p = document.createElement('div');
         p.className = 'mochi-float-particle';
         p.textContent = symbol;
-        p.style.left = `${rect.left + 50 + (Math.random() - 0.5) * 45}px`;
+        p.style.left = `${rect.left + 50 + (Math.random() - 0.5) * 55}px`;
         p.style.top = `${rect.top + 20}px`;
-        p.style.setProperty('--dx', `${(Math.random() - 0.5) * 70}px`);
-        p.style.setProperty('--dy', `${-55 - Math.random() * 45}px`);
+        p.style.setProperty('--dx', `${(Math.random() - 0.5) * 80}px`);
+        p.style.setProperty('--dy', `${-65 - Math.random() * 55}px`);
         document.body.appendChild(p);
-        setTimeout(() => p.remove(), 1100);
+        setTimeout(() => p.remove(), 1200);
       }
     }
 
-    // 6. Action Chips Listeners
+    // 6. Babu Interaction Logic
+    function triggerBabuQuestion() {
+      if (peekPrompt) peekPrompt.style.display = 'none';
+      dialogueText.innerHTML = "Wait a second... are you babu? 🥺👉👈";
+      if (babuBox) babuBox.style.display = 'block';
+      bubble.classList.add('visible');
+      setExpression('laser');
+      playCatSound('meow');
+      bounceCat();
+    }
+
+    function handleBabuAnswer(isYes) {
+      if (babuBox) babuBox.style.display = 'none';
+
+      if (isYes) {
+        // Start happy jumping celebration!
+        isHappyJumping = true;
+        happyJumpEnd = performance.now() + 6500; // Jump happily for 6.5s!
+
+        dialogueText.innerHTML = "✨ <strong>YAAAY!! I love you babu!!</strong> ( ˘ ³˘)♥ Always and forever! 🐾💖🌸";
+        setExpression('happy');
+        playCatSound('happyMeow');
+
+        // Continuous shower of hearts
+        const interval = setInterval(() => {
+          if (!isHappyJumping) {
+            clearInterval(interval);
+            return;
+          }
+          spawnParticles(['💖', '💕', '🌸', '✨', '🥰'][Math.floor(Math.random() * 5)]);
+        }, 300);
+
+        setTimeout(() => {
+          isHappyJumping = false;
+          setExpression('normal');
+        }, 6500);
+
+      } else {
+        // Not babu
+        showDialogue("Hmph! Impostor detected! 🕵️‍♀️ But I suppose you may still explore Nilesh's digital garden.", 'meow', 'skeptical');
+      }
+    }
+
+    if (btnBabuYes) {
+      btnBabuYes.addEventListener('click', () => handleBabuAnswer(true));
+    }
+    if (btnBabuNo) {
+      btnBabuNo.addEventListener('click', () => handleBabuAnswer(false));
+    }
+
+    // 7. Action Chips Listeners
     const chips = document.getElementById('mochi-chips');
     if (chips) {
       chips.addEventListener('click', (e) => {
@@ -482,7 +558,9 @@
         if (!btn) return;
         const action = btn.dataset.action;
 
-        if (action === 'scratch') {
+        if (action === 'babu') {
+          triggerBabuQuestion();
+        } else if (action === 'scratch') {
           showDialogue("*Purrrrrrrrr...* ( ^ ﻌ ^ ) Under the chin! That's the sweet spot! All bugs in Nilesh's code are now forgiven.", 'purr', 'happy');
           spawnParticles('💖');
         } else if (action === 'coffee') {
@@ -515,7 +593,7 @@
       }, 250);
     }
 
-    // 7. Chat Form Handler
+    // 8. Chat Form Handler
     if (chatForm) {
       chatForm.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -524,6 +602,12 @@
 
         chatInput.value = '';
         const lower = msg.toLowerCase();
+
+        if (lower.includes('babu') || lower === 'yes' || lower.includes('i am babu')) {
+          handleBabuAnswer(true);
+          return;
+        }
+
         let reply = "Meow? That sounds like a 500 error waiting to happen. Press '/' to search the garden notes for clarity!";
         let sound = 'meow';
         let expr = 'happy';
@@ -534,7 +618,7 @@
         } else if (lower.includes('spark') || lower.includes('data')) {
           reply = "Apache Spark! The Driver acts as the head chef, and Executors do the cooking. Read Issue #4 above for the full recipe!";
           expr = 'laser';
-        } else if (lower.includes('cat') || lower.includes('cute') || lower.includes('good')) {
+        } else if (lower.includes('cat') || lower.includes('cute') || lower.includes('good') || lower.includes('mimi')) {
           reply = "*Purrrr!* Of course I'm cute, I run on 60 FPS WebGL and pure biological perfection.";
           expr = 'happy';
           sound = 'purr';
@@ -569,7 +653,7 @@
       }
     });
 
-    // 8. Kinematics & Tracking (Head Turn, Inquisitive Tilt, Blinking)
+    // 9. Kinematics & Tracking (Head Turn, Jumping, Blinking)
     let mouseNorm = { x: 0, y: 0 };
     let targetHead = { x: 0, y: 0, z: 0 };
     let blinkTimer = 0;
@@ -583,12 +667,10 @@
       mouseNorm.x = (e.clientX - cx) / window.innerWidth;
       mouseNorm.y = -(e.clientY - cy) / window.innerHeight;
 
-      // Inquisitive head tilt
       targetHead.y = Math.max(-0.6, Math.min(0.6, mouseNorm.x * 1.6));
       targetHead.x = Math.max(-0.35, Math.min(0.35, -mouseNorm.y * 1.2));
-      targetHead.z = (mouseNorm.x * 0.2); // Cute inquisitive head cock!
+      targetHead.z = (mouseNorm.x * 0.2);
 
-      // Pupil parallax inside eye socket
       if (eyeRig.expression === 'normal') {
         const pupilX = THREE.MathUtils.clamp(mouseNorm.x * 0.08, -0.05, 0.05);
         const pupilY = THREE.MathUtils.clamp(-mouseNorm.y * 0.08, -0.05, 0.05);
@@ -610,17 +692,28 @@
 
       const t = clock.getElapsedTime();
 
-      // Smooth head tracking with inquisitive tilt
-      headGroup.rotation.y = THREE.MathUtils.lerp(headGroup.rotation.y, targetHead.y, 0.09);
-      headGroup.rotation.x = THREE.MathUtils.lerp(headGroup.rotation.x, targetHead.x, 0.09);
-      headGroup.rotation.z = THREE.MathUtils.lerp(headGroup.rotation.z, targetHead.z, 0.09);
+      // Check if jumping celebration is active
+      if (isHappyJumping) {
+        // Mimi comes out and leaps with joy!
+        catGroup.position.y = 0.2 + Math.abs(Math.sin(t * 8.5)) * 0.75;
+        catGroup.position.x = Math.sin(t * 5.0) * 0.28; // Cute happy dance side to side
+        catGroup.rotation.z = Math.sin(t * 12.0) * 0.18; // Joyful wiggle
 
-      // Independent twitching cat ears
-      leftEar.rotation.z = 0.38 + Math.sin(t * 3.8) * 0.05 + (Math.sin(t * 14) > 0.82 ? 0.14 : 0);
-      rightEar.rotation.z = -0.38 - Math.cos(t * 3.4) * 0.05 - (Math.sin(t * 11) > 0.85 ? 0.14 : 0);
+        leftEar.rotation.z = 0.38 + Math.sin(t * 16) * 0.18;
+        rightEar.rotation.z = -0.38 - Math.cos(t * 16) * 0.18;
+      } else {
+        // Normal breathing & idle tracking
+        catGroup.position.x = 0;
+        catGroup.position.y = -0.65 + Math.sin(t * 2.4) * 0.04;
+        catGroup.rotation.z = THREE.MathUtils.lerp(catGroup.rotation.z, targetHead.z, 0.09);
 
-      // Cute breathing body bob
-      catGroup.position.y = -0.65 + Math.sin(t * 2.4) * 0.04;
+        headGroup.rotation.y = THREE.MathUtils.lerp(headGroup.rotation.y, targetHead.y, 0.09);
+        headGroup.rotation.x = THREE.MathUtils.lerp(headGroup.rotation.x, targetHead.x, 0.09);
+        headGroup.rotation.z = THREE.MathUtils.lerp(headGroup.rotation.z, targetHead.z, 0.09);
+
+        leftEar.rotation.z = 0.38 + Math.sin(t * 3.8) * 0.05 + (Math.sin(t * 14) > 0.82 ? 0.14 : 0);
+        rightEar.rotation.z = -0.38 - Math.cos(t * 3.4) * 0.05 - (Math.sin(t * 11) > 0.85 ? 0.14 : 0);
+      }
 
       // Bell subtle jingle
       bellMesh.position.y = -0.94 + Math.sin(t * 4.8) * 0.02;

@@ -1632,6 +1632,74 @@ pre {
   min-height: 48px;
 }
 
+/* Babu Interactive Choice Box */
+.mochi-babu-box {
+  margin: 0.5rem 0 0.85rem 0;
+  padding: 0.75rem;
+  background: rgba(244, 114, 182, 0.12);
+  border: 1px dashed rgba(244, 114, 182, 0.5);
+  border-radius: 14px;
+  text-align: center;
+  animation: babu-pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes babu-pop {
+  0% { transform: scale(0.9); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.mochi-babu-question {
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: var(--color-text);
+  margin-bottom: 0.6rem;
+}
+
+.mochi-babu-choices {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.mochi-choice-btn {
+  padding: 0.35rem 1rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.mochi-choice-btn.yes {
+  background: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%);
+  color: #ffffff;
+  border: none;
+  box-shadow: 0 4px 12px rgba(236, 72, 153, 0.4);
+}
+
+.mochi-choice-btn.yes:hover {
+  transform: scale(1.08) translateY(-2px);
+  box-shadow: 0 6px 16px rgba(236, 72, 153, 0.6);
+}
+
+.mochi-choice-btn.no {
+  background: var(--color-foreground);
+  color: var(--color-text-subtle);
+  border: 1px solid var(--color-border);
+}
+
+.mochi-choice-btn.no:hover {
+  color: var(--color-text);
+  border-color: var(--color-text-muted);
+}
+
+.mochi-chip-babu {
+  background: rgba(244, 114, 182, 0.15) !important;
+  border-color: rgba(244, 114, 182, 0.5) !important;
+  color: #ec4899 !important;
+  font-weight: 700 !important;
+}
+
 .mochi-interactive-chips {
   display: flex;
   flex-wrap: wrap;
