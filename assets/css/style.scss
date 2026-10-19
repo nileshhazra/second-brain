@@ -1346,8 +1346,8 @@ pre {
 /* 15. Circular Back to Top Floating Button */
 .back-to-top-btn {
   position: fixed;
-  bottom: 2rem;
-  right: 2rem;
+  bottom: 155px;
+  right: 1.5rem;
   width: 44px;
   height: 44px;
   border-radius: 50%;
@@ -1484,7 +1484,224 @@ pre {
   }
 
   .back-to-top-btn {
-    bottom: 1.25rem;
+    bottom: 140px;
     right: 1.25rem;
+  }
+}
+
+/* 18. Mochi - The 3D Interactive Companion Cat */
+.mochi-cat-widget {
+  position: fixed;
+  bottom: 0;
+  right: 0.75rem;
+  z-index: 999;
+  pointer-events: none;
+}
+
+.mochi-canvas-container {
+  width: 140px;
+  height: 150px;
+  position: relative;
+  pointer-events: auto;
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.2));
+}
+
+.mochi-canvas-container:hover {
+  transform: translateY(-6px) scale(1.04);
+}
+
+.mochi-canvas-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+.mochi-peek-prompt {
+  position: absolute;
+  top: 15px;
+  left: -10px;
+  background: var(--color-foreground);
+  color: var(--color-accent);
+  border: 1px solid var(--color-border);
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.76rem;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  pointer-events: none;
+}
+
+.mochi-peek-prompt.visible {
+  opacity: 1;
+  transform: translateY(0);
+  animation: prompt-bob 2s ease-in-out infinite;
+}
+
+@keyframes prompt-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+/* Mochi Speech Bubble */
+.mochi-dialogue-bubble {
+  position: absolute;
+  bottom: 145px;
+  right: 0;
+  width: 320px;
+  max-width: calc(100vw - 2rem);
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-card-border);
+  border-radius: 16px;
+  box-shadow: var(--color-card-hover-shadow);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 0.95rem 1rem;
+  pointer-events: auto;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.9) translateY(15px);
+  transform-origin: bottom right;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.mochi-dialogue-bubble.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1) translateY(0);
+}
+
+.mochi-dialogue-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.mochi-name {
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: var(--color-text);
+}
+
+.mochi-status-tag {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.1rem 0.45rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent-subtle);
+  color: var(--color-accent);
+}
+
+.mochi-bubble-close {
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 0.1rem 0.3rem;
+  border-radius: 4px;
+  transition: color 0.2s ease;
+}
+
+.mochi-bubble-close:hover {
+  color: var(--color-text);
+}
+
+.mochi-dialogue-text {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--color-text);
+  margin-bottom: 0.75rem;
+  min-height: 42px;
+}
+
+.mochi-interactive-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.75rem;
+}
+
+.mochi-chip {
+  padding: 0.25rem 0.6rem;
+  font-size: 0.76rem;
+  font-weight: 600;
+  border-radius: var(--radius-pill);
+  background: var(--color-foreground);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-subtle);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mochi-chip:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+  transform: translateY(-1px);
+}
+
+.mochi-chat-form {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: var(--color-foreground);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  padding: 0.15rem 0.25rem 0.15rem 0.75rem;
+}
+
+.mochi-chat-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-family: var(--font-main);
+  font-size: 0.82rem;
+  color: var(--color-text);
+  outline: none;
+}
+
+.mochi-chat-send {
+  background: var(--color-accent);
+  border: none;
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.8rem;
+  color: #FFFFFF;
+  transition: transform 0.2s ease;
+}
+
+.mochi-chat-send:hover {
+  transform: scale(1.08);
+}
+
+/* Floating Heart Particles */
+.mochi-heart-particle {
+  position: fixed;
+  pointer-events: none;
+  font-size: 1.3rem;
+  z-index: 10001;
+  animation: mochi-float-fade 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes mochi-float-fade {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(0.6);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--dx), var(--dy)) scale(1.3);
   }
 }
