@@ -1501,8 +1501,8 @@ pre {
 }
 
 .mochi-canvas-container {
-  width: 140px;
-  height: 152px;
+  width: 160px;
+  height: 195px;
   position: relative;
   pointer-events: auto;
   cursor: pointer;
@@ -1522,8 +1522,8 @@ pre {
 
 .mochi-peek-prompt {
   position: absolute;
-  top: 14px;
-  left: -8px;
+  top: 10px;
+  left: -6px;
   background: var(--color-foreground);
   color: var(--color-accent);
   border: 1px solid var(--color-border);
@@ -1552,7 +1552,7 @@ pre {
 /* Mochi Speech Bubble */
 .mochi-dialogue-bubble {
   position: absolute;
-  bottom: 148px;
+  bottom: 190px;
   right: 0;
   width: 330px;
   max-width: calc(100vw - 2rem);
@@ -1630,74 +1630,6 @@ pre {
   color: var(--color-text);
   margin-bottom: 0.85rem;
   min-height: 48px;
-}
-
-/* Babu Interactive Choice Box */
-.mochi-babu-box {
-  margin: 0.5rem 0 0.85rem 0;
-  padding: 0.75rem;
-  background: rgba(244, 114, 182, 0.12);
-  border: 1px dashed rgba(244, 114, 182, 0.5);
-  border-radius: 14px;
-  text-align: center;
-  animation: babu-pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-@keyframes babu-pop {
-  0% { transform: scale(0.9); opacity: 0; }
-  100% { transform: scale(1); opacity: 1; }
-}
-
-.mochi-babu-question {
-  font-weight: 700;
-  font-size: 0.92rem;
-  color: var(--color-text);
-  margin-bottom: 0.6rem;
-}
-
-.mochi-babu-choices {
-  display: flex;
-  gap: 0.5rem;
-  justify-content: center;
-}
-
-.mochi-choice-btn {
-  padding: 0.35rem 1rem;
-  font-size: 0.82rem;
-  font-weight: 700;
-  border-radius: var(--radius-pill);
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.mochi-choice-btn.yes {
-  background: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%);
-  color: #ffffff;
-  border: none;
-  box-shadow: 0 4px 12px rgba(236, 72, 153, 0.4);
-}
-
-.mochi-choice-btn.yes:hover {
-  transform: scale(1.08) translateY(-2px);
-  box-shadow: 0 6px 16px rgba(236, 72, 153, 0.6);
-}
-
-.mochi-choice-btn.no {
-  background: var(--color-foreground);
-  color: var(--color-text-subtle);
-  border: 1px solid var(--color-border);
-}
-
-.mochi-choice-btn.no:hover {
-  color: var(--color-text);
-  border-color: var(--color-text-muted);
-}
-
-.mochi-chip-babu {
-  background: rgba(244, 114, 182, 0.15) !important;
-  border-color: rgba(244, 114, 182, 0.5) !important;
-  color: #ec4899 !important;
-  font-weight: 700 !important;
 }
 
 .mochi-interactive-chips {
@@ -1781,75 +1713,5 @@ pre {
   100% {
     opacity: 0;
     transform: translate(var(--dx), var(--dy)) scale(1.35);
-  }
-}
-
-/* Screen Glass Kiss Mark - Loving Smooches on the Glass */
-.screen-kiss-glass-mark {
-  position: fixed;
-  pointer-events: none;
-  z-index: 10002;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform: translate(-50%, -50%);
-  animation: screen-kiss-glass-pop 1.8s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
-  filter: drop-shadow(0 2px 10px rgba(244, 63, 94, 0.55));
-}
-
-.screen-kiss-glass-mark .kiss-emoji {
-  font-size: 2.3rem;
-  animation: kiss-pulse 0.4s ease-out;
-  display: inline-block;
-}
-
-.screen-kiss-glass-mark .kiss-heart {
-  font-size: 1.25rem;
-  position: absolute;
-  top: -8px;
-  right: -6px;
-  animation: kiss-heart-float 1.8s ease-out forwards;
-}
-
-@keyframes screen-kiss-glass-pop {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.3) rotate(-15deg);
-  }
-  20% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1.25) rotate(0deg);
-  }
-  40% {
-    transform: translate(-50%, -50%) scale(1.05) rotate(3deg);
-  }
-  75% {
-    opacity: 0.95;
-    transform: translate(-50%, -50%) scale(1.0) rotate(0deg);
-  }
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -60%) scale(1.15) rotate(5deg);
-  }
-}
-
-@keyframes kiss-pulse {
-  0% { transform: scale(0.7); }
-  50% { transform: scale(1.3); }
-  100% { transform: scale(1.0); }
-}
-
-@keyframes kiss-heart-float {
-  0% {
-    opacity: 0;
-    transform: translateY(4px) scale(0.5);
-  }
-  30% {
-    opacity: 1;
-    transform: translateY(-4px) scale(1.2);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-24px) scale(1.4);
   }
 }
