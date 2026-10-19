@@ -1,25 +1,26 @@
-<!-- Interactive 3D Brain & 3D Model Stage -->
+<!-- Advanced Interactive 3D Visualizer & Model Explorer Stage -->
 <div class="stage-3d-wrapper">
+  <!-- Top Stage Header -->
   <div class="stage-3d-header">
     <div class="stage-tab-group">
-      <button class="stage-tab active" id="tab-neural-brain" data-target="panel-neural-brain" aria-label="Neural Brain 3D">
-        <span class="tab-icon">🧠</span>
-        <span class="tab-text">Neural Network</span>
-        <span class="live-pulse-badge">LIVE 3D</span>
+      <button class="stage-tab active" id="tab-webgl-visuals" data-target="panel-webgl-visuals" aria-label="3D Procedural Visuals">
+        <span class="tab-icon">✨</span>
+        <span class="tab-text">3D Visualizers</span>
+        <span class="live-pulse-badge">WebGL</span>
       </button>
       <button class="stage-tab" id="tab-model-viewer" data-target="panel-model-viewer" aria-label="3D Model Viewer">
         <span class="tab-icon">📦</span>
-        <span class="tab-text">3D Model Viewer</span>
+        <span class="tab-text">3D Model Explorer</span>
       </button>
     </div>
 
-    <!-- HUD Action Controls -->
+    <!-- HUD Action Controls for WebGL -->
     <div class="stage-hud-controls" id="neural-hud-controls">
-      <button class="hud-btn" id="btn-pulse-brain" title="Fire Synaptic Pulse (or press 'P')">
+      <button class="hud-btn" id="btn-pulse-brain" title="Trigger Energy Burst (or press 'P')">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
         </svg>
-        <span>Fire Synapse</span>
+        <span>Energy Burst</span>
       </button>
       <button class="hud-btn active" id="btn-rotate-brain" title="Toggle Auto-Orbit">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -37,23 +38,58 @@
     </div>
   </div>
 
-  <!-- Panel 1: Three.js WebGL Neural Brain Canvas -->
-  <div class="stage-panel active" id="panel-neural-brain">
-    <div id="brain-3d-canvas-container" class="brain-3d-canvas-container" title="Drag to rotate, double click to fire pulse">
-      <div class="brain-loading-spinner">
-        <div class="spinner-ring"></div>
-        <span>Constructing Neural Synapses...</span>
+  <!-- Panel 1: Three.js Interactive WebGL Visualizers -->
+  <div class="stage-panel active" id="panel-webgl-visuals">
+    <!-- Sub-navigation: Visual Mode Switcher -->
+    <div class="visual-modes-toolbar">
+      <div class="visual-modes-group">
+        <button class="visual-mode-pill active" data-mode="neural">
+          <span>🧠</span> Neural Brain
+        </button>
+        <button class="visual-mode-pill" data-mode="constellation">
+          <span>🌐</span> Knowledge Graph
+        </button>
+        <button class="visual-mode-pill" data-mode="helix">
+          <span>🧬</span> Data Stream Helix
+        </button>
       </div>
     </div>
+
+    <!-- 3D Canvas -->
+    <div id="brain-3d-canvas-container" class="brain-3d-canvas-container" title="Drag to inspect 360°, double-click to trigger burst">
+      <div class="brain-loading-spinner">
+        <div class="spinner-ring"></div>
+        <span>Initializing WebGL 3D Matrix...</span>
+      </div>
+    </div>
+
+    <!-- Live Status Footer -->
     <div class="stage-badge-bar">
-      <span class="badge-item"><span class="badge-dot pulse"></span> 380 Synaptic Nodes</span>
-      <span class="badge-item">⚡ 720+ Axon Pathways</span>
-      <span class="badge-item hide-mobile">🖱️ Drag to rotate · 👆 Double-click to surge</span>
+      <div id="stage-badge-description" class="stage-badge-description">
+        <span class="badge-item"><span class="badge-dot pulse"></span> 380 Synapses</span>
+        <span class="badge-item">⚡ 720+ Axons</span>
+      </div>
+      <span class="badge-item hide-mobile">🖱️ Drag to rotate 360° · 👆 Double-click to surge</span>
     </div>
   </div>
 
-  <!-- Panel 2: Google <model-viewer> 3D Model Explorer -->
+  <!-- Panel 2: Google <model-viewer> 3D Model Explorer with Model Switcher -->
   <div class="stage-panel" id="panel-model-viewer">
+    <!-- Model Switcher Toolbar -->
+    <div class="visual-modes-toolbar">
+      <div class="visual-modes-group">
+        <button class="model-select-pill active" data-model="https://modelviewer.dev/shared-assets/models/Astronaut.glb" data-name="Astronaut Explorer">
+          <span>🚀</span> Astronaut
+        </button>
+        <button class="model-select-pill" data-model="https://modelviewer.dev/shared-assets/models/RobotExpressive.glb" data-name="Autonomous Robot">
+          <span>🤖</span> Autonomous Bot
+        </button>
+        <button class="model-select-pill" data-model="https://modelviewer.dev/shared-assets/models/shishkebab.glb" data-name="Organic Artifact">
+          <span>🍢</span> Artifact
+        </button>
+      </div>
+    </div>
+
     <div class="model-viewer-wrapper">
       <model-viewer
         id="sample-model-viewer"
@@ -72,10 +108,11 @@
           <div class="update-bar"></div>
         </div>
       </model-viewer>
+
       <div class="model-controls-strip">
         <div class="model-caption">
-          <strong>Interactive 3D Model Viewer</strong>
-          <span>Orbit 360°, zoom with scroll/pinch, or view in AR</span>
+          <strong id="active-model-name">Astronaut Explorer</strong>
+          <span>Orbit 360°, zoom with scroll/pinch, or inspect in AR</span>
         </div>
       </div>
     </div>
@@ -83,7 +120,7 @@
 </div>
 
 <script>
-  // Tab switcher for 3D stage
+  // Tab & Model Switcher logic
   (function() {
     const tabs = document.querySelectorAll('.stage-tab');
     const panels = document.querySelectorAll('.stage-panel');
@@ -100,7 +137,33 @@
         if (targetPanel) targetPanel.classList.add('active');
 
         if (hud) {
-          hud.style.display = targetId === 'panel-neural-brain' ? 'flex' : 'none';
+          hud.style.display = targetId === 'panel-webgl-visuals' ? 'flex' : 'none';
+        }
+
+        if (window.SecondBrainAudio) {
+          window.SecondBrainAudio.playClick();
+        }
+      });
+    });
+
+    // 3D Model Switcher buttons
+    const modelPills = document.querySelectorAll('.model-select-pill');
+    const viewer = document.getElementById('sample-model-viewer');
+    const nameLabel = document.getElementById('active-model-name');
+
+    modelPills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        modelPills.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+
+        const modelUrl = pill.dataset.model;
+        const modelName = pill.dataset.name;
+
+        if (viewer && modelUrl) {
+          viewer.src = modelUrl;
+        }
+        if (nameLabel && modelName) {
+          nameLabel.textContent = modelName;
         }
 
         if (window.SecondBrainAudio) {

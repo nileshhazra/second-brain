@@ -441,6 +441,68 @@ body {
   display: block;
 }
 
+/* 3D Visualizer Mode Selector Toolbar */
+.visual-modes-toolbar {
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  background: rgba(0, 0, 0, 0.02);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.visual-modes-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  background: rgba(0, 0, 0, 0.03);
+  padding: 0.25rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border);
+}
+
+.visual-mode-pill,
+.model-select-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  border: none;
+  color: var(--color-text-subtle);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.visual-mode-pill:hover,
+.model-select-pill:hover {
+  color: var(--color-text);
+}
+
+.visual-mode-pill.active,
+.model-select-pill.active {
+  background: var(--color-foreground);
+  color: var(--color-accent);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* Ambient 3D Synaptic Starfield Canvas */
+.ambient-3d-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.65;
+  transition: opacity 0.5s ease;
+}
+
 /* Three.js Canvas Container */
 .brain-3d-canvas-container {
   width: 100%;
