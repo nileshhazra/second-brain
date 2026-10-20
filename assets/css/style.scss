@@ -33,125 +33,123 @@
   /* ========================================================================
      LIGHT THEME (Crisp, clean, friendly, vibrant accents)
      ======================================================================== */
-  --color-background: hsl(210deg 25% 98%);
-  --color-surface: hsl(0deg 0% 100%);
-  --color-surface-subtle: hsl(210deg 20% 95%);
-  --color-foreground: hsl(0deg 0% 100%);
+  --color-background: #f8fafc;
+  --color-surface: #ffffff;
+  --color-surface-subtle: #f1f5f9;
+  --color-foreground: #ffffff;
 
-  --color-text: hsl(215deg 25% 12%);
-  --color-text-subtle: hsl(215deg 16% 40%);
-  --color-text-muted: hsl(215deg 12% 58%);
+  --color-text: #0f172a;
+  --color-text-subtle: #475569;
+  --color-text-muted: #94a3b8;
 
   /* Signature Josh Comeau Accent Colors */
-  --color-primary: hsl(245deg 100% 60%);        /* Vibrant Indigo / Purple */
-  --color-primary-hover: hsl(245deg 100% 50%);
-  --color-primary-subtle: hsl(245deg 100% 96%);
+  --color-primary: #6366f1;        /* Vibrant Indigo / Purple */
+  --color-primary-hover: #4f46e5;
+  --color-primary-subtle: #eef2ff;
   --color-accent: var(--color-primary);
   --color-accent-subtle: var(--color-primary-subtle);
 
-  --color-secondary: hsl(333deg 100% 52%);      /* Electric Hot Pink */
-  --color-secondary-subtle: hsl(333deg 100% 96%);
+  --color-secondary: #ec4899;      /* Electric Hot Pink */
+  --color-secondary-subtle: #fdf2f8;
 
-  --color-tertiary: hsl(190deg 95% 42%);        /* Radiant Cyan */
-  --color-tertiary-subtle: hsl(190deg 95% 95%);
+  --color-tertiary: #06b6d4;        /* Radiant Cyan */
+  --color-tertiary-subtle: #ecfeff;
 
-  --color-yellow: hsl(43deg 100% 50%);          /* Sunny Amber */
-  --color-yellow-subtle: hsl(43deg 100% 95%);
+  --color-yellow: #f59e0b;          /* Sunny Amber */
+  --color-yellow-subtle: #fffbeb;
 
   --color-cyan: var(--color-tertiary);
-  --color-border: hsl(215deg 20% 90%);
-  --color-border-subtle: hsl(215deg 20% 94%);
-  --color-card-border: hsl(215deg 20% 90%);
-  --color-card-hover-border: hsl(245deg 100% 75%);
+  --color-border: #e2e8f0;
+  --color-border-subtle: #f1f5f9;
+  --color-card-border: #e2e8f0;
+  --color-card-hover-border: #a5b4fc;
 
-  --color-header-bg: hsla(210, 25%, 98%, 0.85);
+  --color-header-bg: rgba(248, 250, 252, 0.85);
 
   /* Josh Comeau's Realistic Multi-Layered Shadows (Light Mode) */
-  --shadow-color: 215deg 20% 60%;
   --shadow-elevation-low:
-    0.3px 0.5px 0.7px hsl(var(--shadow-color) / 0.16),
-    0.4px 0.8px 1px -1.2px hsl(var(--shadow-color) / 0.16),
-    1px 2px 2.5px -2.5px hsl(var(--shadow-color) / 0.16);
+    0.3px 0.5px 0.7px rgba(100, 116, 139, 0.16),
+    0.4px 0.8px 1px -1.2px rgba(100, 116, 139, 0.16),
+    1px 2px 2.5px -2.5px rgba(100, 116, 139, 0.16);
   --shadow-elevation-medium:
-    0.3px 0.5px 0.7px hsl(var(--shadow-color) / 0.18),
-    0.8px 1.6px 2px -0.8px hsl(var(--shadow-color) / 0.18),
-    2.1px 4.1px 5.2px -1.7px hsl(var(--shadow-color) / 0.18),
-    5px 10px 12.6px -2.5px hsl(var(--shadow-color) / 0.18);
+    0.3px 0.5px 0.7px rgba(100, 116, 139, 0.18),
+    0.8px 1.6px 2px -0.8px rgba(100, 116, 139, 0.18),
+    2.1px 4.1px 5.2px -1.7px rgba(100, 116, 139, 0.18),
+    5px 10px 12.6px -2.5px rgba(100, 116, 139, 0.18);
   --shadow-elevation-high:
-    0.3px 0.5px 0.7px hsl(var(--shadow-color) / 0.20),
-    1.5px 2.9px 3.7px -0.4px hsl(var(--shadow-color) / 0.20),
-    2.7px 5.4px 6.8px -0.7px hsl(var(--shadow-color) / 0.20),
-    4.5px 8.9px 11.2px -1.1px hsl(var(--shadow-color) / 0.20),
-    7.1px 14.3px 18px -1.4px hsl(var(--shadow-color) / 0.20),
-    11.2px 22.3px 28.1px -1.8px hsl(var(--shadow-color) / 0.20);
+    0.3px 0.5px 0.7px rgba(100, 116, 139, 0.20),
+    1.5px 2.9px 3.7px -0.4px rgba(100, 116, 139, 0.20),
+    2.7px 5.4px 6.8px -0.7px rgba(100, 116, 139, 0.20),
+    4.5px 8.9px 11.2px -1.1px rgba(100, 116, 139, 0.20),
+    7.1px 14.3px 18px -1.4px rgba(100, 116, 139, 0.20),
+    11.2px 22.3px 28.1px -1.8px rgba(100, 116, 139, 0.20);
 
   /* Code Block Tokens (Dark even in Light mode, matching Josh's blog) */
-  --code-bg: hsl(222deg 36% 12%);
-  --code-header-bg: hsl(222deg 36% 16%);
-  --code-text: hsl(220deg 14% 96%);
-  --code-border: hsl(222deg 25% 20%);
+  --code-bg: #0f172a;
+  --code-header-bg: #1e293b;
+  --code-text: #f8fafc;
+  --code-border: #334155;
 }
 
 /* ==========================================================================
    DARK THEME (Deep Rich Midnight Navy - Not Flat Pitch Black)
    ========================================================================== */
 [data-theme="dark"] {
-  --color-background: hsl(220deg 35% 8%);        /* Josh Comeau Signature Navy */
-  --color-surface: hsl(222deg 35% 12%);          /* Elevated Card Surface */
-  --color-surface-subtle: hsl(222deg 30% 16%);
-  --color-foreground: hsl(222deg 35% 12%);
+  --color-background: #0b0f19;        /* Josh Comeau Signature Navy */
+  --color-surface: #131b2e;          /* Elevated Card Surface */
+  --color-surface-subtle: #1e293b;
+  --color-foreground: #131b2e;
 
-  --color-text: hsl(220deg 20% 96%);             /* Crisp Soft White */
-  --color-text-subtle: hsl(218deg 15% 72%);       /* Readable Muted Text */
-  --color-text-muted: hsl(218deg 12% 52%);        /* Subtle Info */
+  --color-text: #f8fafc;             /* Crisp Soft White */
+  --color-text-subtle: #94a3b8;       /* Readable Muted Text */
+  --color-text-muted: #64748b;        /* Subtle Info */
 
   /* Josh Comeau Dark Accents */
-  --color-primary: hsl(245deg 100% 70%);         /* Radiant Indigo / Purple */
-  --color-primary-hover: hsl(245deg 100% 80%);
-  --color-primary-subtle: hsl(245deg 50% 18%);
+  --color-primary: #818cf8;         /* Radiant Indigo / Purple */
+  --color-primary-hover: #a5b4fc;
+  --color-primary-subtle: #1e1b4b;
   --color-accent: var(--color-primary);
   --color-accent-subtle: var(--color-primary-subtle);
 
-  --color-secondary: hsl(333deg 100% 65%);       /* Neon Pink */
-  --color-secondary-subtle: hsl(333deg 50% 18%);
+  --color-secondary: #f472b6;       /* Neon Pink */
+  --color-secondary-subtle: #500724;
 
-  --color-tertiary: hsl(190deg 95% 55%);         /* Electric Cyan */
-  --color-tertiary-subtle: hsl(190deg 50% 16%);
+  --color-tertiary: #22d3ee;         /* Electric Cyan */
+  --color-tertiary-subtle: #083344;
 
-  --color-yellow: hsl(42deg 100% 62%);
-  --color-yellow-subtle: hsl(42deg 50% 16%);
+  --color-yellow: #fbbf24;
+  --color-yellow-subtle: #451a03;
 
   --color-cyan: var(--color-tertiary);
-  --color-border: hsl(222deg 25% 18%);
-  --color-border-subtle: hsl(222deg 25% 14%);
-  --color-card-border: hsl(222deg 25% 18%);
-  --color-card-hover-border: hsl(245deg 100% 75%);
+  --color-border: #1e293b;
+  --color-border-subtle: #162032;
+  --color-card-border: #1e293b;
+  --color-card-hover-border: #818cf8;
 
-  --color-header-bg: hsla(220, 35%, 8%, 0.85);
+  --color-header-bg: rgba(11, 15, 25, 0.85);
 
   /* Josh Comeau Multi-Layered Shadows (Dark Mode) */
-  --shadow-color: 220deg 50% 3%;
   --shadow-elevation-low:
-    0.3px 0.5px 0.7px hsl(var(--shadow-color) / 0.5),
-    0.4px 0.8px 1px -1.2px hsl(var(--shadow-color) / 0.5),
-    1px 2px 2.5px -2.5px hsl(var(--shadow-color) / 0.5);
+    0.3px 0.5px 0.7px rgba(0, 0, 0, 0.5),
+    0.4px 0.8px 1px -1.2px rgba(0, 0, 0, 0.5),
+    1px 2px 2.5px -2.5px rgba(0, 0, 0, 0.5);
   --shadow-elevation-medium:
-    0.3px 0.5px 0.7px hsl(var(--shadow-color) / 0.6),
-    0.8px 1.6px 2px -0.8px hsl(var(--shadow-color) / 0.6),
-    2.1px 4.1px 5.2px -1.7px hsl(var(--shadow-color) / 0.6),
-    5px 10px 12.6px -2.5px hsl(var(--shadow-color) / 0.6);
+    0.3px 0.5px 0.7px rgba(0, 0, 0, 0.6),
+    0.8px 1.6px 2px -0.8px rgba(0, 0, 0, 0.6),
+    2.1px 4.1px 5.2px -1.7px rgba(0, 0, 0, 0.6),
+    5px 10px 12.6px -2.5px rgba(0, 0, 0, 0.6);
   --shadow-elevation-high:
-    0.3px 0.5px 0.7px hsl(var(--shadow-color) / 0.7),
-    1.5px 2.9px 3.7px -0.4px hsl(var(--shadow-color) / 0.7),
-    2.7px 5.4px 6.8px -0.7px hsl(var(--shadow-color) / 0.7),
-    4.5px 8.9px 11.2px -1.1px hsl(var(--shadow-color) / 0.7),
-    7.1px 14.3px 18px -1.4px hsl(var(--shadow-color) / 0.7),
-    11.2px 22.3px 28.1px -1.8px hsl(var(--shadow-color) / 0.7);
+    0.3px 0.5px 0.7px rgba(0, 0, 0, 0.7),
+    1.5px 2.9px 3.7px -0.4px rgba(0, 0, 0, 0.7),
+    2.7px 5.4px 6.8px -0.7px rgba(0, 0, 0, 0.7),
+    4.5px 8.9px 11.2px -1.1px rgba(0, 0, 0, 0.7),
+    7.1px 14.3px 18px -1.4px rgba(0, 0, 0, 0.7),
+    11.2px 22.3px 28.1px -1.8px rgba(0, 0, 0, 0.7);
 
-  --code-bg: hsl(222deg 40% 10%);
-  --code-header-bg: hsl(222deg 35% 14%);
-  --code-text: hsl(220deg 14% 96%);
-  --code-border: hsl(222deg 25% 20%);
+  --code-bg: #0b0f19;
+  --code-header-bg: #1e293b;
+  --code-text: #f8fafc;
+  --code-border: #334155;
 }
 
 /* --------------------------------------------------------------------------
@@ -281,7 +279,7 @@ body::after {
   border-radius: 50%;
   pointer-events: none;
   z-index: 0;
-  background: radial-gradient(circle, hsl(245deg 100% 65% / 0.05) 0%, transparent 65%);
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.05) 0%, transparent 65%);
   transition: opacity 0.3s ease;
 }
 
@@ -321,7 +319,6 @@ body::after {
   align-items: center;
   gap: 0.85rem;
   text-decoration: none;
-  group: hover;
 }
 
 .brand-avatar-box {
@@ -338,7 +335,7 @@ body::after {
 
 .brand-link:hover .brand-avatar-box {
   transform: scale(1.08) rotate(4deg);
-  box-shadow: 0 4px 14px hsl(245deg 100% 60% / 0.4);
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
 }
 
 .site-logo {
@@ -779,7 +776,7 @@ body::after {
   background-color: var(--color-primary);
   border-color: var(--color-primary);
   color: #ffffff;
-  box-shadow: 0 4px 14px hsl(245deg 100% 60% / 0.35);
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
   transform: translateY(-1px);
 }
 
@@ -941,7 +938,7 @@ body::after {
   border-radius: var(--radius-pill);
   font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 4px 14px hsl(245deg 100% 60% / 0.35);
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
   transition: transform var(--transition-fast);
 }
 
@@ -1240,7 +1237,7 @@ body::after {
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
-  color: hsl(220deg 14% 75%);
+  color: #94a3b8;
   letter-spacing: 0.08em;
 }
 
@@ -1253,9 +1250,9 @@ body::after {
   font-weight: 600;
   padding: 0.25rem 0.75rem;
   border-radius: var(--radius-sm);
-  background-color: hsl(222deg 25% 20%);
-  border: 1px solid hsl(222deg 25% 28%);
-  color: hsl(220deg 14% 90%);
+  background-color: #1e293b;
+  border: 1px solid #334155;
+  color: #f1f5f9;
   cursor: pointer;
   transition: all var(--transition-fast);
 }
