@@ -8,7 +8,7 @@
     <a href="https://nileshhazra.github.io/second-brain/" style="font-size: 24px; font-weight: bold; text-decoration: none;">Second Brain</a>
   </p>
   <p>
-    A frictionless, automated digital garden to cultivate and share knowledge.
+    A frictionless, automated second brain to capture, organize, and share knowledge.
   </p>
   <p>
     <a href="https://github.com/nileshhazra/second-brain/issues"><img alt="Contributions Welcome" src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat-square"></a>
@@ -21,7 +21,7 @@
 
 ## A Record of Curiosity
 
-This repository is the engine for a unique kind of blog: a **digital garden** where ideas are captured the moment they spark. The core philosophy is to eliminate the friction between thought and publication. Instead of a cumbersome process of cloning repos and writing markdown, new posts are created simply by opening a GitHub Issue.
+This repository is the engine for a unique kind of blog: a **second brain** where ideas are captured the moment they spark. The core philosophy is to eliminate the friction between thought and publication. Instead of a cumbersome process of cloning repos and writing markdown, new posts are created simply by opening a GitHub Issue.
 
 > **The Problem:** Traditional blogging has too many steps. An idea in the shower is often lost by the time you're at your desk.
 >
@@ -52,7 +52,7 @@ This system uses a GitHub Action to automatically convert new issues into format
 
 ## 🚀 Make It Your Own
 
-You can create your own version of this digital garden. Here’s how:
+You can create your own version of this second brain. Here’s how:
 
 1.  **Fork this Repository:**
     Click the "Fork" button at the top right of this page to copy this project to your own GitHub account.
@@ -80,7 +80,7 @@ You can create your own version of this digital garden. Here’s how:
 
 This project thrives on community input. Here are the best ways to contribute:
 
-* **Suggest a Post:** Open an **[Issue](https://github.com/nileshhazra/second-brain/issues)** with an interesting idea, a code snippet you've learned, or a summary of an article. If it's a good fit, it will be added to the garden.
+* **Suggest a Post:** Open an **[Issue](https://github.com/nileshhazra/second-brain/issues)** with an interesting idea, a code snippet you've learned, or a summary of an article. If it's a good fit, it will be added to the knowledge base.
 * **Propose Features:** Have an idea to improve the system? Start a conversation in our **[Discussions](https://github.com/nileshhazra/second-brain/discussions)** tab.
 * **Report a Bug:** If you find something that's not working, please open an issue detailing the problem.
 
