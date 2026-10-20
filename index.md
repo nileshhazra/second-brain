@@ -3,44 +3,42 @@ layout: default
 title: Home
 ---
 
-<!-- Hero Section with Intro & 3D Stage -->
+<!-- Hero Section: Josh Comeau Inspired Personal Intro -->
 <section class="garden-hero">
   <div class="hero-text-block">
-    <div class="hero-pill-badge">
-      <span class="badge-dot pulse"></span>
-      <span>Living Digital Garden</span>
+    <div class="hero-greeting-pill">
+      <span class="greeting-wave">👋</span>
+      <span>Welcome to my digital garden</span>
     </div>
-    <h1 class="hero-title">Nilesh Hazra</h1>
+    <h1 class="hero-title">
+      Hello, I'm <span class="hero-name-gradient">Nilesh Hazra</span>.
+    </h1>
     <p class="hero-tagline">
-      Data professional passionate about solving complex challenges with data architecture, system design, and practical experience.
+      I'm a data architect and software engineer exploring distributed systems, cloud data architecture, and practical computing. Here is where I cultivate my learnings, engineering notes, and technical deep-dives.
     </p>
     <div class="hero-quick-stats">
       <div class="stat-pill">
         <span class="stat-num">{{ site.posts.size }}</span>
-        <span class="stat-label">Published Insights</span>
+        <span class="stat-label">Articles</span>
       </div>
       <div class="stat-pill">
         <span class="stat-num">GitHub Issues</span>
         <span class="stat-label">Headless CMS</span>
       </div>
       <div class="stat-pill">
-        <span class="stat-num">Open Source</span>
-        <span class="stat-label">Second Brain</span>
+        <span class="stat-num">100%</span>
+        <span class="stat-label">Open Garden</span>
       </div>
     </div>
   </div>
 </section>
 
 <!-- Interactive Explorer Toolbar: Search & Tag Filter -->
-<section class="garden-explorer-bar">
-  <div class="explorer-header">
+<section class="garden-explorer-bar" id="topics">
+  <div class="explorer-header" id="articles">
     <h2 class="section-title">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="10"></circle>
-        <line x1="12" y1="16" x2="12" y2="12"></line>
-        <line x1="12" y1="8" x2="12.01" y2="8"></line>
-      </svg>
-      <span>Knowledge Garden</span>
+      <span class="title-sparkle">✦</span>
+      <span>Latest Articles</span>
     </h2>
     <span id="search-results-count" class="search-results-count">Showing {{ site.posts.size }} thoughts</span>
   </div>
